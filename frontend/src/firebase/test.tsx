@@ -4,6 +4,7 @@ import { database } from './firebase';
 
 export type Item = {
   name: string;
+  purchase_date: string;
   expr_info: string;
 };
 
@@ -15,6 +16,8 @@ export async function getItems() {
         const data = snap.val();
         data.forEach((item: Item) => {
           console.log(item.name);
+          console.log(item.purchase_date);
+          console.log(new Date(item.purchase_date));
           console.log(item.expr_info);
         });
         return data;

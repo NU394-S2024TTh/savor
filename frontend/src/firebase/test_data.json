@@ -1,6 +1,14 @@
 {
   "items": {
-    "1": { "name": "broccoli", "expr_info": "Broccoli typically expire in 2 weeks" },
-    "2": { "name": "apples", "expr_info": "Apples typically expire in 1 week" }
+    "1": {
+      "name": "broccoli",
+      "purchase_date": "2024-03-31",
+      "expr_info": "Broccoli typically expire in 2 weeks"
+    },
+    "2": {
+      "name": "apples",
+      "purchase_date": "2024-03-26",
+      "expr_info": "Apples typically expire in 1 week"
+    }
   }
 }
