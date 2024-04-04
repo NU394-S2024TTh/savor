@@ -7,6 +7,7 @@ import ImageUploading from "react-images-uploading";
 import { Modal } from "../components/Modal";
 import { Table } from "../components/Table";
 import processImage from "../process/extract.mjs";
+import { TEST_DATA } from "./TestData";
 
 function Fridge() {
 	const [images, setImages] = useState([]);
@@ -20,7 +21,7 @@ function Fridge() {
 		const response = await processImage(imageList[0]["data_url"]);
 		console.log(response);
 
-		// set the response ({items: ['Apple', 'Banana', ...]  expirationDays: ['123', '43', ... ]}) to the form
+		// set the response ({items: ['Apple', 'Banana', ...]  expirationInfo: ['123', '43', ... ]}) to the form
 		const newRows = [];
 		console.log("response.items.length");
 		console.log(response.items.length);
@@ -28,7 +29,7 @@ function Fridge() {
 			newRows.push({
 				image: "UP",
 				item: response.items[i],
-				days: response.expirationDays[i]
+        days: 5,
 			});
 		}
 		console.log("newRows");
@@ -37,23 +38,7 @@ function Fridge() {
 	};
 
 	const [modalOpen, setModalOpen] = useState(false);
-	const [rows, setRows] = useState([
-    {
-      image: 'FB',
-      item: 'Fresh Broccoli',
-      days: 14,
-    },
-    {
-      image: 'BG',
-      item: 'Black Grapes',
-      days: 7,
-    },
-    {
-      image: 'AV',
-      item: 'Avocado',
-      days: 7,
-    },
-	]);
+	const [rows, setRows] = useState(TEST_DATA);
 	const [rowToEdit, setRowToEdit] = useState(null);
 
 	const handleDeleteRow = (targetIndex: number) => {
@@ -79,63 +64,75 @@ function Fridge() {
 	};
 
 	return (
-		<div className="Fridge">
-			<Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
+    <div className="Fridge flex flex-col items-center">
+      <button onClick={() => setModalOpen(true)} className="Button large green mt-8 mb-4">
+        Add Item
+      </button>
+      <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
 
-			<ImageUploading
-				multiple
-				value={images}
-				onChange={onChange}
-				maxNumber={maxNumber}
-				dataURLKey="data_url"
-			>
-				{({
-					imageList,
-					onImageUpload,
-					onImageRemoveAll,
-					onImageUpdate,
-					onImageRemove,
-					isDragging,
-					dragProps
-				}) => (
-					// write your building UI
-					<div className="upload__image-wrapper">
-						<button
-							style={isDragging ? { color: "red" } : undefined}
-							onClick={onImageUpload}
-							{...dragProps}
-						>
-							Click or Drop here
-						</button>
-						&nbsp;
-						<button onClick={onImageRemoveAll}>Remove all images</button>
-						{imageList.map((image, index) => (
-							<div key={index} className="image-item">
-								<img src={image["data_url"]} alt="" width="100" />
-								<div className="image-item__btn-wrapper">
-									<button onClick={() => onImageUpdate(index)}>Update</button>
-									<button onClick={() => onImageRemove(index)}>Remove</button>
-								</div>
-							</div>
-						))}
-					</div>
-				)}
-			</ImageUploading>
-			<button onClick={() => setModalOpen(true)} className="Button large green mt-8">
-				Add
-			</button>
-			{modalOpen && (
-				<Modal
-					closeModal={() => {
-						setModalOpen(false);
-						setRowToEdit(null);
-					}}
-					onSubmit={handleSubmit}
-					defaultValue={rowToEdit !== null && rows[rowToEdit]}
-				/>
-			)}
-		</div>
-	);
+      <ImageUploading
+        multiple
+        value={images}
+        onChange={onChange}
+        maxNumber={maxNumber}
+        dataURLKey="data_url"
+      >
+        {({
+          imageList,
+          onImageUpload,
+          onImageRemoveAll,
+          onImageUpdate,
+          onImageRemove,
+          isDragging,
+          dragProps,
+        }) => (
+          // write your building UI
+          <div className="upload__image-wrapper items-center">
+            {imageList.length == 0 && (
+              <button
+                style={isDragging ? { color: 'red' } : undefined}
+                className="Button large green mt-8 mb-4"
+                onClick={onImageUpload}
+                {...dragProps}
+              >
+                Upload Receipt
+              </button>
+            )}
+            &nbsp;
+            {imageList.map((image, index) => (
+              <div key={index} className="image-item flex flex-col items-center">
+                <img src={image['data_url']} alt="" width="100" />
+                <div className="image-item__btn-wrapper mt-2 space-x-2">
+                  <button
+                    className="Button large green mb-4"
+                    onClick={() => onImageUpdate(index)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="Button large green mb-4"
+                    onClick={() => onImageRemove(index)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </ImageUploading>
+      {modalOpen && (
+        <Modal
+          closeModal={() => {
+            setModalOpen(false);
+            setRowToEdit(null);
+          }}
+          onSubmit={handleSubmit}
+          defaultValue={rowToEdit !== null && rows[rowToEdit]}
+        />
+      )}
+    </div>
+  );
 }
 
 export default Fridge;
