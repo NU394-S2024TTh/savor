@@ -1,35 +1,52 @@
 import * as React from 'react';
 import * as Toast from '@radix-ui/react-toast';
-import './styles.css';
+import clsx from "clsx";
+import { cva } from "class-variance-authority";
+import '../themes/styles.css'
+import { useState, useRef, useEffect } from "react";
 
-const NotifButton = () => {
-  const [open, setOpen] = React.useState(false);
-  const eventDateRef = React.useRef(new Date());
-  const timerRef = React.useRef(0);
 
-  React.useEffect(() => {
+interface NotifsProps {
+  expirationdays: number;
+  name: string;
+}
+const styles = cva("transition-opacity", {
+	variants: {
+		ready: {
+			true: "opacity-100",
+			false: "opacity-0"
+		}
+	}
+});
+export const Notifbutton = (props: NotifsProps & { className?: string }) => {
+  const [open, setOpen] = useState(false);
+  const eventDateRef = useRef(new Date());
+  const timerRef = useRef(0);
+  const buttontext = `${props.expirationdays} days`;
+  useEffect(() => {
     return () => clearTimeout(timerRef.current);
   }, []);
 
   return (
-    <Toast.Provider swipeDirection="right">
+    <div className={props.className}>
+      <Toast.Provider swipeDirection="right">
       <button
-        className="Button large violet"
+        className="Button large green"
         onClick={() => {
           setOpen(false);
           window.clearTimeout(timerRef.current);
           timerRef.current = window.setTimeout(() => {
             // THIS USES A NUMBER AS AN ARGUMENT!!
-            eventDateRef.current = TimeDelay(7);
+            eventDateRef.current = TimeDelay(props.expirationdays);
             setOpen(true);
           }, 100);
         }}
       >
-        Asparagus expiring in a week or so
+        {buttontext}
       </button>
 
       <Toast.Root className="ToastRoot" open={open} onOpenChange={setOpen}>
-        <Toast.Title className="ToastTitle">Asparagus expires soon!</Toast.Title>
+        <Toast.Title className="ToastTitle">{props.name} expires soon!</Toast.Title>
         <Toast.Description asChild>
           <time className="ToastDescription" dateTime={eventDateRef.current.toISOString()}>
             {prettyDate(eventDateRef.current)}
@@ -41,6 +58,8 @@ const NotifButton = () => {
       </Toast.Root>
       <Toast.Viewport className="ToastViewport" />
     </Toast.Provider>
+    </div>
+
   );
 };
 
@@ -54,5 +73,3 @@ function TimeDelay(time: number) {
 function prettyDate(date: any) {
   return new Intl.DateTimeFormat('en-US', { dateStyle: 'full', timeStyle: 'short' }).format(date);
 }
-
-export default NotifButton;

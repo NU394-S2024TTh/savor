@@ -1,7 +1,6 @@
 import './App.css';
 
 import React, { useState } from 'react';
-import Notifs from './components/notifs';
 import logo from './logo.svg';
 
 function App() {
@@ -16,7 +15,6 @@ function App() {
           🚀 Vite + React + Typescript + Vitest 🤘 & <br />
           Eslint 🔥+ Prettier
         </p>
-        <Notifs></Notifs>
         <div className="body">
           {' '}
           <button onClick={() => setCount((count) => count + 1)}>

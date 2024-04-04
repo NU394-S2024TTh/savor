@@ -2,12 +2,17 @@ import './Table.css';
 
 import React from 'react';
 import { BsFillPencilFill, BsFillTrashFill } from 'react-icons/bs';
+import {Notifbutton} from './notifs';
 interface TableProps {
   rows: any;
-  deleteRow: (index: number) => void; // Assuming deleteRow takes an index as an argument
-  editRow: (index: number) => void; // Assuming editRow also takes an index as an argument
+  deleteRow: (index: number) => void;
+  editRow: (index: null) => void;
 }
-
+interface Row {
+  image: string;
+  item: string;
+  days: number;
+}
 export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
   return (
     <div className="table-wrapper">
@@ -21,7 +26,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row: any, idx: any) => {
+          {rows.map((row: Row, idx: any) => {
             // const statusText = row.status.charAt(0).toUpperCase() + row.status.slice(1);
 
             return (
@@ -29,7 +34,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
                 <td>{row.image}</td>
                 <td className="expand">{row.item}</td>
                 <td>
-                  <span className={`label label-live`}>{row.days}</span>
+                  <Notifbutton expirationdays={row.days} name={row.item} className="justify-center"></Notifbutton>
                 </td>
                 <td className="fit">
                   <span className="actions">
