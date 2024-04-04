@@ -47,7 +47,7 @@ export default async function processImage(imagePath) {
   const vision = new ChatOpenAI({
     modelName: "gpt-4-vision-preview",
     maxOutputTokens: 2048,
-    openAIApiKey: "...",
+    openAIApiKey: "--",
   });
   // const image = fs.readFileSync(imagePath).toString("base64");
   let image = await readFileAsDataURL(imagePath);
@@ -79,7 +79,7 @@ export default async function processImage(imagePath) {
   // parse the response
 
   // loop the string and find the expiration days
-  const expirationDays = [];
+  const expirationInfo = [];
   const items = [];
   const lines = res2.content.split("\n");
   for (const line of lines) {
@@ -89,7 +89,7 @@ export default async function processImage(imagePath) {
       const match = line.match(regex);
       if (match) {
         items.push(match[2]);
-        expirationDays.push(match[3]);
+        expirationInfo.push(match[3]);
       }
     }
   }
@@ -100,5 +100,5 @@ export default async function processImage(imagePath) {
 
   // return a dictionary with items and expiration days
 
-  return { items, expirationDays };
+  return { items, expirationInfo };
 }
