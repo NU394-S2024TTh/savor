@@ -8,7 +8,7 @@ import { useRef, useState } from "react";
 
 interface AccordionProps {
 	name: string;
-	expirytime: number;
+	expirationInfo: string;
 }
 
 export const AccordionInfo = (props: AccordionProps) => {
@@ -19,7 +19,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 		setOpen(false);
 		window.clearTimeout(timerRef.current);
 		timerRef.current = window.setTimeout(() => {
-			eventDateRef.current = TimeDelay(props.expirytime);
+			// eventDateRef.current = TimeDelay(props.expirytime);
 			setOpen(true);
 		}, 100);
 	};
@@ -34,8 +34,8 @@ export const AccordionInfo = (props: AccordionProps) => {
 		return `${month}/${day}/${year}`;
 	};
 
-	// Call translatetimestr once and store the result in a variable
-	const expiryDate = calculateExpiryDate(props.expirytime);
+	// // Call translatetimestr once and store the result in a variable
+	// const expiryDate = calculateExpiryDate(props.expirytime);
 
 	return (
 		<div className="flex items-center justify-center">
@@ -43,8 +43,8 @@ export const AccordionInfo = (props: AccordionProps) => {
 				<Accordion.Item className="AccordionItem w-full" value="item-1">
 					<AccordionTrigger onClick={handleButtonClick}>{props.name}</AccordionTrigger>
 					<AccordionContent className="truncate break-all">
-						<span className="flex w-10 items-start justify-start break-all">
-							This item expires in {props.expirytime} days on {expiryDate}
+						<span className="flex items-start justify-start break-normal text-wrap">
+							{props.expirationInfo}
 						</span>
 					</AccordionContent>
 				</Accordion.Item>

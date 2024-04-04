@@ -29,6 +29,7 @@ function Fridge() {
 			newRows.push({
 				image: "UP",
 				item: response.items[i],
+        expirationInfo: response.expirationInfo[i],
         days: 5,
 			});
 		}
