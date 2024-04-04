@@ -1,43 +1,50 @@
+@import '@radix-ui/colors/black-alpha.css';
+@import '@radix-ui/colors/green.css';
+@import '@radix-ui/colors/mauve.css';
+@import '@radix-ui/colors/slate.css';
+@import '@radix-ui/colors/violet.css';
 .table-wrapper {
     width: 100%;
   }
   
-  .table {
-    display: block;
-    overflow: hidden;
-    table-layout: fixed;
-    border-collapse: collapse;
-    box-shadow: 0px 10px 10px #ccc;
-    border-radius: 10px;
-    white-space: nowrap;
-    width: 100em;
-    max-width: 80%;
-    margin: auto;
-    table-layout: auto;
-    overflow-x: auto;
-  }
-  
-  .table thead {
-    background-color: #ccc;
-    color: #222;
-  }
-  
-  .table th,
-  .table td {
-    padding: 0.8rem;
-  }
-  
-  .table td {
-    border-top: 0.5px solid #ddd;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.table {
+  display: block;
+  overflow: hidden;
+  border-collapse: collapse;
+  box-shadow: 0px 10px 10px #ccc;
+  border-radius: 10px;
+  white-space: nowrap;
+  width: 100em;
+  max-width: 80%;
+  margin: auto;
+  overflow-x: auto;
+}
+
+.table thead {
+  background-color: var(--green-2);
+  color: var(--green-11);
+  box-shadow: inset 0 0px 5px 1px var(--green-7); /* Increased spread radius */
+}
+
+.table th {
+  padding: 0.8rem;
+  border-top: 0.5px solid #ddd;
+}
+
+.table td {
+  padding: 0.8rem;
+  border-top: 0.5px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
   
   .table tbody tr:hover {
     background-color: #eee;
   }
   
   .expand {
+    position: relative;
+    justify-content: center;
     width: 100%;
   }
   

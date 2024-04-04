@@ -3,8 +3,13 @@
 import './Modal.css';
 
 import React, { useState } from 'react';
+interface ModalProps {
+  closeModal: () => void;
+  onSubmit: (newRow: any) => void;
+  defaultValue: any;
+}
 
-export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
+export const Modal: React.FC<ModalProps> = ({ closeModal, onSubmit, defaultValue }) => {
   const [formState, setFormState] = useState(
     defaultValue || {
       image: '',
@@ -30,11 +35,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
 
     if (!validateForm()) return;
@@ -48,7 +53,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
     <div
       className="modal-container"
       onClick={(e) => {
-        if (e.target.className === 'modal-container') closeModal();
+        if ((e.target as HTMLElement).className === 'modal-container') closeModal();
       }}
     >
       <div className="modal">
