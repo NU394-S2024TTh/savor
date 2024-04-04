@@ -1,11 +1,12 @@
 import "./Fridge.css";
+import "../themes/styles.css";
 
 import { useState } from "react";
 import ImageUploading from "react-images-uploading";
 
+import { Modal } from "../components/Modal";
+import { Table } from "../components/Table";
 import processImage from "../process/extract.mjs";
-import { Modal } from "./../components/Modal";
-import { Table } from "./../components/Table";
 
 function Fridge() {
 	const [images, setImages] = useState([]);
@@ -37,35 +38,35 @@ function Fridge() {
 
 	const [modalOpen, setModalOpen] = useState(false);
 	const [rows, setRows] = useState([
-		{
-			image: "FB",
-			item: "Fresh Broccoli",
-			days: "Expire in 14 Days"
-		}
-		// {
-		//   image: 'BG',
-		//   item: 'Black Grapes',
-		//   days: '7 Days',
-		// },
-		// {
-		//   image: 'AV',
-		//   item: 'Avocado',
-		//   days: '3 Days',
-		// },
+    {
+      image: 'FB',
+      item: 'Fresh Broccoli',
+      days: 14,
+    },
+    {
+      image: 'BG',
+      item: 'Black Grapes',
+      days: 7,
+    },
+    {
+      image: 'AV',
+      item: 'Avocado',
+      days: 7,
+    },
 	]);
 	const [rowToEdit, setRowToEdit] = useState(null);
 
-	const handleDeleteRow = (targetIndex) => {
+	const handleDeleteRow = (targetIndex: number) => {
 		setRows(rows.filter((_, idx) => idx !== targetIndex));
 	};
 
-	const handleEditRow = (idx) => {
+	const handleEditRow = (idx: null) => {
 		setRowToEdit(idx);
 
 		setModalOpen(true);
 	};
 
-	const handleSubmit = (newRow) => {
+	const handleSubmit = (newRow: any) => {
 		rowToEdit === null
 			? setRows([...rows, newRow])
 			: setRows(
@@ -120,7 +121,7 @@ function Fridge() {
 					</div>
 				)}
 			</ImageUploading>
-			<button onClick={() => setModalOpen(true)} className="btn">
+			<button onClick={() => setModalOpen(true)} className="Button large green mt-8">
 				Add
 			</button>
 			{modalOpen && (
