@@ -2,8 +2,13 @@ import './Table.css';
 
 import React from 'react';
 import { BsFillPencilFill, BsFillTrashFill } from 'react-icons/bs';
+interface TableProps {
+  rows: any;
+  deleteRow: (index: number) => void; // Assuming deleteRow takes an index as an argument
+  editRow: (index: number) => void; // Assuming editRow also takes an index as an argument
+}
 
-export const Table = ({ rows, deleteRow, editRow }) => {
+export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
   return (
     <div className="table-wrapper">
       <table className="table">
@@ -16,7 +21,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, idx) => {
+          {rows.map((row: any, idx: any) => {
             // const statusText = row.status.charAt(0).toUpperCase() + row.status.slice(1);
 
             return (
