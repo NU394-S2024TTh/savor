@@ -17,10 +17,10 @@ function Fridge() {
     // data for submit
     console.log(imageList, addUpdateIndex);
     setImages(imageList);
-    
+
     const response = await processImage(imageList[0]['data_url']);
     console.log(response);
-    
+
     // set the response ({items: ['Apple', 'Banana', ...]  expirationDays: ['123', '43', ... ]}) to the form
     const newRows = [];
     console.log('response.items.length');
@@ -28,13 +28,13 @@ function Fridge() {
     for (let i = 0; i < response.items.length; i++) {
       newRows.push({
         image: 'UP',
-        item: response.items[i], 
-        days: response.expirationDays[i]});
-      }
+        item: response.items[i],
+        days: response.expirationDays[i],
+      });
+    }
     console.log('newRows');
     console.log(newRows);
     setRows([...rows, ...newRows]);
-    
   };
 
   

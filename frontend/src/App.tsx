@@ -1,10 +1,7 @@
 import './App.css';
 
 import React, { useState } from 'react';
-
 import logo from './logo.svg';
-
-import Fridge from './fridge/Fridge';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -12,7 +9,18 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Fridge />
+        <img src={logo} className="App-logo" alt="logo" />
+        <p className="header">
+          {' '}
+          🚀 Vite + React + Typescript + Vitest 🤘 & <br />
+          Eslint 🔥+ Prettier
+        </p>
+        <div className="body">
+          {' '}
+          <button onClick={() => setCount((count) => count + 1)}>
+            count is: {count}
+          </button>
+        </div>
       </header>
     </div>
   );
