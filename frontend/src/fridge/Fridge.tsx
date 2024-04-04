@@ -13,7 +13,7 @@ function Fridge() {
 	const [images, setImages] = useState([]);
 	const maxNumber = 69;
 
-	const onChange = async (imageList, addUpdateIndex) => {
+	const onChange = async (imageList: any, addUpdateIndex: any) => {
 		// data for submit
 		console.log(imageList, addUpdateIndex);
 		setImages(imageList);
