@@ -31,7 +31,7 @@ export const Notifbutton = (props: NotifsProps & { className?: string }) => {
     <div className={props.className}>
       <Toast.Provider swipeDirection="right">
       <button
-        className="Button large green"
+        className="Button large default font-thin"
         onClick={() => {
           setOpen(false);
           window.clearTimeout(timerRef.current);
@@ -45,8 +45,8 @@ export const Notifbutton = (props: NotifsProps & { className?: string }) => {
         {buttontext}
       </button>
 
-      <Toast.Root className="ToastRoot" open={open} onOpenChange={setOpen}>
-        <Toast.Title className="ToastTitle">{props.name} expires soon!</Toast.Title>
+      <Toast.Root className="ToastRoot" open={open} onOpenChange={setOpen} duration={3000}>
+        <Toast.Title className="ToastTitle">{props.name} purchase date:</Toast.Title>
         <Toast.Description asChild>
           <time className="ToastDescription" dateTime={eventDateRef.current.toISOString()}>
             {prettyDate(eventDateRef.current)}
@@ -66,7 +66,7 @@ export const Notifbutton = (props: NotifsProps & { className?: string }) => {
 function TimeDelay(time: number) {
   const now = new Date();
   // THIS DATE IS SET TO DELAY IN ONE WEEK. WHEN DOING ACTUAL PRODUCTS, PASS IN THE CORRECT EXPIRY TIMELINE
-  const inOneWeek = now.setDate(now.getDate() + time);
+  const inOneWeek = now.setDate(now.getDate() - time);
   return new Date(inOneWeek);
 }
 

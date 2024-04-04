@@ -1,5 +1,5 @@
 import './Table.css';
-
+import {AccordionInfo} from './accordion';
 import React from 'react';
 import { BsFillPencilFill, BsFillTrashFill } from 'react-icons/bs';
 import {Notifbutton} from './notifs';
@@ -15,28 +15,28 @@ interface Row {
 }
 export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
   return (
-    <div className="table-wrapper">
-      <table className="table">
-        <thead>
+    <div className="w-full">
+      <table className="table flex-col">
+        <thead className="flex-row">
           <tr>
             <th>Item Image</th>
-            <th className="expand">Item Name</th>
+            <th >Item Name</th>
             <th>Days Since Purchase</th>
             <th>Remove or Edit</th>
           </tr>
         </thead>
-        <tbody>
-          {rows.map((row: Row, idx: any) => {
+        <tbody className="flex-row w-full">
+          {rows.map((row: Row, idx: any) => { 
             // const statusText = row.status.charAt(0).toUpperCase() + row.status.slice(1);
 
             return (
-              <tr key={idx}>
-                <td>{row.image}</td>
-                <td className="expand">{row.item}</td>
-                <td>
+              <tr key={idx} className="flex-row w-full">
+                <th className="flex-none w-5/12 font-normal">{row.image}</th>
+                <th className="flex-1 w-5/12 items-center justify-center font-normal"><AccordionInfo name={row.item} expirytime={row.days}></AccordionInfo></th>
+                <th className="flex-none w-5/12 items-center justify-center font-normal">
                   <Notifbutton expirationdays={row.days} name={row.item} className="justify-center"></Notifbutton>
-                </td>
-                <td className="fit">
+                </th>
+                <th className="fit flex-row">
                   <span className="actions">
                     <BsFillTrashFill
                       className="delete-btn"
@@ -44,7 +44,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
                     />
                     <BsFillPencilFill className="edit-btn" onClick={() => editRow(idx)} />
                   </span>
-                </td>
+                </th>
               </tr>
             );
           })}
