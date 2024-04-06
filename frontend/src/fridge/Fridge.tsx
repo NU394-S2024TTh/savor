@@ -1,13 +1,20 @@
 import "./Fridge.css";
 import "../themes/styles.css";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import ImageUploading from "react-images-uploading";
 
 import { Modal } from "../components/Modal";
 import { Table } from "../components/Table";
 import processImage from "../process/extract.mjs";
 import { TEST_DATA } from "./TestData";
+
+interface ItemRow {
+  image: any,
+  item: string,
+  expirationInfo: string,
+  days: number,
+}
 
 function Fridge() {
 	const [images, setImages] = useState([]);
@@ -22,7 +29,7 @@ function Fridge() {
 		console.log(response);
 
 		// set the response ({items: ['Apple', 'Banana', ...]  expirationInfo: ['123', '43', ... ]}) to the form
-		const newRows = [];
+		const newRows: ItemRow[] = [];
 		console.log("response.items.length");
 		console.log(response.items.length);
 		for (let i = 0; i < response.items.length; i++) {
@@ -65,7 +72,7 @@ function Fridge() {
 	};
 
 	return (
-    <div className="Fridge flex flex-col items-center">
+    <div className="Fridge flex flex-col items-center min-h-screen">
       <button onClick={() => setModalOpen(true)} className="Button large green mt-8 mb-4">
         Add Item
       </button>
