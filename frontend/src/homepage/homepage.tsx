@@ -1,0 +1,85 @@
+import React, { useState, ReactElement } from 'react';
+//import { HomeIcon, PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons';
+import { HomeIcon, UserIcon, PlusCircleIcon  } from "@heroicons/react/24/outline"
+import Fridge from '../fridge/Fridge';
+import * as Popover from '@radix-ui/react-popover';
+import "../themes/styles.css";
+// Import other components for the 'profile' and 'upload' pages
+//import Profile from '../profile/Profile';
+//import Upload from '../upload/Upload';
+
+type TabName = 'fridge' | 'profile' | 'upload';
+
+const tabComponents: Record<TabName, ReactElement> = {
+  fridge: <Fridge />,
+  profile: <Fridge />,
+  upload: <Fridge />,
+};
+
+function Homepage() {
+    const [activeTab, setActiveTab] = useState<TabName>("fridge");
+
+    const handleTabChange = (tabName: TabName) => {
+        setActiveTab(tabName);
+    };
+
+    return (
+        <div className='flex flex-col h-screen'>
+            <div className=''>
+                {tabComponents[activeTab]}
+            </div>
+            <div className='fixed bottom-0 w-full flex flex-row grow md:px-30 md-justify-center justify-between  items-center px-12'>
+                <TabItem IconName={HomeIcon} active={activeTab === "fridge"} onClick={() => handleTabChange("fridge")} />
+                <UploadTabItem IconName={PlusCircleIcon} active={activeTab === "upload"} onClick={() => handleTabChange("upload")} />
+                <TabItem IconName={UserIcon} active={activeTab === "profile"} onClick={() => handleTabChange("profile")} />
+
+            </div>
+        </div>
+    );
+}
+
+// Define prop types for TabItem using TypeScript interface
+interface TabItemProps {
+    IconName: React.ElementType;
+    active: boolean;
+    onClick: () => void;
+}
+
+function TabItem({ IconName, active, onClick }: TabItemProps) {
+    const iconClass = active ? 'stroke-green-500 min-h-8 min-w-8' : 'stroke-gray-500 min-h-8 min-w-8';
+    return (
+        <button onClick={onClick}>
+            <IconName className={iconClass} />
+        </button>
+    );
+}
+function UploadTabItem({ IconName, active, onClick }: TabItemProps) {
+    const iconClass = active ? 'stroke-green-500 min-h-8 min-w-8' : 'stroke-gray-500 min-h-8 min-w-8';
+    const buttonClass = 'Button small green my-1'
+    return (
+        <Popover.Root>
+            <Popover.Trigger asChild>
+                <button onClick={onClick}>
+                    <IconName className={iconClass} />
+                </button>
+        </Popover.Trigger>
+        
+        <Popover.Portal>
+            <Popover.Content>
+                <div className='flex flex-col items-center AccordionRoot my-2 py-2'>
+                    <button className={buttonClass} >
+                            Upload Recipt
+                    </button>
+                    <button className={buttonClass}>
+                        Add Individual Item
+                    </button>
+
+                </div>
+            </Popover.Content>
+        </Popover.Portal>
+        </Popover.Root>
+    );
+}
+
+
+export default Homepage;
