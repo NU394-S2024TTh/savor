@@ -8,13 +8,7 @@ import { Modal } from "../components/Modal";
 import { Table } from "../components/Table";
 import processImage from "../process/extract.mjs";
 import { TEST_DATA } from "./TestData";
-
-interface ItemRow {
-  image: any,
-  item: string,
-  expirationInfo: string,
-  days: number,
-}
+import { ItemRow } from "../components/Table";
 
 function Fridge() {
 	const [images, setImages] = useState([]);
@@ -36,8 +30,9 @@ function Fridge() {
 			newRows.push({
 				image: "UP",
 				item: response.items[i],
-        expirationInfo: response.expirationInfo[i],
-        days: 5,
+				expirationInfo: response.expirationInfo[i],
+				daysUntilExpiration: response.expirationDays[i],
+				daysSincePurchase: 3 // Manual input, needs to change
 			});
 		}
 		console.log("newRows");
