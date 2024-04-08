@@ -13,9 +13,10 @@ interface TableProps {
 interface Row {
 	image: string;
 	item: string;
-	days: number;
 	expirationInfo: string;
+	purchaseDate: Date;
 }
+
 export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 	return (
 		<div className="w-full">
@@ -36,11 +37,14 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 							<tr key={idx} className="w-full flex-row">
 								<th className="w-5/12 flex-none font-normal">{row.image}</th>
 								<th className="w-5/12 flex-1 items-center justify-center font-normal">
-									<AccordionInfo name={row.item} expirationInfo={row.expirationInfo}></AccordionInfo>
+									<AccordionInfo
+										name={row.item}
+										expirationInfo={row.expirationInfo}
+									></AccordionInfo>
 								</th>
 								<th className="w-5/12 flex-none items-center justify-center font-normal">
 									<Notifbutton
-										expirationdays={row.days}
+										expirationdays={row.purchaseDate}
 										name={row.item}
 										className="justify-center"
 									></Notifbutton>
