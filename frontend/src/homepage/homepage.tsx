@@ -6,14 +6,16 @@ import * as Popover from '@radix-ui/react-popover';
 import "../themes/styles.css";
 // Import other components for the 'profile' and 'upload' pages
 //import Profile from '../profile/Profile';
-//import Upload from '../upload/Upload';
+import UploadPage from '../uploadpage/UploadPage';
 
-type TabName = 'fridge' | 'profile' | 'upload';
+type TabName = 'fridge' | 'profile' | 'upload' | "additem";
 
 const tabComponents: Record<TabName, ReactElement> = {
+    // obviously change this once we have upload and profile components
   fridge: <Fridge />,
   profile: <Fridge />,
-  upload: <Fridge />,
+  upload: <UploadPage />, // TODO: add another item for adding manual items 
+  additem: <UploadPage />
 };
 
 function Homepage() {
@@ -30,8 +32,12 @@ function Homepage() {
             </div>
             <div className='fixed bottom-0 w-full flex flex-row grow md:px-30 md-justify-center justify-between  items-center px-12'>
                 <TabItem IconName={HomeIcon} active={activeTab === "fridge"} onClick={() => handleTabChange("fridge")} />
-                <UploadTabItem IconName={PlusCircleIcon} active={activeTab === "upload"} onClick={() => handleTabChange("upload")} />
-                <TabItem IconName={UserIcon} active={activeTab === "profile"} onClick={() => handleTabChange("profile")} />
+                <UploadTabItem
+                    IconName={PlusCircleIcon}
+                    active={activeTab === "upload"}
+                    onClick={() => handleTabChange("fridge")}
+                    onUploadClick={() => handleTabChange("upload")}
+/>                <TabItem IconName={UserIcon} active={activeTab === "profile"} onClick={() => handleTabChange("profile")} />
 
             </div>
         </div>
@@ -53,33 +59,35 @@ function TabItem({ IconName, active, onClick }: TabItemProps) {
         </button>
     );
 }
-function UploadTabItem({ IconName, active, onClick }: TabItemProps) {
+
+function UploadTabItem({ IconName, active, onClick, onUploadClick }: TabItemProps & { onUploadClick: () => void }) {
     const iconClass = active ? 'stroke-green-500 min-h-8 min-w-8' : 'stroke-gray-500 min-h-8 min-w-8';
-    const buttonClass = 'Button small green my-1'
+    const buttonClass = 'Button small green my-1';
+
     return (
         <Popover.Root>
             <Popover.Trigger asChild>
                 <button onClick={onClick}>
                     <IconName className={iconClass} />
                 </button>
-        </Popover.Trigger>
-        
-        <Popover.Portal>
-            <Popover.Content>
-                <div className='flex flex-col items-center AccordionRoot my-2 py-2'>
-                    <button className={buttonClass} >
-                            Upload Recipt
-                    </button>
-                    <button className={buttonClass}>
-                        Add Individual Item
-                    </button>
-
-                </div>
-            </Popover.Content>
-        </Popover.Portal>
+            </Popover.Trigger>
+            <Popover.Portal>
+                <Popover.Content>
+                    <div className='flex flex-col items-center AccordionRoot my-2 py-2'>
+                        {/* Using onUploadClick to change tab */}
+                        <button className={buttonClass} onClick={onUploadClick}>
+                            Upload Receipt
+                        </button>
+                        <button className={buttonClass}>
+                            Add Individual Item
+                        </button>
+                    </div>
+                </Popover.Content>
+            </Popover.Portal>
         </Popover.Root>
     );
 }
+
 
 
 export default Homepage;

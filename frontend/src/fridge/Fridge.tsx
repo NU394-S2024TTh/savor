@@ -19,31 +19,38 @@ interface ItemRow {
 function Fridge() {
 	const [images, setImages] = useState([]);
 	const maxNumber = 69;
+  window.addEventListener('sessionStorageChange', (event) => {
+    const customEvent = event as CustomEvent<any>
+    if (customEvent.detail.key === 'rows') {
+        // React to the change as needed
+       setRows(JSON.parse(customEvent.detail.value)) // JSON.stringify(updatedRows)
+    }
+  });
 
-	const onChange = async (imageList: any, addUpdateIndex: any) => {
-		// data for submit
-		console.log(imageList, addUpdateIndex);
-		setImages(imageList);
+	// const onChange = async (imageList: any, addUpdateIndex: any) => {
+	// 	// data for submit
+	// 	console.log(imageList, addUpdateIndex);
+	// 	setImages(imageList);
 
-		const response = await processImage(imageList[0]["data_url"]);
-		console.log(response);
+	// 	const response = await processImage(imageList[0]["data_url"]);
+	// 	console.log(response);
 
-		// set the response ({items: ['Apple', 'Banana', ...]  expirationInfo: ['123', '43', ... ]}) to the form
-		const newRows: ItemRow[] = [];
-		console.log("response.items.length");
-		console.log(response.items.length);
-		for (let i = 0; i < response.items.length; i++) {
-			newRows.push({
-				image: "UP",
-				item: response.items[i],
-        expirationInfo: response.expirationInfo[i],
-        days: 5,
-			});
-		}
-		console.log("newRows");
-		console.log(newRows);
-		setRows([...rows, ...newRows]);
-	};
+	// 	// set the response ({items: ['Apple', 'Banana', ...]  expirationInfo: ['123', '43', ... ]}) to the form
+	// 	const newRows: ItemRow[] = [];
+	// 	console.log("response.items.length");
+	// 	console.log(response.items.length);
+	// 	for (let i = 0; i < response.items.length; i++) {
+	// 		newRows.push({
+	// 			image: "UP",
+	// 			item: response.items[i],
+  //       expirationInfo: response.expirationInfo[i],
+  //       days: 5,
+	// 		});
+	// 	}
+	// 	console.log("newRows");
+	// 	console.log(newRows);
+	// 	setRows([...rows, ...newRows]);
+	// };
 
 	const [modalOpen, setModalOpen] = useState(false);
 	const [rows, setRows] = useState(TEST_DATA);
@@ -78,7 +85,7 @@ function Fridge() {
       </button>
       <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
 
-      <ImageUploading
+      {/* <ImageUploading
         multiple
         value={images}
         onChange={onChange}
@@ -128,7 +135,7 @@ function Fridge() {
             ))}
           </div>
         )}
-      </ImageUploading>
+      </ImageUploading> */}
       {modalOpen && (
         <Modal
           closeModal={() => {

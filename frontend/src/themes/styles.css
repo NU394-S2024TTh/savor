@@ -249,3 +249,20 @@ h3 {
 		height: 0;
 	}
 }
+
+.HomePageTitle {
+	font-size: 25px;
+	grid-area: title;
+	margin-bottom: 5px;
+	font-weight: 500;
+	color: var(--slate-12);
+
+}
+.UploadDescription {
+	font-size: 16px;
+	grid-area: title;
+	margin-bottom: 5px;
+	font-weight: 400;
+	color: var(--slate-10);
+
+}
