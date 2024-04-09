@@ -3,8 +3,8 @@ import "./Table.css";
 import React from "react";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
-import { AccordionInfo } from "./accordion";
-import { Notifbutton } from "./notifs";
+import { AccordionInfo } from "./table/accordion";
+import { Notifbutton } from "./table/notifs";
 interface TableProps {
 	rows: any;
 	deleteRow: (index: number) => void;
@@ -22,7 +22,6 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 			<table className="table flex-col">
 				<thead className="flex-row">
 					<tr>
-						<th>Item Image</th>
 						<th>Item Name</th>
 						<th>Days Since Purchase</th>
 						<th>Remove or Edit</th>
@@ -34,7 +33,6 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 
 						return (
 							<tr key={idx} className="w-full flex-row">
-								<th className="w-5/12 flex-none font-normal">{row.image}</th>
 								<th className="w-5/12 flex-1 items-center justify-center font-normal">
 									<AccordionInfo name={row.item} expirationInfo={row.expirationInfo}></AccordionInfo>
 								</th>
@@ -52,6 +50,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 									</span>
 								</th>
 							</tr>
+
 						);
 					})}
 				</tbody>
