@@ -122,7 +122,7 @@ export interface ItemRow {
               </button>
             )}
             &nbsp;
-            {imageList.map((image, index) => (
+            {imageList.length > 0 && imageList.map((image, index) => (
               <div key={index} className="image-item flex flex-col items-center">
                 <img src={image['data_url']} alt="" width="100" />
                 <div className="image-item__btn-wrapper mt-2 space-x-2">
