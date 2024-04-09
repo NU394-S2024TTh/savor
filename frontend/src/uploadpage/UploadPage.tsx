@@ -9,26 +9,19 @@ import { ItemRow } from "../components/Table";
 
 function UploadPage(){
     const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
-
-
     return(
 
         <div className="flex flex-col h-screen items-center pt-20">
-            <h1 className="HomePageTitle pt-10"> Add Items </h1>
-            <ArrowUpOnSquareIcon className={uploadIconStyles}/>
-            <p className=" max-w-md pt-10 text-center UploadDescription"> Hit the green button down below to add items from your recipt </p>
-            <Upload/>
-
+            <Upload uploadIconStyles={uploadIconStyles}/>
         </div>
     );
 }
-
   
-function Upload(){
+function Upload(props:any){
     const [images, setImages] = useState([]);
     const [rows, setRows] = useState(TEST_DATA);
     const maxNumber = 69;
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const onChange = async (imageList: any, addUpdateIndex: any) => {
 		// data for submit
@@ -37,11 +30,17 @@ function Upload(){
         console.log("here")
 		setImages(imageList);
         localStorage.setItem('images', imageList);
-        setLoading(true)
-		const response = await processImage(imageList[0]["data_url"]);
-        setLoading(false)
+	};
+
+  const onSubmit = async () => {
+
+    // Render loading page
+    setLoading(true);
+		const response = await processImage(images[0]["data_url"]);
 
 		console.log(response);
+    // Leave loading page
+    setLoading(false);
         
 		// set the response ({items: ['Apple', 'Banana', ...]  expirationInfo: ['123', '43', ... ]}) to the form
 		const newRows: ItemRow[] = [];
@@ -80,7 +79,9 @@ export interface ItemRow {
         // need custom event handlers for local storage changes
         window.dispatchEvent(new CustomEvent('SessionStorageChange', { detail: { key:'rows' ,value: stringifiedUpdatedRows } }));
 
-	};
+  };
+
+  console.log(loading);
 
     return(
         <ImageUploading
@@ -99,10 +100,15 @@ export interface ItemRow {
           isDragging,
           dragProps,
         }) => (
-          // write your building UI
-          // check that this updates the image list?
+          <>
+          {!loading && (
+          <>
+          <h1 className="HomePageTitle pt-10"> Add Items </h1>
+          <ArrowUpOnSquareIcon className={props.uploadIconStyles}/>
+          <p className=" max-w-md pt-10 text-center UploadDescription"> Hit the green button down below to add items from your recipt </p>
+          </>)}
           <div className="upload__image-wrapper items-center">
-            {imageList.length == 0 && (
+            {((imageList.length == 0) && !loading) && (
               <button
                 style={isDragging ? { color: 'red' } : undefined}
                 className="Button large green mt-8 mb-4"
@@ -113,7 +119,7 @@ export interface ItemRow {
               </button>
             )}
             &nbsp;
-            {imageList.map((image, index) => (
+            {!loading && imageList.map((image, index) => (
               <div key={index} className="image-item flex flex-col items-center">
                 <img src={image['data_url']} alt="" width="100" />
                 <div className="image-item__btn-wrapper mt-2 space-x-2">
@@ -131,15 +137,16 @@ export interface ItemRow {
                   </button>
                   <button
                     className="Button large green mb-4"
-                    onClick={() => onChange(image,index)} // i think?
+                    onClick={() => onSubmit()} // i think?
                   >
                     Submit Image
                   </button>
-
                 </div>
               </div>
             ))}
+            {loading && (<LoadingPage ></LoadingPage>)}
           </div>
+          </>
         )}
       </ImageUploading>
     )
