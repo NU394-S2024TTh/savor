@@ -10,12 +10,15 @@ interface TableProps {
 	deleteRow: (index: number) => void;
 	editRow: (index: null) => void;
 }
-interface Row {
-	image: string;
+
+export interface ItemRow {
+	image: any;
 	item: string;
-	days: number;
 	expirationInfo: string;
+	daysUntilExpiration: number;
+	daysSincePurchase: number;
 }
+
 export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 	return (
 		<div className="w-full">
@@ -29,18 +32,22 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 					</tr>
 				</thead>
 				<tbody className="w-full flex-row">
-					{rows.map((row: Row, idx: any) => {
+					{rows.map((row: ItemRow, idx: any) => {
 						// const statusText = row.status.charAt(0).toUpperCase() + row.status.slice(1);
 
 						return (
 							<tr key={idx} className="w-full flex-row">
 								<th className="w-5/12 flex-none font-normal">{row.image}</th>
 								<th className="w-5/12 flex-1 items-center justify-center font-normal">
-									<AccordionInfo name={row.item} expirationInfo={row.expirationInfo}></AccordionInfo>
+									<AccordionInfo
+										name={row.item}
+										expirationInfo={row.expirationInfo}
+									></AccordionInfo>
 								</th>
 								<th className="w-5/12 flex-none items-center justify-center font-normal">
 									<Notifbutton
-										expirationdays={row.days}
+										daysSincePurchase={row.daysSincePurchase}
+										daysUntilExpiration={row.daysUntilExpiration}
 										name={row.item}
 										className="justify-center"
 									></Notifbutton>

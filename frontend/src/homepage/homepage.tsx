@@ -29,7 +29,7 @@ function Homepage() {
           // Set updateTime to the current date and time, which triggers a re-render
           setUpdateTime(new Date());
           console.log("HEERREEEE")
-          
+
           // do this b/c reloading helps... 
           window.location.reload();
         }
@@ -50,7 +50,7 @@ function Homepage() {
                  {React.cloneElement(tabComponents[activeTab], { key: updateTime.toISOString() })}
 
             </div>
-            <div className='fixed bottom-0 w-full flex flex-row grow md:px-30 md-justify-center justify-between  items-center px-12'>
+            <div className='bg-[#faf9f6] fixed bottom-0 w-full flex flex-row grow md:px-30 md-justify-center justify-between  items-center px-12'>
                 <TabItem IconName={HomeIcon} active={activeTab === "fridge"} onClick={() => handleTabChange("fridge")} />
                 <UploadTabItem
                     IconName={PlusCircleIcon}

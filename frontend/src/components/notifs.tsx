@@ -1,75 +1,56 @@
 import "../themes/styles.css";
 
 import * as Toast from "@radix-ui/react-toast";
-import { cva } from "class-variance-authority";
-import clsx from "clsx";
-import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 
 interface NotifsProps {
-	expirationdays: number;
+	daysSincePurchase: number;
+  daysUntilExpiration: number,
 	name: string;
 }
-const styles = cva("transition-opacity", {
-	variants: {
-		ready: {
-			true: "opacity-100",
-			false: "opacity-0"
-		}
-	}
-});
+
 export const Notifbutton = (props: NotifsProps & { className?: string }) => {
 	const [open, setOpen] = useState(false);
 	const eventDateRef = useRef(new Date());
 	const timerRef = useRef(0);
-	const buttontext = `${props.expirationdays} days`;
+	const buttontext = `${props.daysSincePurchase} days`;
 	useEffect(() => {
 		return () => clearTimeout(timerRef.current);
 	}, []);
 
 	return (
-    <div className={props.className}>
-      <Toast.Provider swipeDirection="right">
-        <button
-          className="Button large default font-thin"
-          onClick={() => {
-            setOpen(false);
-            window.clearTimeout(timerRef.current);
-            timerRef.current = window.setTimeout(() => {
-              // THIS USES A NUMBER AS AN ARGUMENT!!
-              eventDateRef.current = TimeDelay(props.expirationdays);
-              setOpen(true);
-            }, 100);
-          }}
-        >
-          {buttontext}
-        </button>
+		<div className={props.className}>
+			<Toast.Provider swipeDirection="right">
+				<button
+					className="Button large default font-thin"
+					onClick={() => {
+						setOpen(false);
+						window.clearTimeout(timerRef.current);
+						timerRef.current = window.setTimeout(() => {
+							// THIS USES A NUMBER AS AN ARGUMENT!!
+							eventDateRef.current = TimeDelay(props.daysSincePurchase);
+							setOpen(true);
+						}, 100);
+					}}
+				>
+					{buttontext}
+				</button>
 
-        <Toast.Root
-          className="ToastRoot"
-          open={open}
-          onOpenChange={setOpen}
-          duration={3000}
-        >
-          <Toast.Title className="ToastTitle">Check on your {props.name}!</Toast.Title>
-          <Toast.Description asChild>
-            <text className="ToastDescription">
-              They have been in the fridge for {props.expirationdays} days!
-            </text>
-          </Toast.Description>
-          {/* <Toast.Description asChild>
-						<time className="ToastDescription" dateTime={eventDateRef.current.toISOString()}>
-							{prettyDate(eventDateRef.current)}
-						</time>
-					</Toast.Description> */}
-          <Toast.Action className="ToastAction" asChild altText="we get it">
-            <button className="Button small green">OK</button>
-          </Toast.Action>
-        </Toast.Root>
-        <Toast.Viewport className="ToastViewport" />
-      </Toast.Provider>
-    </div>
-  );
+				<Toast.Root className="ToastRoot" open={open} onOpenChange={setOpen} duration={3000}>
+					<Toast.Title className="ToastTitle text-left">Check on your {props.name}!</Toast.Title>
+					<Toast.Description asChild className="text-left text-wrap">
+							<text className="ToastDescription">
+								They have been in the fridge for {props.daysSincePurchase} days! They might expire in {props.daysUntilExpiration} days!
+							</text>
+					</Toast.Description>
+					<Toast.Action className="ToastAction" asChild altText="we get it">
+						<button className="Button small green">OK</button>
+					</Toast.Action>
+				</Toast.Root>
+				<Toast.Viewport className="ToastViewport" />
+			</Toast.Provider>
+		</div>
+	);
 };
 
 function TimeDelay(time: number) {

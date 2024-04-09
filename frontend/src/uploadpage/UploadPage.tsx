@@ -5,6 +5,7 @@ import { TEST_DATA } from "../fridge/TestData";
 import ImageUploading from "react-images-uploading";
 import { update } from "firebase/database";
 import LoadingPage from "./LoadingPage";
+import { ItemRow } from "../components/Table";
 
 function UploadPage(){
     const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
@@ -21,12 +22,7 @@ function UploadPage(){
         </div>
     );
 }
-interface ItemRow {
-    image: any,
-    item: string,
-    expirationInfo: string,
-    days: number,
-  }
+
   
 function Upload(){
     const [images, setImages] = useState([]);
@@ -52,12 +48,22 @@ function Upload(){
 		console.log("response.items.length");
 		console.log(response.items.length);
 
+        /*
+export interface ItemRow {
+	image: any;
+	item: string;
+	expirationInfo: string;
+	daysUntilExpiration: number;
+	daysSincePurchase: number;
+}
+        */
 		for (let i = 0; i < response.items.length; i++) {
 			newRows.push({
 				image: "UP",
 				item: response.items[i],
-        expirationInfo: response.expirationInfo[i],
-        days: 5,
+				expirationInfo: response.expirationInfo[i],
+				daysUntilExpiration: response.expirationDays[i],
+				daysSincePurchase: 3 // Manual input, needs to change
 			});
 		}
 		console.log("newRows");
