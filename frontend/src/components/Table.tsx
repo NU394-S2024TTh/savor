@@ -15,8 +15,11 @@ export interface ItemRow {
 	image: any;
 	item: string;
 	expirationInfo: string;
-	daysUntilExpiration: number;
-	daysSincePurchase: number;
+	purchaseDate: string;
+}
+
+function dateDiff(date1: Date, date2: Date) {
+	return Math.round((date1.getTime() - date2.getTime()) / (1000 * 3600 * 24));
 }
 
 export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
@@ -46,8 +49,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 								</th>
 								<th className="w-5/12 flex-none items-center justify-center font-normal">
 									<Notifbutton
-										daysSincePurchase={row.daysSincePurchase}
-										daysUntilExpiration={row.daysUntilExpiration}
+										expirationdays={dateDiff(new Date(), new Date(row.purchaseDate))}
 										name={row.item}
 										className="justify-center"
 									></Notifbutton>

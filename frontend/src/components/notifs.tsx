@@ -4,8 +4,7 @@ import * as Toast from "@radix-ui/react-toast";
 import { useEffect, useRef, useState } from "react";
 
 interface NotifsProps {
-	daysSincePurchase: number;
-  daysUntilExpiration: number,
+	expirationdays: number,
 	name: string;
 }
 
@@ -13,7 +12,7 @@ export const Notifbutton = (props: NotifsProps & { className?: string }) => {
 	const [open, setOpen] = useState(false);
 	const eventDateRef = useRef(new Date());
 	const timerRef = useRef(0);
-	const buttontext = `${props.daysSincePurchase} days`;
+	const buttontext = `${props.expirationdays} days`;
 	useEffect(() => {
 		return () => clearTimeout(timerRef.current);
 	}, []);
@@ -28,7 +27,7 @@ export const Notifbutton = (props: NotifsProps & { className?: string }) => {
 						window.clearTimeout(timerRef.current);
 						timerRef.current = window.setTimeout(() => {
 							// THIS USES A NUMBER AS AN ARGUMENT!!
-							eventDateRef.current = TimeDelay(props.daysSincePurchase);
+							eventDateRef.current = TimeDelay(props.expirationdays);
 							setOpen(true);
 						}, 100);
 					}}
@@ -40,7 +39,7 @@ export const Notifbutton = (props: NotifsProps & { className?: string }) => {
 					<Toast.Title className="ToastTitle text-left">Check on your {props.name}!</Toast.Title>
 					<Toast.Description asChild className="text-left text-wrap">
 							<text className="ToastDescription">
-								They have been in the fridge for {props.daysSincePurchase} days! They might expire in {props.daysUntilExpiration} days!
+								They have been in the fridge for {props.expirationdays} days! They might expire in {props.daysUntilExpiration} days!
 							</text>
 					</Toast.Description>
 					<Toast.Action className="ToastAction" asChild altText="we get it">
