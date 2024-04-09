@@ -2,6 +2,7 @@ import fs from "fs";
 import { ChatOpenAI } from "@langchain/openai";
 import { HumanMessage } from "@langchain/core/messages";
 import { Buffer } from "buffer";
+import { getOpenAIAPIKey } from "./encryptdecrypt.mjs";
 
 
 function dataURItoBlob(dataURI) {
@@ -43,12 +44,14 @@ function readFileAsDataURL(file) {
 
 export default async function processImage(imagePath) {
 
+  const apiKey = await getOpenAIAPIKey();
+
   // Multi-modal
   const vision = new ChatOpenAI({
-    modelName: "gpt-4-vision-preview",
-    maxOutputTokens: 2048,
-    openAIApiKey:"---",
-  });
+		modelName: "gpt-4-vision-preview",
+		maxOutputTokens: 2048,
+		openAIApiKey: apiKey
+	});
   // const image = fs.readFileSync(imagePath).toString("base64");
   let image = await readFileAsDataURL(imagePath);
   console.log('image to be put into OPENAI!!!!');
