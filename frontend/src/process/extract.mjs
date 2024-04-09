@@ -51,7 +51,7 @@ export default async function processImage(imagePath) {
   });
   // const image = fs.readFileSync(imagePath).toString("base64");
   let image = await readFileAsDataURL(imagePath);
-  console.log('image to be put into OPENAI!!!!');
+  // console.log('image to be put into OPENAI!!!!');
   // console.log(image);
 
   const input2 = [
@@ -90,13 +90,13 @@ export default async function processImage(imagePath) {
   console.log('lines: %d', lines.length);
   for (const line of lines) {
     if (line.includes("[Purchase Date]")) {
-      console.log('Purchase Date detected');
-      console.log('line: %s', line);
+      // console.log('Purchase Date detected');
+      // console.log('line: %s', line);
       purchaseDate = line.replace("[Purchase Date]", "").trim();
     }
     if (line.includes(":")) {
-      console.log(': detected');
-      console.log('line: %s', line);
+      // console.log(': detected');
+      // console.log('line: %s', line);
       // regex to extract the item and information string
       const regex = /^(\d+)\.\s(.+)\s+\(unicode:\s+(.*)\):\s(.+)\[Least number of days\]\s+(\d+).*$/;
       const match = line.match(regex);
@@ -106,16 +106,16 @@ export default async function processImage(imagePath) {
         unicodes.push(match[3]);
         expirationInfo.push(match[4]);
         expirationDays.push(match[5]);
-        console.log(match[2]);
-        console.log(match[3]);
-        console.log(match[4]);
-        console.log(match[5]);
+        // console.log(match[2]);
+        // console.log(match[3]);
+        // console.log(match[4]);
+        // console.log(match[5]);
       }
     }
   }
 
-  // console.log(res2);
-  // console.log(items);
+  console.log(res2);
+  console.log(items);
   // console.log(expirationDays);
 
   // return a dictionary with items and expiration days
