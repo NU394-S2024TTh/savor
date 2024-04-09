@@ -1,7 +1,7 @@
 import "./Fridge.css";
 import "../themes/styles.css";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ImageUploading from "react-images-uploading";
 
 import { Modal } from "../components/Modal";
@@ -18,14 +18,62 @@ interface ItemRow {
 
 function Fridge() {
 	const [images, setImages] = useState([]);
-	const maxNumber = 69;
-  window.addEventListener('sessionStorageChange', (event) => {
-    const customEvent = event as CustomEvent<any>
-    if (customEvent.detail.key === 'rows') {
-        // React to the change as needed
-       setRows(JSON.parse(customEvent.detail.value)) // JSON.stringify(updatedRows)
-    }
+  const [modalOpen, setModalOpen] = useState(false);
+  // if localStorage.getItem("rows"
+	//const [rows, setRows] = useState(TEST_DATA);
+  const [rows, setRows] = useState(() => {
+    // Try to get the data from localStorage
+    const savedRows = localStorage.getItem("rows");
+    
+    // If there is data in localStorage, parse it; otherwise, use TEST_DATA
+    return savedRows ? JSON.parse(savedRows) : TEST_DATA;
   });
+	const [rowToEdit, setRowToEdit] = useState(null);
+	const maxNumber = 69;
+
+  useEffect(() => {
+    // Define the event listener function
+    const handleSessionStorageChange = (event: Event) => {
+      const customEvent = event as CustomEvent<any>;
+      if (customEvent.detail.key === 'rows') {
+        // Perform a functional state update to ensure we have the latest state.
+        setRows(() => {
+          const updatedRows = JSON.parse(customEvent.detail.value);
+          console.log("At the listener", updatedRows);
+          // This update will cause a re-render
+          return updatedRows;
+        });
+
+      }
+    };
+  
+    // Attach the event listener when the component mounts
+    window.addEventListener('SessionStorageChange', handleSessionStorageChange);
+  
+    // Clean up the event listener when the component unmounts
+    // return () => {
+    //   window.removeEventListener('SessionStorageChange', handleSessionStorageChange);
+    // };
+  }, []); 
+  // window.addEventListener('sessionStorageChange', (event) => {
+  //   const customEvent = event as CustomEvent<any>
+  //   if (customEvent.detail.key === 'rows') {
+  //       // React to the change as needed
+  //       setRows((currentRows) => {
+  //         const updatedRows = JSON.parse(customEvent.detail.value);
+  //         console.log("At the listener", updatedRows);
+  //         // Return the updated rows to set the state
+  //         return updatedRows;
+  //       });
+  //   // JSON.stringify(updatedRows)
+
+            
+  //      console.log("now testing for state")
+  //      console.log(rows)
+  //      // NOW JUST NEED TO RE-RENDER
+  //   }
+  // });
+
 
 	// const onChange = async (imageList: any, addUpdateIndex: any) => {
 	// 	// data for submit
@@ -52,12 +100,12 @@ function Fridge() {
 	// 	setRows([...rows, ...newRows]);
 	// };
 
-	const [modalOpen, setModalOpen] = useState(false);
-	const [rows, setRows] = useState(TEST_DATA);
-	const [rowToEdit, setRowToEdit] = useState(null);
+
 
 	const handleDeleteRow = (targetIndex: number) => {
 		setRows(rows.filter((_, idx) => idx !== targetIndex));
+    localStorage.setItem("rows", JSON.stringify(rows.filter((_, idx) => idx !== targetIndex)));
+
 	};
 
 	const handleEditRow = (idx: null) => {

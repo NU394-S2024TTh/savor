@@ -36,7 +36,8 @@ function Upload(){
 
     const onChange = async (imageList: any, addUpdateIndex: any) => {
 		// data for submit
-		console.log(imageList, addUpdateIndex);
+        console.log("ImageList")
+		console.log(imageList)
         console.log("here")
 		setImages(imageList);
         localStorage.setItem('images', imageList);
@@ -66,10 +67,12 @@ function Upload(){
         const currentRows = JSON.parse(localStorage.getItem('rows') || '[]');
         const updatedRows = [...currentRows, ...newRows];
         var stringifiedUpdatedRows = JSON.stringify(updatedRows)
+        console.log("ABc1233")
+        console.log(stringifiedUpdatedRows)
         localStorage.setItem('rows', stringifiedUpdatedRows )
 
         // need custom event handlers for local storage changes
-        window.dispatchEvent(new CustomEvent('sessionStorageChange', { detail: { key:'rows' ,value: stringifiedUpdatedRows } }));
+        window.dispatchEvent(new CustomEvent('SessionStorageChange', { detail: { key:'rows' ,value: stringifiedUpdatedRows } }));
 
 	};
 
