@@ -50,7 +50,7 @@ function Homepage() {
                  {React.cloneElement(tabComponents[activeTab], { key: updateTime.toISOString() })}
 
             </div>
-            <div className='bg-[#faf9f6] fixed bottom-0 w-full flex flex-row grow md:px-30 md-justify-center justify-between  items-center px-12'>
+            <div className='bg-[#faf9f6] fixed bottom-0 w-full flex flex-row grow md:px-30 md-justify-center justify-between py-4 items-center px-12'>
                 <TabItem IconName={HomeIcon} active={activeTab === "fridge"} onClick={() => handleTabChange("fridge")} />
                 <UploadTabItem
                     IconName={PlusCircleIcon}
