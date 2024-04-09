@@ -29,6 +29,9 @@ function Homepage() {
           // Set updateTime to the current date and time, which triggers a re-render
           setUpdateTime(new Date());
           console.log("HEERREEEE")
+          
+          // do this b/c reloading helps... 
+          window.location.reload();
         }
       };
   

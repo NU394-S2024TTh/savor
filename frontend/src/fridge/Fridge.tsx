@@ -114,17 +114,23 @@ function Fridge() {
 		setModalOpen(true);
 	};
 
-	const handleSubmit = (newRow: any) => {
-		rowToEdit === null
-			? setRows([...rows, newRow])
-			: setRows(
-					rows.map((currRow, idx) => {
-						if (idx !== rowToEdit) return currRow;
-
-						return newRow;
-					})
-				);
-	};
+  const handleSubmit = (newRow: any) => {
+    if (rowToEdit === null) {
+        setRows([...rows, newRow]);
+        localStorage.setItem("rows", JSON.stringify([...rows, newRow]))
+    } else {
+        setRows(
+            rows.map((currRow, idx) => {
+                if (idx !== rowToEdit) {
+                    return currRow;
+                } else {
+                    return newRow;
+                }
+            })
+        );
+        localStorage.setItem("rows", JSON.stringify(rows));
+    }
+};
 
 	return (
     <div className="Fridge flex flex-col items-center min-h-screen">
