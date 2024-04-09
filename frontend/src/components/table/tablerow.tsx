@@ -1,4 +1,4 @@
-import SwipeToRevealActions from "react-swipe-to-reveal-actions";
+import SwipeToRevealActions from "./swipe/swipetorevealactions";
 import { AccordionInfo } from "./accordion";
 import { Notifbutton } from "./notifs";
 import * as React from 'react';
@@ -128,19 +128,23 @@ export default function EnhancedTable() {
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
+          <Table>
+            <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={TEST_DATA.length}
+              />
+          </Table>
+        </TableContainer>
+        <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={TEST_DATA.length}
-            />
             <TableBody>
               {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row.id);
@@ -191,10 +195,10 @@ export default function EnhancedTable() {
                       },
                       ]}
                       actionButtonMinWidth={70}
+                      name={row.item}
+                      expirationInfo={row.expirationInfo}
                       >
-                      <div>
-                      <AccordionInfo name={row.item} expirationInfo={row.expirationInfo}></AccordionInfo>
-                      </div>
+                        <div></div>
                   </SwipeToRevealActions>
                     </TableCell>
                   </TableRow>
@@ -244,34 +248,4 @@ export interface ItemRow {
 	expirationInfo: string;
 	daysUntilExpiration: number;
 	daysSincePurchase: number;
-}
-
-export const Tablerow: React.FC<TableProps> = ({ rows, deleteRow, editRow }) =>{
-    return (
-        <SwipeToRevealActions
-            actionButtons={[
-            {
-                content: (
-                <div className="your-className-here">
-                    <span>EDIT</span>
-                </div>
-                ),
-                onClick: () => alert('Pressed the EDIT button'),
-            },
-            {
-                content: (
-                <div className="your-className-here">
-                    <span>DELETE</span>
-                </div>
-                ),
-                onClick: () => alert('Pressed the DELETe button'),
-            },
-            ]}
-            actionButtonMinWidth={70}
-            >
-            <div>
-
-            </div>
-        </SwipeToRevealActions>
-    )
 }

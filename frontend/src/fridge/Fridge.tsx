@@ -3,7 +3,7 @@ import "../themes/styles.css";
 
 import React, { useState } from "react";
 import ImageUploading from "react-images-uploading";
-import SwipeToRevealActions from "react-swipe-to-reveal-actions";
+
 import { Modal } from "../components/Modal";
 import { Table } from "../components/Table";
 import processImage from "../process/extract.mjs";
@@ -34,6 +34,7 @@ function Fridge() {
 		console.log(response.items.length);
 		for (let i = 0; i < response.items.length; i++) {
 			newRows.push({
+				image: "UP",
 				item: response.items[i],
         expirationInfo: response.expirationInfo[i],
         days: 5,
