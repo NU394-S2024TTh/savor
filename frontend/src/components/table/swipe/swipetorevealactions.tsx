@@ -2,7 +2,7 @@ import React, { useState, ReactNode, CSSProperties, useId } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import './styles.css';
 import { AccordionInfo } from '../accordion';
-import { Accordion } from '@radix-ui/react-accordion';
+import PencilIcon from '@heroicons/react/24/outline/PencilSquareIcon'
 type Props = {
     children: ReactNode;
     actionButtons: {
@@ -19,6 +19,8 @@ type Props = {
     dotsBtnAriaLabel?: string;
     name: string;
     expirationInfo: string;
+    image: any;
+    purchase: number;
 };
 
 const SwipeToRevealActions: React.FC<Props> = ({
@@ -26,13 +28,14 @@ const SwipeToRevealActions: React.FC<Props> = ({
     actionButtons,
     containerStyle,
     actionButtonMinWidth,
-    height = '56px',
     hideDotsButton,
     dotsBtnAriaLabel = 'Click to reveal actions',
   onOpen,
   onClose,
   name,
-  expirationInfo
+  expirationInfo,
+  image,
+  purchase,
 }: Props) => {
     const [isScrolling, setIsScrolling] = useState<boolean>(false);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -57,13 +60,11 @@ const SwipeToRevealActions: React.FC<Props> = ({
     function handleSwipe(e: any) {
         if (!isScrolling) {
             if (e.dir === 'Left' && !isExpanded) {
-                // LEFT SWIPE...
                 setIsExpanded(true);
                 if (onOpen) {
                     onOpen();
                 }
             } else if (e.dir === 'Right' && isExpanded) {
-                // RIGHT SWIPE...
                 setIsExpanded(false);
                 if (onClose) {
                     onClose();
@@ -78,31 +79,33 @@ const SwipeToRevealActions: React.FC<Props> = ({
     }
 
     return (
-        <div className="rstra-container" style={{ height, ...containerStyle }}>
+        <div className="rstra-container min-h-fit" style={{...containerStyle }}>
             <div {...handlers}>
-                <div>
+                <div className="flex flex-row">
                     <AccordionInfo className="rstra-content-container"
                       style={{
-                          height,
                           transform: `translateX(${isExpanded ? `-${actionButtons.length * actionButtonMinWidth}px` : '0px'})`,
-                      }} name={name} expirationInfo={expirationInfo}>
-
+                      }} name={name} expirationInfo={expirationInfo} image={image} purchase={purchase}> 
                     </AccordionInfo>
-                    <div className="rstra-actions-container" style={{ height: height, display: isExpanded ? 'flex' : 'none' }} id={id} role="region">
+                    <div className="rstra-actions-container flex-none items-center justify-center" style={{
+                        display: 'flex',
+                        opacity: isExpanded ? 1 : 0,
+                        transform: `translateX(${isExpanded ? 0 : '100%'})`,
+                        transition: 'opacity 0.25s ease, transform 0.25s ease',
+                    }} id={id}>
+                        {/* {children} */}
                         {actionButtons.map((action, index) => (
-                          <div key={`actionKey_${index}`} style={{ height }}>
-                              <button
-                                className="rstra-action-button"
-                                onClick={() => handleActionClicked(action.onClick)}
-                                style={{
-                                    height,
-                                    minWidth: actionButtonMinWidth
-                                }}
-                                role={action.role || 'button'}
-                              >
-                                  {action.content}
-                              </button>
-                          </div>
+                            <div key={`actionKey_${index}`} className="pl-">
+                                <button
+                                    className="rstra-action-button"
+                                    style={{
+                                        minWidth: actionButtonMinWidth
+                                    }}
+                                    role={action.role || 'button'}
+                                >
+                                    {action.content}
+                                </button>
+                            </div>
                         ))}
                     </div>
                 </div>

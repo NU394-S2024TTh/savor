@@ -1,11 +1,11 @@
-import "../themes/styles.css";
+import "../../themes/styles.css";
 
 import * as Toast from "@radix-ui/react-toast";
 import { useEffect, useRef, useState } from "react";
 
 interface NotifsProps {
 	daysSincePurchase: number;
-  daysUntilExpiration: number,
+  	daysUntilExpiration: number,
 	name: string;
 }
 

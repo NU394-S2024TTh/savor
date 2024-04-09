@@ -2,11 +2,8 @@ import "./Fridge.css";
 import "../themes/styles.css";
 
 import React, { useState, useEffect } from "react";
-import ImageUploading from "react-images-uploading";
-
 import { Modal } from "../components/Modal";
 import { Table } from "../components/Table";
-import processImage from "../process/extract.mjs";
 import { TEST_DATA } from "./TestData";
 import { ItemRow } from "../components/Table";
 
@@ -76,7 +73,7 @@ function Fridge() {
 };
 
 	return (
-    <div className="Fridge flex flex-col items-center min-h-screen">
+    <div className="Fridge flex flex-col items-center min-h-screen bg-black">
       <button onClick={() => setModalOpen(true)} className="Button large green mt-8 mb-4">
         Add Item
       </button>

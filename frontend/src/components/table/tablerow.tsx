@@ -174,8 +174,8 @@ export default function EnhancedTable() {
                     </TableCell>
                     <TableCell align="right">{row.daysUntilExpiration}</TableCell>
                     <TableCell align="right">{row.daysSincePurchase}</TableCell> */}
-                    <TableCell scope="row" width="100%">
-                    <SwipeToRevealActions
+                    <TableCell scope="row" width="100%" className="min-h-fit">
+                    {/* <SwipeToRevealActions
                       actionButtons={[
                       {
                           content: (
@@ -199,7 +199,7 @@ export default function EnhancedTable() {
                       expirationInfo={row.expirationInfo}
                       >
                         <div></div>
-                  </SwipeToRevealActions>
+                  </SwipeToRevealActions> */}
                     </TableCell>
                   </TableRow>
                 );
