@@ -49,6 +49,8 @@ function Fridge() {
 	const handleDeleteRow = (targetIndex: number) => {
 		setRows(rows.filter((_: any, idx: number) => idx !== targetIndex));
     localStorage.setItem("rows", JSON.stringify(rows.filter((_: any, idx: number) => idx !== targetIndex)));
+		setRows(rows.filter((_: any, idx: number) => idx !== targetIndex));
+    localStorage.setItem("rows", JSON.stringify(rows.filter((_: any, idx: number) => idx !== targetIndex)));
 
 	};
 
