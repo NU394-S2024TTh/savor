@@ -2,13 +2,13 @@ import './index.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import EnhancedTable from './components/table/tablerow';
-import Fridge from './fridge/Fridge';
+
+
+import Homepage from './homepage/homepage';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    {/* <Fridge /> */}
-    <EnhancedTable></EnhancedTable>
+    <Homepage />
   </React.StrictMode>,
 );
