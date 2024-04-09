@@ -14,7 +14,7 @@ interface ItemRow {
 	image: any;
 	item: string;
 	expirationInfo: string;
-	purchaseDate: Date;
+	purchaseDate: string;
 }
 
 function Fridge() {
@@ -42,7 +42,7 @@ function Fridge() {
 				image: "UP",
 				item: response.items[i],
 				expirationInfo: response.expirationInfo[i],
-				purchaseDate: new Date().toISOString().slice(0, 10)
+				purchaseDate: new Date().toISOString()
 			});
 		}
 		console.log("newRows");
@@ -55,7 +55,10 @@ function Fridge() {
 	};
 
 	const handleDeleteRow = (targetIndex: number) => {
+		const allRowsCopy = [...rows];
+		delete allRowsCopy[targetIndex];
 		setRows(rows.filter((_, idx) => idx !== targetIndex));
+		set(updateQuery, allRowsCopy);
 	};
 
 	const handleEditRow = (idx: null) => {

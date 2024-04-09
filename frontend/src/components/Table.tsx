@@ -17,6 +17,10 @@ interface Row {
 	purchaseDate: Date;
 }
 
+function dateDiff(date1: Date, date2: Date) {
+	return Math.round((date1.getTime() - date2.getTime()) / (1000 * 3600 * 24));
+}
+
 export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 	return (
 		<div className="w-full">
@@ -44,7 +48,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 								</th>
 								<th className="w-5/12 flex-none items-center justify-center font-normal">
 									<Notifbutton
-										expirationdays={row.purchaseDate}
+										expirationdays={dateDiff(new Date(), new Date(row.purchaseDate))}
 										name={row.item}
 										className="justify-center"
 									></Notifbutton>
