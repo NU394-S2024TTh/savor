@@ -120,5 +120,5 @@ export default async function processImage(imagePath) {
 
   // return a dictionary with items and expiration days
 
-  return { items, expirationInfo, expirationDays };
+  return { items, expirationInfo, expirationDays, unicodes, purchaseDate };
 }
