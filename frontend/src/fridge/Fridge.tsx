@@ -2,13 +2,15 @@ import "./Fridge.css";
 import "../themes/styles.css";
 
 import React, { useState, useEffect } from "react";
+
+import { PlusCircleIcon  } from "@heroicons/react/24/solid"
+
 import { Modal } from "../components/Modal";
 import { Table } from "../components/Table";
 import { TEST_DATA } from "./TestData";
 import { ItemRow } from "../components/Table";
 
 function Fridge() {
-	const [images, setImages] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   // if localStorage.getItem("rows"
 	//const [rows, setRows] = useState(TEST_DATA);
@@ -20,7 +22,6 @@ function Fridge() {
     return savedRows ? JSON.parse(savedRows) : TEST_DATA;
   });
 	const [rowToEdit, setRowToEdit] = useState(null);
-	const maxNumber = 69;
 
   useEffect(() => {
     // Define the event listener function
@@ -74,6 +75,11 @@ function Fridge() {
 
 	return (
     <div className="Fridge flex flex-col items-center min-h-screen bg-black">
+      <div className="self-end">
+				<button onClick={() => setModalOpen(true)} className="">
+					<PlusCircleIcon className="mb-4 mt-4 mr-6 h-12 w-12 cursor-pointer fill-green-500" aria-hidden="true" />
+				</button>
+			</div>
       <div className="flex flex-col items-center justify-center">
         <div className="fridgeTitle font-bold">My Fridge</div>
         <div className="fridgeTooltip font-bold">Check the days since purchase against the recommendation!</div>
@@ -84,23 +90,8 @@ function Fridge() {
           <span className="fridgeRegular font-normal">Swipe on an item to edit or delete</span>
         </div>
       </div>
-      <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-      <button onClick={() => setModalOpen(true)} className="Button large green mt-8 mb-4">
-        Add Item
-      </button>
-
-      {modalOpen && (
-        <Modal
-          closeModal={() => {
-            setModalOpen(false);
-            setRowToEdit(null);
-          }}
-          onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null && rows[rowToEdit]}
-        />
-      )}
-    </div>
-  );
-}
+      </div>
+      )
+};
 
 export default Fridge;
