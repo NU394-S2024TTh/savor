@@ -156,10 +156,11 @@ h3 {
 
 .AccordionRoot {
 	border-radius: 6px;
-	width: 80em;
-	max-width: 80em;
+	width: 70vmax;
+	max-width: 80vmax;
 	background-color: var(--green-2);
 	box-shadow: 0 2px 10px var(--black-a4);
+	z-index: 3;
 }
 
 .AccordionItem {

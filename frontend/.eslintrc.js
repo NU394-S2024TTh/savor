@@ -33,7 +33,7 @@ module.exports = {
 	],
 	plugins: ["simple-import-sort", "prettier"],
 	rules: {
-		"prettier/prettier": ["error", {}, { usePrettierrc: true }],
+		"prettier/prettier": ["error", { endOFLine: "auto" }, { usePrettierrc: true }],
 		"react/react-in-jsx-scope": "off",
 		"jsx-a11y/accessible-emoji": "off",
 		"react/prop-types": "off",
@@ -43,6 +43,7 @@ module.exports = {
 		"jsx-a11y/anchor-is-valid": [
 			"error",
 			{
+				endOFLine: "auto",
 				components: ["Link"],
 				specialLink: ["hrefLeft", "hrefRight"],
 				aspects: ["invalidHref", "preferButton"]

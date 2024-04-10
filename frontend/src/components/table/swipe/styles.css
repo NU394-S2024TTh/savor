@@ -1,7 +1,6 @@
 .rstra-container {
     width: 100%;
     position: relative;
-    overflow: hidden;
     display: inline-flex;
     box-sizing: border-box;
 }
@@ -15,7 +14,6 @@
 
 .rstra-actions-container {
     width: 11%;
-    height: 7rem;
     position: absolute;
     top: 0;
     right: 0;
@@ -25,6 +23,9 @@
     justify-content: flex-end;
     transition: all 0.25s ease;
     z-index: 1;
+    box-sizing: border-box;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .rstra-content-container {
@@ -35,7 +36,7 @@
     top: 0;
     left: 0;
     transition: all 0.25s ease;
-    background-color: #FFF;
+    background: transparent;
     box-sizing: border-box;
     padding-top: 1rem;
     padding-bottom: 1rem;
