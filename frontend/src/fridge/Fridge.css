@@ -1,9 +1,14 @@
 .Fridge {
 	display: flex;
+	padding-top: 10rem;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	background-color: #faf9f6;
+}
+
+.addBtn{
+	padding-right: 7rem;
 }
 
 .btn {
