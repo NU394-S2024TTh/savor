@@ -118,7 +118,9 @@ const SwipeToRevealActions: React.FC<Props> = ({
 						expirationInfo={expirationInfo}
 						image={image}
 						purchase={purchase}
-					></AccordionInfo>
+					>
+                        <></>
+                    </AccordionInfo>
 					<div
 						className="rstra-actions-container align-middle"
 						style={{

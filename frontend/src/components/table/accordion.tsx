@@ -6,7 +6,7 @@ import "../../themes/styles.css";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, ReactNode } from "react";
 
 import { Notifbutton } from "./notifs";
 {
@@ -27,6 +27,7 @@ import { Notifbutton } from "./notifs";
 </th> */
 }
 interface AccordionProps {
+  children: ReactNode;
 	name: string;
 	expirationInfo: string;
 	className?: string;
@@ -66,25 +67,34 @@ export const AccordionInfo = (props: AccordionProps) => {
 			<Accordion.Root className="AccordionRoot" type="single" defaultValue="item-2" collapsible>
 				<Accordion.Item className="AccordionItem w-full" value="item-1">
 					<AccordionTrigger onClick={handleButtonClick} className="truncate break-all">
-						<div className="flex w-5/12 flex-1 items-center justify-center font-normal outline-none">
+						<div className="itemimage flex w-2/12 flex-1 items-center justify-center font-normal outline-none">
 							{props.image}
 						</div>
-						<div className="flex w-5/12 flex-1 items-center justify-center font-normal outline-none">
+						<div className="itemtitle flex w-5/12 flex-1 items-start justify-start font-bold outline-none pl-0.5">
 							{props.name}
 						</div>
+            <div className="flex flex-row w-5/12 flex-1 items-end justify-end">
+              <div className="flex flex-col items-center justify-center">
+                <span className="DayNumber font-bold">{props.purchase}</span>
+                <span className="DaysSubtitle font-bold">Days</span>
+              </div>
+              
+            </div> 
 						<div className="flex w-5/12 flex-1 items-center justify-center font-normal">
 							<Notifbutton
 								daysSincePurchase={props.purchase}
 								daysUntilExpiration={props.purchase}
 								name={props.name}
-								className="justify-center"
+								className="justify-center z-10"
 							></Notifbutton>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent className="truncate break-all">
-						<span className="flex items-center justify-center text-center align-middle">
-							{props.expirationInfo}
-						</span>
+            <div className="expirationwrapper">
+              <span className="flex items-center justify-center text-center align-middle">
+                {props.expirationInfo}
+              </span>
+            </div>
 					</AccordionContent>
 				</Accordion.Item>
 			</Accordion.Root>

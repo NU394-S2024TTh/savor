@@ -3,9 +3,26 @@
 @import "@radix-ui/colors/mauve.css";
 @import "@radix-ui/colors/slate.css";
 @import "@radix-ui/colors/violet.css";
-
+@import "@fontsource/roboto";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/400-italic.css";
+@import "@fontsource/poppins";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/400-italic.css";
 button {
 	all: unset;
+}
+
+.DayNumber{
+	font-family: "Poppins";
+	font-size: 2rem;
+	color: #6CC51D;
+}
+
+.DaysSubtitle{
+	font-family: "Poppins";
+	font-size: 1rem;
+	color: #6CC51D;
 }
 
 .ToastViewport {
@@ -133,8 +150,8 @@ button {
 	box-shadow: 0 0 0 2px black;
 }
 .Button.default {
-	background-color: white;
-	box-shadow: 0 2px 10px var(--black-a4);
+	/* background-color: white;
+	box-shadow: 0 2px 10px var(--black-a4); */
 	border-radius: 6px;
 }
 .Button.green {
@@ -158,7 +175,7 @@ h3 {
 	border-radius: 6px;
 	width: 70vmax;
 	max-width: 80vmax;
-	background-color: var(--green-2);
+	background-color: white;
 	box-shadow: 0 2px 10px var(--black-a4);
 	z-index: 3;
 }
@@ -167,7 +184,9 @@ h3 {
 	overflow: hidden;
 	margin-top: 1px;
 }
-
+.AccordionItem:hover{
+	background-color: var(--mauve-2);
+}
 .AccordionItem:first-child {
 	margin-top: 0;
 	border-top-left-radius: 4px;
@@ -201,20 +220,26 @@ h3 {
 	font-size: 15px;
 	line-height: 1;
 	color: black;
-	box-shadow: 0 1px 0 var(--mauve-6);
-	background-color: white;
+	/* box-shadow: 0 1px 0 var(--mauve-6); */
+	background-color: transparent;
 }
 
-.AccordionTrigger:hover {
+/* .AccordionTrigger:hover {
 	background-color: var(--mauve-2);
 }
+
+.AccordionTrigger:hover ~ .AccordionContent,
+.AccordionContent:hover ~ .AccordionTrigger {
+	background-color: var(--mauve-2);
+} */
 
 .AccordionContent {
 	overflow: hidden;
 	font-size: 15px;
 	height: 7vmax;
-	color: var(--mauve-11);
-	background-color: var(--mauve-2);
+	/* color: var(--mauve-11); */
+	/* background-color: var(--mauve-2); */
+	background-color: transparent;
 }
 .AccordionContent[data-state="open"] {
 	animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
@@ -223,8 +248,52 @@ h3 {
 	animation: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
 }
 
+.itemtitle{
+	font-family: "Roboto";
+	font-size: 1.2rem;
+}
+
+.itemimage{
+	font-size:2rem;
+}
+
+.fridgeTitle{
+	font-family:"Roboto";
+	font-size: 1.2rem;
+	padding-bottom: 2rem;
+}
+.fridgeTooltip{
+	font-family:"Roboto";
+	padding-bottom: 2rem;
+	font-size: 1rem;
+	color: #1DC54C;
+}
+
+.fridgeRegular{
+	font-family:"Roboto";
+	padding-left: 1rem;
+	font-size: 1rem;
+	color: black;
+}
+
+.swipeTooltip{
+	padding-bottom: 2rem;
+}
+
+.expirationwrapper {
+	background-color: #f8f4f4;
+	height: 6vw;
+	border-radius: 8px;
+	font-family: "Roboto";
+	font-size: 1.3rem;
+	display: flex; /* Make the container a flex container */
+	justify-content: center; /* Horizontally center the content */
+	align-items: center; /* Vertically center the content */
+}
+
+
 .AccordionContentText {
-	padding: 15px 20px;
+	padding: 0px 20px;
 }
 
 .AccordionChevron {
