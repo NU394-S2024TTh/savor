@@ -24,6 +24,7 @@ type Props = {
 	expirationInfo: string;
 	image: any;
 	purchase: number;
+    expirationtime: number;
 };
 
 const SwipeToRevealActions: React.FC<Props> = ({
@@ -38,7 +39,8 @@ const SwipeToRevealActions: React.FC<Props> = ({
 	name,
 	expirationInfo,
 	image,
-	purchase
+	purchase,
+    expirationtime
 }: Props) => {
 	const [isScrolling, setIsScrolling] = useState<boolean>(false);
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -118,6 +120,7 @@ const SwipeToRevealActions: React.FC<Props> = ({
 						expirationInfo={expirationInfo}
 						image={image}
 						purchase={purchase}
+                        expiration={expirationtime}
 					>
                         <></>
                     </AccordionInfo>

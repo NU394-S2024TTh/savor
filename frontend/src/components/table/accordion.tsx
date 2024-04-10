@@ -34,6 +34,7 @@ interface AccordionProps {
 	style?: React.CSSProperties;
 	image: any;
 	purchase: number;
+  expiration: number;
 }
 
 export const AccordionInfo = (props: AccordionProps) => {
@@ -83,7 +84,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 						<div className="flex w-5/12 flex-1 items-center justify-center font-normal">
 							<Notifbutton
 								daysSincePurchase={props.purchase}
-								daysUntilExpiration={props.purchase}
+								daysUntilExpiration={props.expiration}
 								name={props.name}
 								className="justify-center z-10"
 							></Notifbutton>

@@ -75,11 +75,6 @@ function Fridge() {
 
 	return (
     <div className="Fridge flex flex-col items-center min-h-screen bg-black">
-      <div className="self-end">
-				<button onClick={() => setModalOpen(true)} className="">
-					<PlusCircleIcon className="mb-4 mt-4 mr-6 h-12 w-12 cursor-pointer fill-green-500" aria-hidden="true" />
-				</button>
-			</div>
       <div className="flex flex-col items-center justify-center">
         <div className="fridgeTitle font-bold">My Fridge</div>
         <div className="fridgeTooltip font-bold">Check the days since purchase against the recommendation!</div>
@@ -90,6 +85,11 @@ function Fridge() {
           <span className="fridgeRegular font-normal">Swipe on an item to edit or delete</span>
         </div>
       </div>
+      <div className="self-end pr-40">
+				<button onClick={() => setModalOpen(true)} className="">
+					<PlusCircleIcon className="mb-4 mt-4 mr-6 h-12 w-12 cursor-pointer fill-green-500" aria-hidden="true" />
+				</button>
+			</div>
       <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
 			{modalOpen && (
 				<Modal

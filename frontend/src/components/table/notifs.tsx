@@ -42,9 +42,13 @@ export const Notifbutton = (props: NotifsProps & { className?: string }) => {
 				<Toast.Root className="ToastRoot" open={open} onOpenChange={setOpen} duration={3000}>
 					<Toast.Title className="ToastTitle text-left">Check on your {props.name}!</Toast.Title>
 					<Toast.Description asChild className="text-left text-wrap">
-							<text className="ToastDescription">
-								They have been in the fridge for {props.daysSincePurchase} days! They might expire in {props.daysUntilExpiration} days!
-							</text>
+						<text className="ToastDescription">
+							They have been in the fridge for {props.daysSincePurchase} days! 
+							{props.daysUntilExpiration - props.daysSincePurchase >= 0 ? 
+								` They might expire in ${props.daysUntilExpiration - props.daysSincePurchase} days! ` :
+								` They only last for ${props.daysUntilExpiration}, so it might have expired! `
+							}
+						</text>
 					</Toast.Description>
 					<Toast.Action className="ToastAction" asChild altText="we get it">
 						<button className="Button small green">OK</button>
