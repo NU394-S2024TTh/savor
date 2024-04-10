@@ -82,7 +82,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 						</div>
 					</AccordionTrigger>
 					<AccordionContent className="truncate break-all">
-						<span className="flex items-start justify-start text-wrap break-normal bg-white">
+						<span className="flex items-center justify-center text-center align-middle">
 							{props.expirationInfo}
 						</span>
 					</AccordionContent>

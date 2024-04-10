@@ -80,7 +80,7 @@ const SwipeToRevealActions: React.FC<Props> = ({
 		callback();
 		setIsExpanded(false);
 	}
-	const swipeDistancePercentage = 7; // Change this to your desired percentage
+	const swipeDistancePercentage = 9; // Change this to your desired percentage
 
 	// Calculate swipe distance based on viewport width
 	const viewportWidth = window.innerWidth;
@@ -132,13 +132,7 @@ const SwipeToRevealActions: React.FC<Props> = ({
 					>
 						{actionButtons.map((action, index) => (
 							<div key={`actionKey_${index}`} className="pl-">
-								<button
-									className="rstra-action-button"
-									style={{
-										minWidth: actionButtonMinWidth
-									}}
-									role={action.role || "button"}
-								>
+								<button className="rstra-action-button" role={action.role || "button"}>
 									{action.content}
 								</button>
 							</div>

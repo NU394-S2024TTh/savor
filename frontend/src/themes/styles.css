@@ -193,7 +193,7 @@ h3 {
 	font-family: inherit;
 	background-color: transparent;
 	padding: 0 20px;
-	height: 45px;
+	height: 7vmax;
 	flex: 1;
 	display: flex;
 	align-items: center;
@@ -212,6 +212,7 @@ h3 {
 .AccordionContent {
 	overflow: hidden;
 	font-size: 15px;
+	height: 7vmax;
 	color: var(--mauve-11);
 	background-color: var(--mauve-2);
 }
