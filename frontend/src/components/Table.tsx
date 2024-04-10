@@ -25,10 +25,10 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 			<table className="table flex-col">
 				<thead className="flex-row">
 					<tr>
-						<th>Item Image</th>
-						<th>Item Name</th>
-						<th>Days Since Purchase</th>
-						<th>Remove or Edit</th>
+						<th className="w-5/12 flex-none">Item Image</th>
+						<th className="w-5/12 flex-1 items-center justify-center">Item Name</th>
+						<th className="w-5/12 flex-none items-center justify-center">Days Since Purchase</th>
+						<th className="fit flex-row">Remove or Edit</th>
 					</tr>
 				</thead>
 				<tbody className="w-full flex-row">
