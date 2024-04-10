@@ -85,7 +85,7 @@ function Fridge() {
           <span className="fridgeRegular font-normal">Swipe on an item to edit or delete</span>
         </div>
       </div>
-      <div className="self-end pr-40">
+      <div className="self-end addBtn">
 				<button onClick={() => setModalOpen(true)} className="">
 					<PlusCircleIcon className="mb-4 mt-4 mr-6 h-12 w-12 cursor-pointer fill-green-500" aria-hidden="true" />
 				</button>
