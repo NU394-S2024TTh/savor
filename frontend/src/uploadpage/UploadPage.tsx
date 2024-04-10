@@ -7,6 +7,15 @@ import { update } from "firebase/database";
 import LoadingPage from "./LoadingPage";
 import { ItemRow } from "../components/Table";
 
+
+function diff_days(purchaseDate: string) {
+  const today = new Date();
+  const _purchaseDate = new Date(purchaseDate);
+  const diffTime = Math.abs(today.getTime() - _purchaseDate.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+}
+
 function UploadPage(){
     const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
     return(
@@ -58,11 +67,11 @@ export interface ItemRow {
         */
 		for (let i = 0; i < response.items.length; i++) {
 			newRows.push({
-				image: "UP",
+				image: response.unicodes[i],
 				item: response.items[i],
 				expirationInfo: response.expirationInfo[i],
 				daysUntilExpiration: response.expirationDays[i],
-				daysSincePurchase: 3 // Manual input, needs to change
+				daysSincePurchase:  diff_days(response.purchaseDate)
 			});
 		}
 		console.log("newRows");

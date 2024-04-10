@@ -47,9 +47,8 @@ function Fridge() {
   }, []); 
 
 	const handleDeleteRow = (targetIndex: number) => {
-		setRows(rows.filter((_, idx) => idx !== targetIndex));
-    localStorage.setItem("rows", JSON.stringify(rows.filter((_, idx) => idx !== targetIndex)));
-
+		setRows(rows.filter((_: any, idx: number) => idx !== targetIndex));
+    localStorage.setItem("rows", JSON.stringify(rows.filter((_: any, idx: number) => idx !== targetIndex)));
 	};
 
 	const handleEditRow = (idx: null) => {
@@ -64,7 +63,7 @@ function Fridge() {
         localStorage.setItem("rows", JSON.stringify([...rows, newRow]))
     } else {
         setRows(
-            rows.map((currRow, idx) => {
+            rows.map((currRow: ItemRow, idx: number) => {
                 if (idx !== rowToEdit) {
                     return currRow;
                 } else {

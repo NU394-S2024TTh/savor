@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "@langchain/google-genai": "^0.0.10",
-    "langchain": "^0.1.30",
-    "openai": "^4.26.0",
-    "typescript": "^5.4.3"
-  }
-}
