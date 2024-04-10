@@ -91,9 +91,6 @@ function Fridge() {
         </div>
       </div>
       <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-      <button onClick={() => setModalOpen(true)} className="Button large green mt-8 mb-4">
-        Add Item
-      </button>
 			{modalOpen && (
 				<Modal
 					closeModal={() => {
