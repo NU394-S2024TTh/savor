@@ -6,7 +6,7 @@ import ImageUploading from "react-images-uploading";
 import { update } from "firebase/database";
 import LoadingPage from "./LoadingPage";
 import { ItemRow } from "../components/Table";
-
+import '../themes/styles.css';
 
 function diff_days(purchaseDate: string) {
   const today = new Date();
@@ -77,7 +77,7 @@ export interface ItemRow {
 	};
 
     return (
-			<div className="flex h-screen flex-col items-center overflow-auto">
+			<div className="flex h-screen upPage flex-col items-center overflow-auto">
 				<h1 className="HomePageTitle mt-6"> Add Items </h1>
 				{images.length === 0 && (
 					<div className="flex flex-grow flex-col items-center justify-center">

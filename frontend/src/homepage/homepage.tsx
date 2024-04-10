@@ -46,10 +46,10 @@ function Homepage() {
 
     return (
 			<div className="flex h-screen flex-col">
-				<div className="">
+				<div className="flex-1 w-full z-10">
 					{React.cloneElement(tabComponents[activeTab], { key: updateTime.toISOString() })}
 				</div>
-				<div className="md:px-30 md-justify-center fixed bottom-0 flex w-full grow flex-row items-center justify-between bg-[#faf9f6] px-12 py-4">
+				<div className="md:px-30 md-justify-center fixed bottom-0 flex flex-1 w-full grow flex-row items-center justify-between bg-[#faf9f6] px-12 py-4 z-30">
 					<TabItem
 						IconName={HomeIcon}
 						active={activeTab === "fridge"}
