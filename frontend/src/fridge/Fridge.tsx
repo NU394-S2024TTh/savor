@@ -90,8 +90,22 @@ function Fridge() {
           <span className="fridgeRegular font-normal">Swipe on an item to edit or delete</span>
         </div>
       </div>
-      </div>
-      )
-};
+      <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
+      <button onClick={() => setModalOpen(true)} className="Button large green mt-8 mb-4">
+        Add Item
+      </button>
+			{modalOpen && (
+				<Modal
+					closeModal={() => {
+						setModalOpen(false);
+						setRowToEdit(null);
+					}}
+					onSubmit={handleSubmit}
+					defaultValue={rowToEdit !== null && rows[rowToEdit]}
+				/>
+			)}
+		</div>
+	);
+}
 
 export default Fridge;
