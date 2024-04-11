@@ -79,6 +79,13 @@ export const AccordionInfo = (props: AccordionProps) => {
                 <span className="DayNumber font-bold">{props.purchase}</span>
                 <span className="DaysSubtitle font-bold">Days</span>
               </div>
+			
+			  <div className="flex flex-row w-5/12 flex-1 items-end justify-end">
+			  <div className="flex flex-col items-center justify-center">
+                <span className="DayNumber font-bold">{props.expiration}</span>
+                <span className="DaysSubtitle font-bold">Days</span>
+              </div>
+			  </div>
               
             </div> 
 						<div className="flex w-5/12 flex-1 items-center justify-center font-normal">
