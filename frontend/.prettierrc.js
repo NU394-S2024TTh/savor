@@ -9,7 +9,7 @@ module.exports = {
 	quoteProps: "consistent",
 	endOfLine: "lf",
 	bracketSpacing: true,
-	arrowParens: "always",
+	arrowParens: "always"
 };
 
 // {

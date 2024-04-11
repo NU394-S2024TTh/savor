@@ -1,16 +1,12 @@
-import './index.css';
+import "./index.css";
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import EnhancedTable from './components/table/tablerow';
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-import Homepage from './homepage/homepage';
-
-import LoadingPage from './uploadpage/LoadingPage';
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+import Homepage from "./homepage/homepage";
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-  <React.StrictMode>
-    {/* <EnhancedTable></EnhancedTable> */}
-    <Homepage />
-  </React.StrictMode>,
+	<React.StrictMode>
+		<Homepage />
+	</React.StrictMode>
 );

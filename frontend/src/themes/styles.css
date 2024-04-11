@@ -17,38 +17,38 @@ html {
 }
 
 body::-webkit-scrollbar {
-    background-color: #faf9f6;
-    width: 16px;
+	background-color: #faf9f6;
+	width: 16px;
 }
 
 body::-webkit-scrollbar-track {
-    background-color: transparent;
+	background-color: transparent;
 }
 
 body::-webkit-scrollbar-thumb {
-    background-color: #babac0;
-    border-radius: 16px;
-    border: 4px solid #faf9f6;
+	background-color: #babac0;
+	border-radius: 16px;
+	border: 4px solid #faf9f6;
 }
 
-.upPage{
+.upPage {
 	background-color: #faf9f6;
 }
 
 body::-webkit-scrollbar-button {
-    display:none;
+	display: none;
 }
 
-.DayNumber{
+.DayNumber {
 	font-family: "Poppins";
 	font-size: 2rem;
-	color: #6CC51D;
+	color: #6cc51d;
 }
 
-.DaysSubtitle{
+.DaysSubtitle {
 	font-family: "Poppins";
 	font-size: 1rem;
-	color: #6CC51D;
+	color: #6cc51d;
 }
 
 .ToastViewport {
@@ -210,7 +210,7 @@ h3 {
 	overflow: hidden;
 	margin-top: 1px;
 }
-.AccordionItem:hover{
+.AccordionItem:hover {
 	background-color: var(--mauve-2);
 }
 .AccordionItem:first-child {
@@ -274,35 +274,35 @@ h3 {
 	animation: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
 }
 
-.itemtitle{
+.itemtitle {
 	font-family: "Roboto";
 	font-size: 1.2rem;
 }
 
-.itemimage{
-	font-size:2rem;
+.itemimage {
+	font-size: 2rem;
 }
 
-.fridgeTitle{
-	font-family:"Roboto";
+.fridgeTitle {
+	font-family: "Roboto";
 	font-size: 1.2rem;
 	padding-bottom: 2rem;
 }
-.fridgeTooltip{
-	font-family:"Roboto";
+.fridgeTooltip {
+	font-family: "Roboto";
 	padding-bottom: 2rem;
 	font-size: 1rem;
-	color: #1DC54C;
+	color: #1dc54c;
 }
 
-.fridgeRegular{
-	font-family:"Roboto";
+.fridgeRegular {
+	font-family: "Roboto";
 	padding-left: 1rem;
 	font-size: 1rem;
 	color: black;
 }
 
-.swipeTooltip{
+.swipeTooltip {
 	padding-bottom: 2rem;
 }
 
@@ -316,7 +316,6 @@ h3 {
 	justify-content: center; /* Horizontally center the content */
 	align-items: center; /* Vertically center the content */
 }
-
 
 .AccordionContentText {
 	padding: 0px 20px;
@@ -354,7 +353,6 @@ h3 {
 	margin-bottom: 5px;
 	font-weight: 500;
 	color: var(--slate-12);
-
 }
 .UploadDescription {
 	font-size: 16px;
@@ -362,5 +360,4 @@ h3 {
 	margin-bottom: 5px;
 	font-weight: 400;
 	color: var(--slate-10);
-
 }

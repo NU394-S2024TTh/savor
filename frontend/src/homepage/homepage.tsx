@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "../themes/styles.css";
-import React, { useState, ReactElement, useEffect } from 'react';
-//import { HomeIcon, PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons';
-import { HomeIcon, UserIcon, ArrowUpTrayIcon } from "@heroicons/react/24/outline"
-import Fridge from '../fridge/Fridge';
-import { TabItem } from './TabItem';
 import "../themes/styles.css";
+
+//import { HomeIcon, PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons';
+import { ArrowUpTrayIcon, HomeIcon, UserIcon } from "@heroicons/react/24/outline";
+import React, { ReactElement, useEffect, useState } from "react";
+
+import Fridge from "../fridge/Fridge";
 // Import other components for the 'profile' and 'upload' pages
 //import Profile from '../profile/Profile';
 import UploadPage from "../uploadpage/UploadPage";
+import { TabItem } from "./TabItem";
 
 type TabName = "fridge" | "profile" | "upload" | "additem";
 
@@ -44,30 +46,30 @@ function Homepage() {
 		setActiveTab(tabName);
 	};
 
-    return (
-			<div className="flex h-screen flex-col">
-				<div className="flex-1 w-full z-10">
-					{React.cloneElement(tabComponents[activeTab], { key: updateTime.toISOString() })}
-				</div>
-				<div className="md:px-30 md-justify-center fixed bottom-0 flex flex-1 w-full grow flex-row items-center justify-between bg-[#faf9f6] px-12 py-4 z-30">
-					<TabItem
-						IconName={HomeIcon}
-						active={activeTab === "fridge"}
-						onClick={() => handleTabChange("fridge")}
-					/>
-					<TabItem
-						IconName={ArrowUpTrayIcon}
-						active={activeTab === "upload"}
-						onClick={() => handleTabChange("upload")}
-					/>{" "}
-					<TabItem
-						IconName={UserIcon}
-						active={activeTab === "profile"}
-						onClick={() => handleTabChange("profile")}
-					/>
-				</div>
+	return (
+		<div className="flex h-screen flex-col">
+			<div className="z-10 w-full flex-1">
+				{React.cloneElement(tabComponents[activeTab], { key: updateTime.toISOString() })}
 			</div>
-		);
+			<div className="md:px-30 md-justify-center fixed bottom-0 z-30 flex w-full flex-1 grow flex-row items-center justify-between bg-[#faf9f6] px-12 py-4">
+				<TabItem
+					IconName={HomeIcon}
+					active={activeTab === "fridge"}
+					onClick={() => handleTabChange("fridge")}
+				/>
+				<TabItem
+					IconName={ArrowUpTrayIcon}
+					active={activeTab === "upload"}
+					onClick={() => handleTabChange("upload")}
+				/>{" "}
+				<TabItem
+					IconName={UserIcon}
+					active={activeTab === "profile"}
+					onClick={() => handleTabChange("profile")}
+				/>
+			</div>
+		</div>
+	);
 }
 
 export default Homepage;

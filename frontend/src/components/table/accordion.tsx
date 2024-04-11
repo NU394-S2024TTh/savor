@@ -6,7 +6,7 @@ import "../../themes/styles.css";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
-import React, { useRef, useState, ReactNode } from "react";
+import React, { ReactNode, useRef, useState } from "react";
 
 import { Notifbutton } from "./notifs";
 {
@@ -27,14 +27,14 @@ import { Notifbutton } from "./notifs";
 </th> */
 }
 interface AccordionProps {
-  children: ReactNode;
+	children: ReactNode;
 	name: string;
 	expirationInfo: string;
 	className?: string;
 	style?: React.CSSProperties;
 	image: any;
 	purchase: number;
-  expiration: number;
+	expiration: number;
 }
 
 export const AccordionInfo = (props: AccordionProps) => {
@@ -71,38 +71,37 @@ export const AccordionInfo = (props: AccordionProps) => {
 						<div className="itemimage flex w-2/12 flex-1 items-center justify-center font-normal outline-none">
 							{props.image}
 						</div>
-						<div className="itemtitle flex w-5/12 flex-1 items-start justify-start font-bold outline-none pl-0.5">
+						<div className="itemtitle flex w-5/12 flex-1 items-start justify-start pl-0.5 font-bold outline-none">
 							{props.name}
 						</div>
-            <div className="flex flex-row w-5/12 flex-1 items-end justify-end">
-              <div className="flex flex-col items-center justify-center">
-                <span className="DayNumber font-bold">{props.purchase}</span>
-                <span className="DaysSubtitle font-bold">Days</span>
-              </div>
-			
-			  <div className="flex flex-row w-5/12 flex-1 items-end justify-end">
-			  <div className="flex flex-col items-center justify-center">
-                <span className="DayNumber font-bold">{props.expiration}</span>
-                <span className="DaysSubtitle font-bold">Days</span>
-              </div>
-			  </div>
-              
-            </div> 
+						<div className="flex w-5/12 flex-1 flex-row items-end justify-end">
+							<div className="ml-10 flex flex-none flex-col items-center justify-center">
+								<span className="DayNumber font-bold">{props.purchase}</span>
+								<span className="DaysSubtitle font-bold">Days</span>
+							</div>
+
+							<div className="flex w-5/12 flex-1 flex-row items-end justify-end">
+								<div className="ml-10 flex flex-none flex-col items-center justify-center">
+									<span className="DayNumber font-bold">{props.expiration}</span>
+									<span className="DaysSubtitle font-bold">Days</span>
+								</div>
+							</div>
+						</div>
 						<div className="flex w-5/12 flex-1 items-center justify-center font-normal">
 							<Notifbutton
 								daysSincePurchase={props.purchase}
 								daysUntilExpiration={props.expiration}
 								name={props.name}
-								className="justify-center z-10"
+								className="z-10 justify-center"
 							></Notifbutton>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent className="truncate break-all">
-            <div className="expirationwrapper">
-              <span className="flex items-center justify-center text-center align-middle">
-                {props.expirationInfo}
-              </span>
-            </div>
+						<div className="expirationwrapper">
+							<span className="flex items-center justify-center text-center align-middle">
+								{props.expirationInfo}
+							</span>
+						</div>
 					</AccordionContent>
 				</Accordion.Item>
 			</Accordion.Root>

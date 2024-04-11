@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "./styles.css";
 
@@ -24,7 +25,7 @@ type Props = {
 	expirationInfo: string;
 	image: any;
 	purchase: number;
-    expirationtime: number;
+	expirationtime: number;
 };
 
 const SwipeToRevealActions: React.FC<Props> = ({
@@ -40,7 +41,7 @@ const SwipeToRevealActions: React.FC<Props> = ({
 	expirationInfo,
 	image,
 	purchase,
-    expirationtime
+	expirationtime
 }: Props) => {
 	const [isScrolling, setIsScrolling] = useState<boolean>(false);
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -120,10 +121,10 @@ const SwipeToRevealActions: React.FC<Props> = ({
 						expirationInfo={expirationInfo}
 						image={image}
 						purchase={purchase}
-                        expiration={expirationtime}
+						expiration={expirationtime}
 					>
-                        <></>
-                    </AccordionInfo>
+						<></>
+					</AccordionInfo>
 					<div
 						className="rstra-actions-container align-middle"
 						style={{
