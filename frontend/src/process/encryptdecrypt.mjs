@@ -20,7 +20,7 @@ function decryptAES(ciphertext, key, iv) {
 // 	var keyWA = CryptoJS.enc.Utf8.parse(key);
 // 	var ivWA = CryptoJS.enc.Utf8.parse(iv);
 // 	var encrypted = CryptoJS.AES.encrypt(plaintext, keyWA, { iv: ivWA });
-// 	return encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+// 	return encrypted.cip hertext.toString(CryptoJS.enc.Hex);
 // }
 
 async function getEncryptedAPIKey() {

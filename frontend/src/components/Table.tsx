@@ -28,13 +28,12 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 						<th>Item Image</th>
 						<th>Item Name</th>
 						<th>Days Since Purchase</th>
+						<th>Days Until Expiration</th> {/* New column header */}
 						<th>Remove or Edit</th>
 					</tr>
 				</thead>
 				<tbody className="w-full flex-row">
 					{rows.map((row: ItemRow, idx: any) => {
-						// const statusText = row.status.charAt(0).toUpperCase() + row.status.slice(1);
-
 						return (
 							<tr key={idx} className="w-full flex-row">
 								<th className="w-5/12 flex-none font-normal">{row.image}</th>
@@ -45,12 +44,10 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 									></AccordionInfo>
 								</th>
 								<th className="w-5/12 flex-none items-center justify-center font-normal">
-									<Notifbutton
-										daysSincePurchase={row.daysSincePurchase}
-										daysUntilExpiration={row.daysUntilExpiration}
-										name={row.item}
-										className="justify-center"
-									></Notifbutton>
+									{row.daysSincePurchase}
+								</th>
+								<th className="w-5/12 flex-none items-center justify-center font-normal"> {/* New column data */}
+									{row.daysUntilExpiration}
 								</th>
 								<th className="fit flex-row">
 									<span className="actions">
