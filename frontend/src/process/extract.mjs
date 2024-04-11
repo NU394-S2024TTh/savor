@@ -50,7 +50,7 @@ export default async function processImage(imagePath) {
   const vision = new ChatOpenAI({
 		modelName: "gpt-4-vision-preview",
 		maxOutputTokens: 2048,
-		openAIApiKey: apiKey
+		openAIApiKey:
 	});
   // const image = fs.readFileSync(imagePath).toString("base64");
   let image = await readFileAsDataURL(imagePath);

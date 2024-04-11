@@ -17,6 +17,16 @@ function diff_days(purchaseDate: string) {
 }
   
 function UploadPage(){
+    const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
+    return(
+
+        <div className="flex flex-col h-screen items-center pt-20">
+            <Upload uploadIconStyles={uploadIconStyles}/>
+        </div>
+    );
+}
+  
+function Upload(props:any){
     const [images, setImages] = useState([]);
     const [rows, setRows] = useState(TEST_DATA);
     const maxNumber = 69;
@@ -31,11 +41,17 @@ function UploadPage(){
         console.log("here")
 		setImages(imageList);
         localStorage.setItem('images', imageList);
-        setLoading(true)
-		const response = await processImage(imageList[0]["data_url"]);
-        setLoading(false)
+	};
+
+  const onSubmit = async () => {
+
+    // Render loading page
+    setLoading(true);
+		const response = await processImage(images[0]["data_url"]);
 
 		console.log(response);
+    // Leave loading page
+    setLoading(false);
         
 		// set the response ({items: ['Apple', 'Banana', ...]  expirationInfo: ['123', '43', ... ]}) to the form
 		const newRows: ItemRow[] = [];
@@ -74,8 +90,77 @@ export interface ItemRow {
         // need custom event handlers for local storage changes
         window.dispatchEvent(new CustomEvent('SessionStorageChange', { detail: { key:'rows' ,value: stringifiedUpdatedRows } }));
 
-	};
+  };
 
+  console.log(loading);
+
+    return(
+        <ImageUploading
+        multiple
+        value={images}
+        onChange={onChange}
+        maxNumber={maxNumber}
+        dataURLKey="data_url"
+      >
+        {({
+          imageList,
+          onImageUpload,
+          onImageRemoveAll,
+          onImageUpdate,
+          onImageRemove,
+          isDragging,
+          dragProps,
+        }) => (
+          <>
+          {!loading && (
+          <>
+          <h1 className="HomePageTitle pt-10"> Add Items </h1>
+          <ArrowUpOnSquareIcon className={props.uploadIconStyles}/>
+          <p className=" max-w-md pt-10 text-center UploadDescription"> Hit the green button down below to add items from your recipt </p>
+          </>)}
+          <div className="upload__image-wrapper items-center">
+            {((imageList.length == 0) && !loading) && (
+              <button
+                style={isDragging ? { color: 'red' } : undefined}
+                className="Button large green mt-8 mb-4"
+                onClick={onImageUpload}
+                {...dragProps}
+              >
+                Upload Receipt 
+              </button>
+            )}
+            &nbsp;
+            {!loading && imageList.map((image, index) => (
+              <div key={index} className="image-item flex flex-col items-center">
+                <img src={image['data_url']} alt="" width="100" />
+                <div className="image-item__btn-wrapper mt-2 space-x-2">
+                  <button
+                    className="Button large green mb-4"
+                    onClick={() => onImageUpdate(index)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="Button large green mb-4"
+                    onClick={() => onImageRemove(index)}
+                  >
+                    Remove
+                  </button>
+                  <button
+                    className="Button large green mb-4"
+                    onClick={() => onSubmit()} // i think?
+                  >
+                    Submit Image
+                  </button>
+                </div>
+              </div>
+            ))}
+            {loading && (<LoadingPage ></LoadingPage>)}
+          </div>
+          </>
+        )}
+      </ImageUploading>
+    )
     return (
 			<div className="flex h-screen upPage flex-col items-center overflow-auto">
 				<h1 className="HomePageTitle mt-6"> Add Items </h1>
