@@ -4,7 +4,7 @@ import "./Table.css";
 import React from "react";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 
-import SwipeToRevealActions from "./table/swipe/swipetorevealactions";
+import SwipeToRevealActions from "./swipe/swipetorevealactions";
 interface TableProps {
 	rows: any;
 	deleteRow: (index: number) => void;

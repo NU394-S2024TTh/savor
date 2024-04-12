@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "./Fridge.css";
-import "../themes/styles.css";
+import "../../themes/styles.css";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import React, { useEffect, useState } from "react";
 
-import { Modal } from "../components/Modal";
-import { Table } from "../components/Table";
-import { ItemRow } from "../components/Table";
+import { Modal } from "../table/Modal";
+import { Table } from "../table/Table";
+import { ItemRow } from "../table/Table";
 import { TEST_DATA } from "./TestData";
 
 function Fridge() {

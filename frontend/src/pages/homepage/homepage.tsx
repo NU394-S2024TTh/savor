@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import "../themes/styles.css";
-import "../themes/styles.css";
+import "../../themes/styles.css";
 
 //import { HomeIcon, PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import { ArrowUpTrayIcon, HomeIcon, UserIcon } from "@heroicons/react/24/outline";
 import React, { ReactElement, useEffect, useState } from "react";
 
-import Fridge from "../fridge/Fridge";
+import Fridge from "../../components/fridge/Fridge";
 // Import other components for the 'profile' and 'upload' pages
 //import Profile from '../profile/Profile';
 import UploadPage from "../uploadpage/UploadPage";

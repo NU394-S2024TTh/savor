@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import "../themes/styles.css";
+import "../../themes/styles.css";
 
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { update } from "firebase/database";
 import React, { useState } from "react";
 import ImageUploading from "react-images-uploading";
 
-import { ItemRow } from "../components/Table";
-import { TEST_DATA } from "../fridge/TestData";
-import processImage from "../process/extract.mjs";
+import { TEST_DATA } from "../../components/fridge/TestData";
+import { ItemRow } from "../../components/table/Table";
+import processImage from "../../process/extract.mjs";
 import LoadingPage from "./LoadingPage";
 
 function diff_days(purchaseDate: string) {
