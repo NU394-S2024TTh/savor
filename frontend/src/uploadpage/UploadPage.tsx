@@ -23,7 +23,7 @@ function diff_days(purchaseDate: string) {
 function UploadPage() {
 	const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
 	return (
-		<div className="flex h-screen flex-col items-center bg-[#faf9f6]">
+		<div className="flex h-full flex-col items-center bg-[#faf9f6]">
 			<Upload uploadIconStyles={uploadIconStyles} />
 		</div>
 	);
@@ -128,23 +128,25 @@ function Upload(props: any) {
 						&nbsp;
 						{!loading &&
 							imageList.map((image, index) => (
-								<div key={index} className="image-item flex flex-col items-center">
-									<img src={image["data_url"]} alt="" width="100" />
-									<div className="image-item__btn-wrapper mt-2 space-x-2">
+								<div key={index} className="UploadBtnCol flex flex-col items-center text-center">
+									<div className="mt-16 flex w-3/4 flex-grow items-center">
+										<img src={image["data_url"]} alt="" />
+									</div>
+									<div className="mt-12 flex flex flex-col flex-col space-y-4">
 										<button
-											className="Button large green mb-4"
+											className="rounded-2xl bg-green-500 px-20 py-4"
 											onClick={() => onImageUpdate(index)}
 										>
 											Update
 										</button>
 										<button
-											className="Button large green mb-4"
+											className="rounded-2xl bg-green-500 px-20 py-4"
 											onClick={() => onImageRemove(index)}
 										>
 											Remove
 										</button>
 										<button
-											className="Button large green mb-4"
+											className="rounded-2xl bg-green-500 px-20 py-4"
 											onClick={() => onSubmit()} // i think?
 										>
 											Submit Image
