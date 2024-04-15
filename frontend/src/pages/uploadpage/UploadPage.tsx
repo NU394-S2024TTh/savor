@@ -4,13 +4,14 @@ import "../../themes/styles.css";
 
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { update } from "firebase/database";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
 
 import { TEST_DATA } from "../../components/fridge/TestData";
 import { ItemRow } from "../../components/table/Table";
 import processImage from "../../process/extract.mjs";
 import LoadingPage from "./LoadingPage";
+import MissingPurchaseDate from "./MissingPurchaseDate";
 
 function diff_days(purchaseDate: string) {
 	const today = new Date();
@@ -29,13 +30,26 @@ function UploadPage() {
 	);
 }
 
+interface Response {
+	items: string[];
+	unicodes: string[];
+	expirationInfo: string[];
+	expirationDays: number[];
+	purchaseDate: string;
+}
+
 function Upload(props: any) {
 	const [images, setImages] = useState([]);
 	const [rows, setRows] = useState(TEST_DATA);
 	const maxNumber = 69;
 	const [loading, setLoading] = useState(false);
+	const [isUploaded, setIsUploaded] = useState(false);
+	const [noPurchaseDate, setNoPurchaseDate] = useState(false);
 
 	const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
+
+	// let response = {} as Response;
+	const [response, setResponse] = useState<Response | null>(null);
 
 	const onChange = async (imageList: any, addUpdateIndex: any) => {
 		// data for submit
@@ -48,7 +62,33 @@ function Upload(props: any) {
 
 	const onSubmit = async () => {
 		setLoading(true);
-		const response = await processImage(images[0]["data_url"]);
+		const res = await processImage(images[0]["data_url"]);
+		// alert(Object.prototype.toString.call(res));
+		// delay for 2 seconds
+		await new Promise((resolve) => setTimeout(resolve, 2000));  // TODO: this is a workaround for now
+		setResponse(res);
+		// testing with fake data without using API
+		// await new Promise((resolve) => setTimeout(resolve, 2000));
+		// setResponse({
+		// 	items: ["apple", "banana", "carrot"],
+		// 	unicodes: ["🍎", "🍌", "🥕"],
+		// 	expirationInfo: ["2 days", "3 days", "4 days"],
+		// 	expirationDays: [2, 3, 4],
+		// 	purchaseDate: ""
+		// });
+	};
+	const processResponse = () => {
+		if (response == null) {
+			console.error("response is null");
+			setLoading(false);
+			return;
+		}
+		if (response.purchaseDate == "") {
+			console.warn("No purchase date found in the receipt");
+			setNoPurchaseDate(true);
+			setLoading(false);
+			return;
+		}
 
 		console.log(response);
 		setLoading(false);
@@ -83,8 +123,10 @@ function Upload(props: any) {
 			})
 		);
 	};
+	useEffect(processResponse, [response]);
 
-	console.log(loading);
+	console.log("loading: ", loading);
+	// console.log("noPurchaseDate: ", noPurchaseDate);
 
 	return (
 		<ImageUploading
@@ -104,14 +146,19 @@ function Upload(props: any) {
 				dragProps
 			}) => (
 				<div className="flex flex-col items-center justify-center">
-					{!loading && (
+					{!loading && !noPurchaseDate && (
 						<div className="flex flex-col items-center justify-center">
 							<div className="HomePageTitle mt-6"> Add Items </div>
-							<ArrowUpOnSquareIcon className={props.uploadIconStyles} />
-							<p className=" UploadDescription mx-20 max-w-md pt-6 text-center">
-								{" "}
-								Hit the green button down below to add items from your receipt! (only jpg, jpeg, png are supported){" "}
-							</p>
+							{!isUploaded && (
+								<>
+									<ArrowUpOnSquareIcon className={props.uploadIconStyles} />
+									<p className=" UploadDescription mx-20 max-w-md pt-6 text-center">
+										{" "}
+										Hit the green button down below to add items from your receipt! (only jpg, jpeg,
+										png are supported){" "}
+									</p>
+								</>
+							)}
 						</div>
 					)}
 					<div className="upload__image-wrapper items-center text-white">
@@ -119,7 +166,10 @@ function Upload(props: any) {
 							<button
 								style={isDragging ? { color: "red" } : undefined}
 								className="mb-4 mt-8 rounded-2xl bg-green-500 px-20 py-4"
-								onClick={onImageUpload}
+								onClick={() => {
+									onImageUpload();
+									setIsUploaded(true);
+								}} // after image is uploaded
 								{...dragProps}
 							>
 								Upload
@@ -127,6 +177,7 @@ function Upload(props: any) {
 						)}
 						&nbsp;
 						{!loading &&
+							!noPurchaseDate &&
 							imageList.map((image, index) => (
 								<div key={index} className="UploadBtnCol flex flex-col items-center text-center">
 									<div className="mt-16 flex w-3/4 flex-grow items-center">
@@ -135,13 +186,19 @@ function Upload(props: any) {
 									<div className="mt-12 flex flex flex-col flex-col space-y-4">
 										<button
 											className="rounded-2xl bg-green-500 px-20 py-4"
-											onClick={() => onImageUpdate(index)}
+											onClick={() => {
+												onImageUpdate(index);
+												setIsUploaded(true);
+											}}
 										>
 											Update
 										</button>
 										<button
 											className="rounded-2xl bg-green-500 px-20 py-4"
-											onClick={() => onImageRemove(index)}
+											onClick={() => {
+												onImageRemove(index);
+												setIsUploaded(false);
+											}}
 										>
 											Remove
 										</button>
@@ -154,88 +211,17 @@ function Upload(props: any) {
 									</div>
 								</div>
 							))}
-						{loading && <LoadingPage></LoadingPage>}
+						{loading && !noPurchaseDate && <LoadingPage></LoadingPage>}
+						{noPurchaseDate && (
+							<MissingPurchaseDate
+								setResponse={setResponse}
+								setNoPurchaseDate={setNoPurchaseDate}
+							/>
+						)}
 					</div>
 				</div>
 			)}
 		</ImageUploading>
-	);
-	return (
-		<div className="upPage flex h-screen flex-col items-center overflow-auto">
-			<h1 className="HomePageTitle mt-6"> Add Items </h1>
-			{images.length === 0 && (
-				<div className="flex flex-grow flex-col items-center justify-center">
-					<ArrowUpOnSquareIcon className={uploadIconStyles} />
-					<p className=" UploadDescription mx-20 max-w-md pt-6 text-center">
-						{" "}
-						Hit the green button down below to add items from your receipt!{" "}
-					</p>
-				</div>
-			)}
-			<div className="mb-20 px-4">
-				<ImageUploading
-					multiple
-					value={images}
-					onChange={onChange}
-					maxNumber={maxNumber}
-					dataURLKey="data_url"
-				>
-					{({
-						imageList,
-						onImageUpload,
-						onImageRemoveAll,
-						onImageUpdate,
-						onImageRemove,
-						isDragging,
-						dragProps
-					}) => (
-						// write your building UI
-						// check that this updates the image list?
-						<div className="upload__image-wrapper items-center text-white">
-							{imageList.length == 0 && (
-								<button
-									style={isDragging ? { color: "red" } : undefined}
-									className="mb-4 mt-8 rounded-2xl bg-green-500 px-20 py-4"
-									onClick={onImageUpload}
-									{...dragProps}
-								>
-									Upload
-								</button>
-							)}
-							&nbsp;
-							{imageList.length > 0 &&
-								imageList.map((image, index) => (
-									<div key={index} className="flex flex-col items-center text-center">
-										<div className="mt-16 flex w-3/4 flex-grow items-center">
-											<img src={image["data_url"]} alt="" />
-										</div>
-										<div className="mt-12 flex flex flex-col flex-col space-y-4">
-											<button
-												className="rounded-2xl bg-green-500 px-20 py-4"
-												onClick={() => onImageUpdate(index)}
-											>
-												Update
-											</button>
-											<button
-												className="rounded-2xl bg-green-500 px-20 py-4"
-												onClick={() => onImageRemove(index)}
-											>
-												Remove
-											</button>
-											<button
-												className="rounded-2xl bg-green-500 px-20 py-4"
-												onClick={() => onChange(image, index)} // i think?
-											>
-												Submit Image
-											</button>
-										</div>
-									</div>
-								))}
-						</div>
-					)}
-				</ImageUploading>
-			</div>
-		</div>
 	);
 }
 export default UploadPage;
