@@ -146,14 +146,19 @@ function Upload(props: any) {
 				dragProps
 			}) => (
 				<div className="flex flex-col items-center justify-center">
-					{!loading && (
+					{!loading && !noPurchaseDate && (
 						<div className="flex flex-col items-center justify-center">
 							<div className="HomePageTitle mt-6"> Add Items </div>
-							<ArrowUpOnSquareIcon className={props.uploadIconStyles} />
-							<p className=" UploadDescription mx-20 max-w-md pt-6 text-center">
-								{" "}
-								Hit the green button down below to add items from your receipt! (only jpg, jpeg, png are supported){" "}
-							</p>
+							{!isUploaded && (
+								<>
+									<ArrowUpOnSquareIcon className={props.uploadIconStyles} />
+									<p className=" UploadDescription mx-20 max-w-md pt-6 text-center">
+										{" "}
+										Hit the green button down below to add items from your receipt! (only jpg, jpeg,
+										png are supported){" "}
+									</p>
+								</>
+							)}
 						</div>
 					)}
 					<div className="upload__image-wrapper items-center text-white">
