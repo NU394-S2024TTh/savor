@@ -15,13 +15,21 @@ export const Modal: React.FC<ModalProps> = ({ closeModal, onSubmit, defaultValue
 		defaultValue || {
 			image: "",
 			item: "",
-			days: ""
+			expirationInfo: "",
+			daysUntilExpiration: "",
+			daysSincePurchase: ""
 		}
 	);
 	const [errors, setErrors] = useState("");
 
 	const validateForm = () => {
-		if (formState.image && formState.item && formState.days) {
+		if (
+			formState.image &&
+			formState.item &&
+			formState.expirationInfo &&
+			formState.daysUntilExpiration &&
+			formState.daysSincePurchase
+		) {
 			setErrors("");
 			return true;
 		} else {
@@ -68,8 +76,24 @@ export const Modal: React.FC<ModalProps> = ({ closeModal, onSubmit, defaultValue
 						<input name="item" onChange={handleChange} value={formState.item} />
 					</div>
 					<div className="form-group">
-						<label htmlFor="days">Days Remaining</label>
-						<input name="days" onChange={handleChange} value={formState.days} />
+						<label htmlFor="expirationInfo">Expiration Info</label>
+						<input name="expirationInfo" onChange={handleChange} value={formState.expirationInfo} />
+					</div>
+					<div className="form-group">
+						<label htmlFor="daysUntilExpiration">Days Until Expiration</label>
+						<input
+							name="daysUntilExpiration"
+							onChange={handleChange}
+							value={formState.daysUntilExpiration}
+						/>
+					</div>
+					<div className="form-group">
+						<label htmlFor="daysSincePurchase">Days Since Purchase</label>
+						<input
+							name="daysSincePurchase"
+							onChange={handleChange}
+							value={formState.daysSincePurchase}
+						/>
 					</div>
 					{errors && <div className="error">{`Please include: ${errors}`}</div>}
 					<button type="submit" className="btn" onClick={handleSubmit}>
