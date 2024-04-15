@@ -110,7 +110,7 @@ function Upload(props: any) {
 							<ArrowUpOnSquareIcon className={props.uploadIconStyles} />
 							<p className=" UploadDescription mx-20 max-w-md pt-6 text-center">
 								{" "}
-								Hit the green button down below to add items from your receipt!{" "}
+								Hit the green button down below to add items from your receipt! (only jpg, jpeg, png are supported){" "}
 							</p>
 						</div>
 					)}
