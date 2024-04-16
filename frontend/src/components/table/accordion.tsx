@@ -9,6 +9,7 @@ import classNames from "classnames";
 import React, { ReactNode, useRef, useState } from "react";
 
 import { Notifbutton } from "./notifs";
+import ProgressBar from "../fridge/ProgressBar";
 {
 	/* <th className="w-5/12 flex-none font-normal">{row.image}</th>
 <th className="w-5/12 flex-1 items-center justify-center font-normal">
@@ -62,38 +63,33 @@ export const AccordionInfo = (props: AccordionProps) => {
 
 	return (
 		<div
-			className={classNames("flex w-full items-center justify-center", props.className)}
+			className={classNames("flex w-full items-center justify-center bg-black", props.className)}
 			style={props.style}
 		>
-			<Accordion.Root className="AccordionRoot" type="single" defaultValue="item-2" collapsible>
+			<Accordion.Root className="AccordionRoot flex h-min-fit" type="single" defaultValue="item-2" collapsible>
 				<Accordion.Item className="AccordionItem w-full" value="item-1">
 					<AccordionTrigger onClick={handleButtonClick} className="truncate break-all">
-						<div className="itemimage flex w-2/12 flex-1 items-center justify-center font-normal outline-none">
-							{props.image}
-						</div>
-						<div className="itemtitle flex w-5/12 flex-1 items-start justify-start pl-0.5 font-bold outline-none">
-							{props.name}
-						</div>
-						<div className="flex w-5/12 flex-1 flex-row items-end justify-end">
-							<div className="ml-10 flex flex-none flex-col items-center justify-center">
-								<span className="DayNumber font-bold">{props.purchase}</span>
-								<span className="DaysSubtitle font-bold">Days</span>
-							</div>
-
-							<div className="flex w-5/12 flex-1 flex-row items-end justify-end">
-								<div className="ml-10 flex flex-none flex-col items-center justify-center">
-									<span className="DayNumber font-bold">{props.expiration}</span>
-									<span className="DaysSubtitle font-bold">Days</span>
+						<div className="flex flex-1 flex-col py-4">
+							<div className="flex items-center justify-between">
+								<div className="itemtitle w-11/12 flex flex-1 items-center justify-center pl-0.5 font-bold outline-none">
+									{props.name}
+								</div>
+								<div className="flex w-1/12 items-center justify-center font-normal">
+									<Notifbutton
+										daysSincePurchase={props.purchase}
+										daysUntilExpiration={props.expiration}
+										name={props.name}
+										className="z-10 justify-center"
+									></Notifbutton>
 								</div>
 							</div>
-						</div>
-						<div className="flex w-5/12 flex-1 items-center justify-center font-normal">
-							<Notifbutton
-								daysSincePurchase={props.purchase}
-								daysUntilExpiration={props.expiration}
-								name={props.name}
-								className="z-10 justify-center"
-							></Notifbutton>
+							<div className="mt-2">
+								<ProgressBar
+									daysSincePurchase={props.purchase}
+									daysUntilExpiration={props.expiration}
+									image={props.image}
+								/>
+							</div>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent className="truncate break-all">
@@ -118,7 +114,7 @@ const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerPro
 		<Accordion.Header className="AccordionHeader">
 			<Accordion.Trigger
 				className={classNames("AccordionTrigger", className)}
-				style={style}
+				style={{ height: 'auto' }}
 				{...props}
 				ref={forwardedRef}
 			>

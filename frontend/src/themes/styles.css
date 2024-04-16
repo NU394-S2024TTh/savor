@@ -307,7 +307,7 @@ h3 {
 }
 
 .expirationwrapper {
-	background-color: #f8f4f4;
+	background-color: rgba(223, 44, 44, 0.05);
 	height: 6vw;
 	border-radius: 8px;
 	font-family: "Roboto";
