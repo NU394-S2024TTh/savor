@@ -3,14 +3,17 @@ import "./Fridge.css";
 import "../../themes/styles.css";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import React, { useEffect, useState } from "react";
-
+import React, { useContext, useEffect, useState } from "react";
+import { useAuth } from "../../contexts/authcontexts";
 import { Modal } from "../table/Modal";
 import { Table } from "../table/Table";
 import { ItemRow } from "../table/Table";
 import { TEST_DATA } from "./TestData";
 
 function Fridge() {
+	const authContext = useAuth();
+	const user = authContext.currentUser;
+	const dbKey = user?.uid;
 	const [modalOpen, setModalOpen] = useState(false);
 	// if localStorage.getItem("rows"
 	//const [rows, setRows] = useState(TEST_DATA);
@@ -19,6 +22,7 @@ function Fridge() {
 		const savedRows = localStorage.getItem("rows");
 
 		// If there is data in localStorage, parse it; otherwise, use TEST_DATA
+		// If there is data in localStorage AND the user is signed in, want to combine 
 		return savedRows ? JSON.parse(savedRows) : TEST_DATA;
 	});
 	const [rowToEdit, setRowToEdit] = useState(null);
