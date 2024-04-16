@@ -10,6 +10,10 @@ Please explain in detailed steps how the reviewer can test your changes and what
 
 Please describe any additional packages you added to package.json.
 
+### Linear Issue Tracking
+
+Links SMA-XX
+
 ### Checklist
 
 - [ ] Code compiles correctly
