@@ -13,8 +13,8 @@ export default function MissingPurchaseDate({ setResponse, setNoPurchaseDate }: 
 
 	return (
 		<div className="flex h-screen flex-col items-center justify-center">
-			<div className="text-3xl font-bold">No purchase date found in the receipt ☹️</div>
-			<div className="text-2xl font-bold">Select the date below</div>
+			<div className="text-3xl font-bold text-black">No purchase date found in the receipt ☹️</div>
+			<div className="text-2xl font-bold text-black">Select the date below</div>
 			<input
 				name="purchase-date"
 				type="date"
