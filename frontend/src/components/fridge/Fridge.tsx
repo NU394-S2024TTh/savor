@@ -9,7 +9,6 @@ import { getItems, saveItems } from "../../items/items";
 import { Modal } from "../table/Modal";
 import { Table } from "../table/Table";
 import { ItemRow } from "../table/Table";
-import { TEST_DATA } from "./TestData";
 
 function Fridge() {
 	const [modalOpen, setModalOpen] = useState(false);
@@ -96,7 +95,10 @@ function Fridge() {
 
 	return (
 		<div className="Fridge flex min-h-screen flex-col items-center justify-center">
-			<div className="flex items-start justify-between" style={{width: '70vmax', maxWidth: '80vmax'}}>
+			<div
+				className="flex items-start justify-between"
+				style={{ width: "70vmax", maxWidth: "80vmax" }}
+			>
 				<div className="w-1/12"></div>
 				<div className="flex-1 text-center text-xl">
 					<div className="fridgeTitle font-bold">My Fridge</div>
@@ -118,9 +120,12 @@ function Fridge() {
 						<span className="fridgeRegular font-normal">Swipe on an item to edit or delete</span>
 					</div>
 				</div>
-				<button onClick={() => setModalOpen(true)} className="w-1/12 flex justify-end self-start -mt-2">
+				<button
+					onClick={() => setModalOpen(true)}
+					className="-mt-2 flex w-1/12 justify-end self-start"
+				>
 					<PlusCircleIcon
-						className="mb-4 h-12 w-12 cursor-pointer fill-green-500 top-0"
+						className="top-0 mb-4 h-12 w-12 cursor-pointer fill-green-500"
 						aria-hidden="true"
 					/>
 				</button>
