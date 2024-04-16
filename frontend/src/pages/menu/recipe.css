@@ -1,0 +1,24 @@
+.recipe_card {
+    background-color: '#fff';
+    border-radius: 8px;
+    padding: '16px';
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+}
+
+.modal {
+    border-radius: 5px;
+	padding: 2rem;
+	background-color: white;
+	width: 25em;
+}
+
+.image {
+    width: '20%';
+    height: 'auto';
+    border-radius: 8px;
+}
+
+.ingredientlist {
+    margin-top: '8px';
+}
