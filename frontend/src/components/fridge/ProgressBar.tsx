@@ -39,7 +39,7 @@ const ProgressBar = ({ daysSincePurchase, daysUntilExpiration, image }: Progress
 	}, [filledPercentage]);
 
 	// Tracks whether item is in the fridge for too long/is likely expired
-	const isExpired = useMemo(() => 0 <= 0, [daysUntilExpiration]);
+	const isExpired = useMemo(() => daysUntilExpiration <= 0, [daysUntilExpiration]);
 
 	return (
 		<div className="relative mt-8 flex items-center px-16 py-4">

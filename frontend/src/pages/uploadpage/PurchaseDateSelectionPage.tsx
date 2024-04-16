@@ -1,18 +1,22 @@
 import { useState } from "react";
+
 import { Response } from "./UploadPage";
 
 interface PurchaseDateSelectionPageProps {
-	setResponse: React.Dispatch<React.SetStateAction<Response | null>>;
+	setResponse: React.Dispatch<React.SetStateAction<Response>>;
 	setNoPurchaseDate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function PurchaseDateSelectionPage({ setResponse, setNoPurchaseDate }: PurchaseDateSelectionPageProps) {
+export default function PurchaseDateSelectionPage({
+	setResponse,
+	setNoPurchaseDate
+}: PurchaseDateSelectionPageProps) {
 	const [purchaseDate, setPurchaseDate] = useState(new Date().toISOString().substring(0, 10));
 
 	const onClick = () => {
 		// use the value of the input field to set the purchase date
 		// set the purchase date in the response object
-		setResponse((response: any) => ({ ...response, purchaseDate: purchaseDate.toString() }));
+		setResponse((response: Response) => ({ ...response, purchaseDate: purchaseDate.toString() }));
 		// set the noPurchaseDate to false
 		setNoPurchaseDate(false);
 	};
