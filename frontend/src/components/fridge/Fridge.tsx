@@ -5,6 +5,7 @@ import "../../themes/styles.css";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import React, { useEffect, useState } from "react";
 
+import { getItems, saveItems } from "../../items/items";
 import { Modal } from "../table/Modal";
 import { Table } from "../table/Table";
 import { ItemRow } from "../table/Table";
@@ -19,7 +20,7 @@ function Fridge() {
 		const savedRows = localStorage.getItem("rows");
 
 		// If there is data in localStorage, parse it; otherwise, use TEST_DATA
-		return savedRows ? JSON.parse(savedRows) : TEST_DATA;
+		return savedRows ? JSON.parse(savedRows) : [];
 	});
 	const [rowToEdit, setRowToEdit] = useState(null);
 
@@ -32,6 +33,7 @@ function Fridge() {
 				setRows(() => {
 					const updatedRows = JSON.parse(customEvent.detail.value);
 					console.log("At the listener", updatedRows);
+					saveItems(updatedRows);
 					// This update will cause a re-render
 					return updatedRows;
 				});
@@ -42,8 +44,24 @@ function Fridge() {
 		window.addEventListener("SessionStorageChange", handleSessionStorageChange);
 	}, []);
 
+	useEffect(() => {
+		const loadItems = async () => {
+			const items = await getItems();
+			if (items != null) {
+				setRows(() => {
+					const stringifiedRows = JSON.stringify(items);
+					localStorage.setItem("rows", stringifiedRows);
+					return items;
+				});
+			}
+		};
+		loadItems();
+	}, []);
+
 	const handleDeleteRow = (targetIndex: number) => {
-		setRows(rows.filter((_: any, idx: number) => idx !== targetIndex));
+		const updatedRows = rows.filter((_: any, idx: number) => idx !== targetIndex);
+		setRows(updatedRows);
+		saveItems(updatedRows);
 		localStorage.setItem(
 			"rows",
 			JSON.stringify(rows.filter((_: any, idx: number) => idx !== targetIndex))
@@ -58,19 +76,21 @@ function Fridge() {
 
 	const handleSubmit = (newRow: any) => {
 		if (rowToEdit === null) {
-			setRows([...rows, newRow]);
-			localStorage.setItem("rows", JSON.stringify([...rows, newRow]));
+			const allRows = [...rows, newRow];
+			setRows(allRows);
+			saveItems(allRows);
+			localStorage.setItem("rows", JSON.stringify(allRows));
 		} else {
-			setRows(
-				rows.map((currRow: ItemRow, idx: number) => {
-					if (idx !== rowToEdit) {
-						return currRow;
-					} else {
-						return newRow;
-					}
-				})
-			);
-			localStorage.setItem("rows", JSON.stringify(rows));
+			const afterEditRows = rows.map((currRow: ItemRow, idx: number) => {
+				if (idx !== rowToEdit) {
+					return currRow;
+				} else {
+					return newRow;
+				}
+			});
+			setRows(afterEditRows);
+			saveItems(afterEditRows);
+			localStorage.setItem("rows", JSON.stringify(afterEditRows));
 		}
 	};
 
