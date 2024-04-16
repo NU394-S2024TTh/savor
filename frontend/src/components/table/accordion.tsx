@@ -63,15 +63,16 @@ export const AccordionInfo = (props: AccordionProps) => {
 
 	return (
 		<div
-			className={classNames("flex w-full items-center justify-center bg-black", props.className)}
+			className={classNames("flex w-1/2 items-center justify-center bg-black", props.className)}
 			style={props.style}
 		>
 			<Accordion.Root className="AccordionRoot flex h-min-fit" type="single" defaultValue="item-2" collapsible>
 				<Accordion.Item className="AccordionItem w-full" value="item-1">
 					<AccordionTrigger onClick={handleButtonClick} className="truncate break-all">
-						<div className="flex flex-1 flex-col py-4">
+						<div className="flex flex-1 flex-col py-4 w-full">
 							<div className="flex items-center justify-between">
-								<div className="itemtitle w-11/12 flex flex-1 items-center justify-center pl-0.5 font-bold outline-none">
+								<div className="w-1/12"></div>
+								<div className="itemtitle w-10/12 flex flex-1 items-center justify-center pl-0.5 font-bold outline-none">
 									{props.name}
 								</div>
 								<div className="flex w-1/12 items-center justify-center font-normal">
