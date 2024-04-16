@@ -49,13 +49,7 @@ function Upload(props: any) {
 	const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
 
 	// let response = {} as Response;
-	const [response, setResponse] = useState<Response>({
-		items: [],
-		unicodes: [],
-		expirationInfo: [],
-		expirationDays: [],
-		purchaseDate: ""
-	});
+	const [response, setResponse] = useState<Response | null>(null);
 
 	const onChange = async (imageList: any, addUpdateIndex: any) => {
 		// data for submit
