@@ -1,11 +1,9 @@
-import CryptoJS from 'crypto-js';
-import { database } from '../firebase/firebase';
-import { getDatabase, ref, get } from "firebase/database";
+import CryptoJS from "crypto-js";
+import { get, getDatabase, ref } from "firebase/database";
 
 // redefine to whatever key you want, follow AES key encryption rules. these are stock and are not safe
 var key = "6268890F-9B58-484C-8CDC-34F9C6A9";
 var iv = "6268890F-9B58-48";
-
 
 function decryptAES(ciphertext, key, iv) {
 	var ciphertextWA = CryptoJS.enc.Hex.parse(ciphertext);
@@ -24,23 +22,23 @@ function decryptAES(ciphertext, key, iv) {
 // }
 
 async function getEncryptedAPIKey() {
-    const database = getDatabase();
-    try {
-        const snapshot = await get(ref(database, "/openai_api_key"));
-        if (snapshot.exists()) {
-            const data = snapshot.val();
-            return data;
-        } else {
-            return null; // or appropriate fallback value
-        }
-    } catch (error) {
-        console.error(error);
-        return null; // or re-throw the error, depending on how you want to handle failures
-    }
+	const database = getDatabase();
+	try {
+		const snapshot = await get(ref(database, "/openai_api_key"));
+		if (snapshot.exists()) {
+			const data = snapshot.val();
+			return data;
+		} else {
+			return null; // or appropriate fallback value
+		}
+	} catch (error) {
+		console.error(error);
+		return null; // or re-throw the error, depending on how you want to handle failures
+	}
 }
 
 export async function getOpenAIAPIKey() {
-    const encryptedKey = await getEncryptedAPIKey();
-    const apiKey = decryptAES(encryptedKey, key, iv);
-    return apiKey;
+	const encryptedKey = await getEncryptedAPIKey();
+	const apiKey = decryptAES(encryptedKey, key, iv);
+	return apiKey;
 }
