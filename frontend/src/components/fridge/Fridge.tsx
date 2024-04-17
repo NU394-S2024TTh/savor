@@ -3,17 +3,21 @@ import "./Fridge.css";
 import "../../themes/styles.css";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import React, { useContext, useEffect, useState } from "react";
-import { useAuth } from "../../contexts/authcontexts";
+import { get, onValue, set, ref } from "firebase/database";
+import React, { useEffect, useState } from "react";
+
+import { useUserRef } from "../../firebase/firebasefunctions";
 import { Modal } from "../table/Modal";
 import { Table } from "../table/Table";
 import { ItemRow } from "../table/Table";
 import { TEST_DATA } from "./TestData";
+import { useAuth } from "../../contexts/authcontexts";
+import { database } from "../../firebase/firebase";
 
 function Fridge() {
-	const authContext = useAuth();
-	const user = authContext.currentUser;
-	const dbKey = user?.uid;
+	const dbUserId = useAuth().currentUser?.uid;
+	const dbRef = ref(database, dbUserId);
+	//const dbRef = useUserRef();
 	const [modalOpen, setModalOpen] = useState(false);
 	// if localStorage.getItem("rows"
 	//const [rows, setRows] = useState(TEST_DATA);
@@ -22,13 +26,31 @@ function Fridge() {
 		const savedRows = localStorage.getItem("rows");
 
 		// If there is data in localStorage, parse it; otherwise, use TEST_DATA
-		// If there is data in localStorage AND the user is signed in, want to combine 
+		// If there is data in localStorage AND the user is signed in, want to combine
 		return savedRows ? JSON.parse(savedRows) : TEST_DATA;
 	});
 	const [rowToEdit, setRowToEdit] = useState(null);
-
+	useEffect(() => {
+		// setting db every time rows changes
+		if (rows) {
+			set(dbRef, rows);
+		}
+	}, [rows]);
+	useEffect(() => {
+		// setting state from DB at first
+		get(dbRef)
+			.then((snapshot) => {
+				if (snapshot.exists()) {
+					setRows(snapshot.val());
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}, []);
 	useEffect(() => {
 		// Define the event listener function
+
 		const handleSessionStorageChange = (event: Event) => {
 			const customEvent = event as CustomEvent<any>;
 			if (customEvent.detail.key === "rows") {

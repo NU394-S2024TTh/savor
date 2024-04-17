@@ -4,11 +4,14 @@ import "../../themes/styles.css";
 
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { update } from "firebase/database";
+import { onValue, ref, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
 
 import { TEST_DATA } from "../../components/fridge/TestData";
 import { ItemRow } from "../../components/table/Table";
+import { database } from "../../firebase/firebase";
+import { useUserRef } from "../../firebase/firebasefunctions";
 import processImage from "../../process/extract.mjs";
 import LoadingPage from "./LoadingPage";
 import MissingPurchaseDate from "./MissingPurchaseDate";
@@ -65,7 +68,7 @@ function Upload(props: any) {
 		const res = await processImage(images[0]["data_url"]);
 		// alert(Object.prototype.toString.call(res));
 		// delay for 2 seconds
-		await new Promise((resolve) => setTimeout(resolve, 2000));  // TODO: this is a workaround for now
+		await new Promise((resolve) => setTimeout(resolve, 2000)); // TODO: this is a workaround for now
 		setResponse(res);
 		// testing with fake data without using API
 		// await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -108,8 +111,14 @@ function Upload(props: any) {
 		}
 		console.log("newRows");
 		console.log(newRows);
+
 		setRows([...rows, ...newRows]);
 
+		const userRef = useUserRef();
+		if(userRef){
+			set(userRef, rows);
+		}
+		
 		const currentRows = JSON.parse(localStorage.getItem("rows") || "[]");
 		const updatedRows = [...currentRows, ...newRows];
 		const stringifiedUpdatedRows = JSON.stringify(updatedRows);
