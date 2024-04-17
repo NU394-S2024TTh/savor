@@ -31,7 +31,7 @@ export default function PurchaseDateSelectionPage({
 			}
 			// Update the purchaseDate within the existing response object
 			return { ...response, purchaseDate: purchaseDate.toString() };
-		  });
+		});
 		// set the noPurchaseDate to false
 		setNoPurchaseDate(false);
 	};
