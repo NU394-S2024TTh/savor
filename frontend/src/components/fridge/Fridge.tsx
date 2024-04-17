@@ -6,18 +6,18 @@ import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { get, onValue, set, ref } from "firebase/database";
 import React, { useEffect, useState } from "react";
 
-import { useUserRef } from "../../firebase/firebasefunctions";
+
 import { Modal } from "../table/Modal";
 import { Table } from "../table/Table";
 import { ItemRow } from "../table/Table";
 import { TEST_DATA } from "./TestData";
 import { useAuth } from "../../contexts/authcontexts";
 import { database } from "../../firebase/firebase";
+import { useUserItemsRef } from "../../firebase/firebasefunctions";
 
 function Fridge() {
-	const dbUserId = useAuth().currentUser?.uid;
-	const dbRef = ref(database, dbUserId);
-	//const dbRef = useUserRef();
+	
+	const dbRef = useUserItemsRef();
 	const [modalOpen, setModalOpen] = useState(false);
 	// if localStorage.getItem("rows"
 	//const [rows, setRows] = useState(TEST_DATA);
@@ -42,6 +42,8 @@ function Fridge() {
 			.then((snapshot) => {
 				if (snapshot.exists()) {
 					setRows(snapshot.val());
+				}else{
+					setRows(TEST_DATA);
 				}
 			})
 			.catch((error) => {

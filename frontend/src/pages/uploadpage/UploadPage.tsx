@@ -11,7 +11,7 @@ import ImageUploading from "react-images-uploading";
 import { TEST_DATA } from "../../components/fridge/TestData";
 import { ItemRow } from "../../components/table/Table";
 import { database } from "../../firebase/firebase";
-import { useUserRef } from "../../firebase/firebasefunctions";
+import { useUserItemsRef } from "../../firebase/firebasefunctions";
 import processImage from "../../process/extract.mjs";
 import LoadingPage from "./LoadingPage";
 import MissingPurchaseDate from "./MissingPurchaseDate";
@@ -50,7 +50,7 @@ function Upload(props: any) {
 	const [noPurchaseDate, setNoPurchaseDate] = useState(false);
 
 	const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
-
+	const userRef = useUserItemsRef();
 	// let response = {} as Response;
 	const [response, setResponse] = useState<Response | null>(null);
 
@@ -114,7 +114,7 @@ function Upload(props: any) {
 
 		setRows([...rows, ...newRows]);
 
-		const userRef = useUserRef();
+		
 		if(userRef){
 			set(userRef, rows);
 		}
