@@ -2,15 +2,15 @@
 import "../../themes/styles.css";
 
 //import { HomeIcon, PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons';
-import { ArrowUpTrayIcon, HomeIcon, UserIcon, BookOpenIcon } from "@heroicons/react/24/outline";
+import { ArrowUpTrayIcon, BookOpenIcon, HomeIcon, UserIcon } from "@heroicons/react/24/outline";
 import React, { ReactElement, useEffect, useState } from "react";
 
 import Fridge from "../../components/fridge/Fridge";
+import MenuPage from "../menu/menu";
 // Import other components for the 'profile' and 'upload' pages
 //import Profile from '../profile/Profile';
 import UploadPage from "../uploadpage/UploadPage";
 import { TabItem } from "./TabItem";
-import MenuPage from "../menu/menu";
 
 type TabName = "fridge" | "profile" | "upload" | "additem" | "menu";
 
@@ -52,7 +52,7 @@ function Homepage() {
 			<div className="z-10 w-full flex-1">
 				{React.cloneElement(tabComponents[activeTab], { key: updateTime.toISOString() })}
 			</div>
-			<div className="fixed top-5 left-5 z-50 px-4 py-2">
+			<div className="fixed left-5 top-5 z-50 px-4 py-2">
 				<TabItem
 					IconName={UserIcon}
 					active={activeTab === "profile"}

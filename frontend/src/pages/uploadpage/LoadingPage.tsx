@@ -28,11 +28,12 @@ function LoadingPage() {
 			{" "}
 			{/* Center the loader */}
 			<img src={watermelon} alt="loading..." />
-			<p className="text-lg text-gray-600">Loading, please wait... This may take a few moments.</p>{" "}
+			<p className="text-lg text-gray-600">
+				Loading, please wait... This may take a few moments.
+			</p>{" "}
 			{/* Loading message */}
 		</div>
 	);
 }
 
 export default LoadingPage;
-
