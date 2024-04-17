@@ -109,7 +109,7 @@ const SwipeToRevealActions: React.FC<Props> = ({
 	}, [parentRef]);
 
 	return (
-		<div className="rstra-container min-h-fit" style={{ ...containerStyle }}>
+		<div className="rstra-container" style={{ ...containerStyle }}>
 			<div {...handlers}>
 				<div className="flex flex-row" ref={parentRef}>
 					<AccordionInfo

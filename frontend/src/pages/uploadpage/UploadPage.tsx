@@ -11,7 +11,7 @@ import { TEST_DATA } from "../../components/fridge/TestData";
 import { ItemRow } from "../../components/table/Table";
 import processImage from "../../process/extract.mjs";
 import LoadingPage from "./LoadingPage";
-import MissingPurchaseDate from "./MissingPurchaseDate";
+import PurchaseDateSelectionPage from "./PurchaseDateSelectionPage";
 
 function diff_days(purchaseDate: string) {
 	const today = new Date();
@@ -30,7 +30,7 @@ function UploadPage() {
 	);
 }
 
-interface Response {
+export interface Response {
 	items: string[];
 	unicodes: string[];
 	expirationInfo: string[];
@@ -65,7 +65,7 @@ function Upload(props: any) {
 		const res = await processImage(images[0]["data_url"]);
 		// alert(Object.prototype.toString.call(res));
 		// delay for 2 seconds
-		await new Promise((resolve) => setTimeout(resolve, 2000));  // TODO: this is a workaround for now
+		await new Promise((resolve) => setTimeout(resolve, 2000)); // TODO: this is a workaround for now
 		setResponse(res);
 		// testing with fake data without using API
 		// await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -213,7 +213,7 @@ function Upload(props: any) {
 							))}
 						{loading && !noPurchaseDate && <LoadingPage></LoadingPage>}
 						{noPurchaseDate && (
-							<MissingPurchaseDate
+							<PurchaseDateSelectionPage
 								setResponse={setResponse}
 								setNoPurchaseDate={setNoPurchaseDate}
 							/>
