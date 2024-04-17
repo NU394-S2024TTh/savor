@@ -8,7 +8,7 @@ async function processFood(FoodItems, numRecipes) {
 	const GPTcall = new ChatOpenAI({
 		modelName: "gpt-3.5-turbo",
 		maxOutputTokens: 2048,
-		openAIApiKey: apiKey
+		openAIApiKey: apiKey // replace with api key from important docs/files 
 	});
 
 	const input = [
@@ -45,8 +45,26 @@ async function processFood(FoodItems, numRecipes) {
 
 	const res3 = await GPTcall.invoke(ELORanker);
 	console.log(res3.content);
+
+	const regex = /Name: (.+)\nWhat you have: (.+)\nWhat you need: (.+)\nSteps: (.+)/;
+
+	const [, name, have, need, steps] = res3.content.match(regex);
+
+	const stepsArray = steps
+		.split(/\d+\./)
+		.map((step) => step.trim())
+		.filter((step) => step !== "");
+
+	const outputObject = {
+		name: name.trim(),
+		what_you_have: have.split(",").map((item) => item.trim()),
+		what_you_need: need.split(",").map((item) => item.trim()),
+		steps: stepsArray
+	};
+
+	console.log(outputObject);
 }
 
 const foods = ["Bread", "Avocado", "Eggs", "Butter"];
 
-processFood(foods, 2);
+processFood(foods, 1);
