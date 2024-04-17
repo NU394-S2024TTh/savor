@@ -21,7 +21,7 @@
 //         </div>
 //     );
 // }
-
+import Fridge from '../../components/fridge/Fridge';
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -31,73 +31,98 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import "../../themes/styles.css";
 import { CardActionArea } from '@mui/material';
+import { useState } from 'react';
+import { set } from 'firebase/database';
 
-function Recipe({ recipe }: { recipe: any }) {
-    // return (
-    //     <div style={{ padding: 30, display: 'flex', justifyContent: 'center' }}>
-    //         <Card sx={{ width: 0.6, pb: 5 }}>
-    //             <CardActionArea>
-    //                 {/* <CardMedia
-    //                 sx={{ height: 140 }}
-    //                 image={recipe.image}
-    //                 title={recipe.name}
-    //             /> */}
-    //                 <div className=" pt-6 flex w-11/12 items-center justify-center">
-    //                     <div className=" flex w-3/12 items-center justify-center text-5xl">
-    //                         {recipe.image}
-    //                     </div>
+interface RecipeProps {
+    recipe: any;
+    recipeIndex: number;
+    recipeOpen: number;
+    handleOpen: (index: number) => void;
+    handleClose: () => void;
+}
 
-    //                     <Typography gutterBottom variant="h6" component="div">
-    //                         {recipe.name}
-    //                     </Typography>
-    //                 </div>
-    //                 <CardContent>
-    //                     <Typography variant="body2" color="text.secondary" justifyContent="center">
-    //                         <div className='AccordionContent'>
-    //                             <p>Available Ingredients: {recipe.availableIngredients.join(' ')}</p>
-    //                             {recipe.missingIngredients.length > 0 && (
-    //                                 <p>Missing Ingredients: {recipe.missingIngredients.join(' ')}</p>
-    //                             )}
-    //                             {recipe.inStock && (
-    //                                 <p>{`${recipe.inStock}/${recipe.totalIngredients} Ingredients In Stock`}</p>
-    //                             )}
-    //                         </div>
-    //                     </Typography>
-    //                 </CardContent>
-    //             </CardActionArea>
-    //         </Card>
-    //     </div >
-    // );
-    return (
-        <Card sx={{}} style={{ padding: 1 }} >
-            <CardActionArea>
-                <CardMedia>
-                    <div className=" pl-6 pt-6 w-11/12 items-center justify-center">
-                        <div className="  w-3/12 items-center justify-center text-5xl">
-                            {recipe.image}
-                        </div>
+function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: RecipeProps) {
 
-                        <Typography gutterBottom variant="h6" component="div">
-                            {recipe.name}
-                        </Typography>
-                    </div>
-                </CardMedia>
-                <CardContent>
-                    <Typography variant="body2" color="text.secondary" justifyContent="center">
-                        <div className='AccordionContent'>
-                            <p>Available Ingredients: {recipe.availableIngredients.join(' ')}</p>
-                            {recipe.missingIngredients.length > 0 && (
-                                <p>Missing Ingredients: {recipe.missingIngredients.join(' ')}</p>
-                            )}
-                            {recipe.inStock && (
-                                <p>{`${recipe.inStock}/${recipe.totalIngredients} Ingredients In Stock`}</p>
-                            )}
-                        </div>
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-        </Card>
-    );
+    if (recipeOpen == -1) {
+        return (
+            <div onClick={() => handleOpen(recipeIndex)}>
+                <Card sx={{ backgroundColor: "white" }} style={{ padding: 1 }} >
+                    <CardActionArea LinkComponent={Fridge}>
+                        <CardMedia>
+                            <div className=" pl-6 pt-6 w-11/12 items-center justify-center">
+                                <div className="  w-3/12 items-center justify-center text-5xl">
+                                    {recipe.image}
+                                </div>
+
+                                <Typography gutterBottom variant="h6" component="div">
+                                    {recipe.name}
+                                </Typography>
+                            </div>
+                        </CardMedia>
+                        <CardContent>
+                            <Typography variant="body2" color="text.secondary" justifyContent="center">
+                                <div className='AccordionContent'>
+                                    <p>Available Ingredients: {recipe.availableIngredients.join(' ')}</p>
+                                    {recipe.missingIngredients.length > 0 && (
+                                        <p>Missing Ingredients: {recipe.missingIngredients.join(' ')}</p>
+                                    )}
+                                    {recipe.inStock && (
+                                        <p>{`${recipe.inStock}/${recipe.totalIngredients} Ingredients In Stock`}</p>
+                                    )}
+                                </div>
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            </div>
+        );
+    }
+    else if (recipeOpen == recipeIndex) {
+        return (
+            <>
+                <div onClick={handleClose}>
+                    <Card sx={{ backgroundColor: "white" }} style={{ padding: 1 }} >
+                        <CardActionArea LinkComponent={Fridge}>
+                            <CardMedia>
+                                <div className=" pl-6 pt-6 w-11/12 items-center justify-center">
+                                    <div className="  w-3/12 items-center justify-center text-5xl">
+                                        {recipe.image}
+                                    </div>
+
+                                    <Typography gutterBottom variant="h6" component="div">
+                                        {recipe.name}
+                                    </Typography>
+                                </div>
+                            </CardMedia>
+                            <CardContent>
+                                <Typography variant="body2" color="text.secondary" justifyContent="center">
+                                    <div className='AccordionContent'>
+                                        <p>Available Ingredients: {recipe.availableIngredients.join(' ')}</p>
+                                        {recipe.missingIngredients.length > 0 && (
+                                            <p>Missing Ingredients: {recipe.missingIngredients.join(' ')}</p>
+                                        )}
+                                        {recipe.inStock && (
+                                            <p>{`${recipe.inStock}/${recipe.totalIngredients} Ingredients In Stock`}</p>
+                                        )}
+                                    </div>
+                                </Typography>
+
+                                {recipe.recipe}
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
+                </div>
+            </>
+        );
+    }
+
+    else {
+        return (
+            <>
+            </>
+        );
+    }
 }
 
 
