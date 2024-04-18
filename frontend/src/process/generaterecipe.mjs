@@ -2,10 +2,7 @@ import { HumanMessage } from "@langchain/core/messages";
 import { ChatOpenAI } from "@langchain/openai";
 
 import { getOpenAIAPIKey } from "./encryptdecrypt.mjs";
-
-export default async function processFood(FoodItems, numRecipes) {
-	//fooditems is a list of strings of food names. numRecipes is the number of recipes you want generated. It's capped at 5, but that can be changed in prompting below.
-	//returns array of values, consisting of the recipe name, what you have, what you need, and the steps.
+async function processFood(FoodItems, numRecipes) {
 	const apiKey = await getOpenAIAPIKey();
 	const GPTcall = new ChatOpenAI({
 		modelName: "gpt-3.5-turbo",
@@ -30,7 +27,6 @@ export default async function processFood(FoodItems, numRecipes) {
 	];
 
 	const res2 = await GPTcall.invoke(input);
-	console.log(res2.content);
 
 	const ELORanker = [
 		new HumanMessage({
@@ -38,7 +34,7 @@ export default async function processFood(FoodItems, numRecipes) {
 				{
 					type: "text",
 					text:
-						`I need assistance in choosing the best ${numRecipes} recipes out of these 5. Please select the top ${numRecipes} recipe(s) that are the most realistic. Consider parameters such as amounts used, flavor blends, as well as how well they mirror real world recipes. Once you select the top ${numRecipes} recipe(s), please simply reprint them; no rationale is needed. Please keep all keys and values intact. Do not omit anything from the recipe, including the 'Name:' portion. Here are the recipes: \n` +
+						`I need assistance in choosing the best ${numRecipes} recipes out of these 5. Please select the top ${numRecipes} recipe(s) that are the most realistic. Consider parameters such as amounts used, flavor blends, as well as how well they mirror real world recipes. Once you select the top ${numRecipes} recipe(s), please simply reprint them; no rationale is needed. Please keep all keys and values intact. Do not omit anything from the recipe text, including the 'Name:' portion. Here are the recipes: \n` +
 						`${res2.content}`
 				}
 			]
@@ -46,24 +42,29 @@ export default async function processFood(FoodItems, numRecipes) {
 	];
 
 	const res3 = await GPTcall.invoke(ELORanker);
-	console.log(res3.content);
 
 	const regex =
-		/name:\s*([^]+?)\s*what you have:\s*([^]+?)\s*what you need:\s*([^]+?)\s*steps:\s*([^]+)/i;
-	const item = [];
-	const have = [];
-	const need = [];
-	const steps = [];
+		/name:\s*([^]+?)\s*what you have:\s*([^]+?)\s*what you need:\s*([^]+?)\s*steps:\s*([^]+)/gi;
 
-	const match = res3.content.match(regex);
-	if (match) {
-		const [, name, whatYouHave, whatYouNeed, Rsteps] = match;
-		item.push(name.trim());
-		have.push(whatYouHave.trim());
-		need.push(whatYouNeed.trim());
-		steps.push(Rsteps.trim());
-		return { item, have, need, steps };
-	} else {
-		return "No Match Found.";
+	const matches = res3.content.matchAll(regex);
+
+	const recipes = [];
+
+	for (const match of matches) {
+		const [, name, whatYouHave, whatYouNeed, steps] = match;
+		const have = whatYouHave.trim().split(", ");
+		const need = whatYouNeed.trim().split(", ");
+		const stepsArray = steps
+			.trim()
+			.split(/\d+\./)
+			.map((step) => step.trim())
+			.filter((step) => step !== "");
+
+		recipes.push({ name: name.trim(), have, need, steps: stepsArray });
 	}
+
+	return recipes.length > 0 ? recipes : "No Recipes Found.";
 }
+
+const fooditems = ["Bread", "Avocado", "Butter", "Eggs"];
+console.log(await processFood(fooditems, 1));
