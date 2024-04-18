@@ -7,6 +7,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 
 import Fridge from "../../components/fridge/Fridge";
 import MenuPage from "../menu/menu";
+import LoginPage from "../profilepage/loginpage";
 // Import other components for the 'profile' and 'upload' pages
 //import Profile from '../profile/Profile';
 import UploadPage from "../uploadpage/UploadPage";
@@ -17,7 +18,7 @@ type TabName = "fridge" | "profile" | "upload" | "additem" | "menu";
 const tabComponents: Record<TabName, ReactElement> = {
 	// obviously change this once we have upload and profile components
 	fridge: <Fridge />,
-	profile: <Fridge />,
+	profile: <LoginPage />,
 	upload: <UploadPage />, // TODO: add another item for adding manual items
 	additem: <UploadPage />,
 	menu: <MenuPage />
@@ -33,7 +34,6 @@ function Homepage() {
 			if (customEvent.detail.key === "rows") {
 				// Set updateTime to the current date and time, which triggers a re-render
 				setUpdateTime(new Date());
-				console.log("HEERREEEE");
 
 				// do this b/c reloading helps...
 				window.location.reload();
