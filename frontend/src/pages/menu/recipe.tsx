@@ -48,6 +48,7 @@ interface RecipeProps {
 }
 
 function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: RecipeProps) {
+	console.log(recipe);
 	if (recipeOpen == -1) {
 		return (
 			<div onClick={() => handleOpen(recipeIndex)}>
@@ -99,9 +100,9 @@ function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: Re
 							<CardContent>
 								<Typography variant="body2" color="text.secondary" justifyContent="center">
 									<div className="AccordionContent">
-										<p>Available Ingredients: {recipe.availableIngredients.join(" ")}</p>
+										<p>Available Ingredients: {recipe.availableIngredients.join(", ")}</p>
 										{recipe.missingIngredients.length > 0 && (
-											<p>Missing Ingredients: {recipe.missingIngredients.join(" ")}</p>
+											<p>Missing Ingredients: {recipe.missingIngredients.join(", ")}</p>
 										)}
 										{recipe.inStock && (
 											<p>{`${recipe.inStock}/${recipe.totalIngredients} Ingredients In Stock`}</p>

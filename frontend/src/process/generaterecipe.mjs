@@ -2,7 +2,10 @@ import { HumanMessage } from "@langchain/core/messages";
 import { ChatOpenAI } from "@langchain/openai";
 
 import { getOpenAIAPIKey } from "./encryptdecrypt.mjs";
-async function processFood(FoodItems, numRecipes) {
+
+export default async function processFood(FoodItems, numRecipes) {
+	//fooditems is a list of strings of food names. numRecipes is the number of recipes you want generated. It's capped at 5, but that can be changed in prompting below.
+	//returns array of values, consisting of the recipe name, what you have, what you need, and the steps.
 	const apiKey = await getOpenAIAPIKey();
 	const GPTcall = new ChatOpenAI({
 		modelName: "gpt-3.5-turbo",
@@ -27,6 +30,7 @@ async function processFood(FoodItems, numRecipes) {
 	];
 
 	const res2 = await GPTcall.invoke(input);
+	// console.log(res2.content);
 
 	const ELORanker = [
 		new HumanMessage({
@@ -34,8 +38,9 @@ async function processFood(FoodItems, numRecipes) {
 				{
 					type: "text",
 					text:
-						`I need assistance in choosing the best ${numRecipes} recipes out of these 5. Please select the top ${numRecipes} recipe(s) that are the most realistic. Consider parameters such as amounts used, flavor blends, as well as how well they mirror real world recipes. Once you select the top ${numRecipes} recipe(s), please simply reprint them; no rationale is needed. Please keep all keys and values intact. Do not omit anything from the recipe text, including the 'Name:' portion. Here are the recipes: \n` +
-						`${res2.content}`
+						`I need assistance in choosing the best ${numRecipes} recipes out of these 5. Please select the top ${numRecipes} recipe(s) that are the most realistic. Consider parameters such as amounts used, flavor blends, as well as how well they mirror real world recipes. Once you select the top ${numRecipes} recipe(s), please simply reprint them; no rationale is needed. Please keep all keys and values intact. Do not omit anything from the recipe, including the 'Name:' portion. Here are the recipes: \n` +
+						`${res2.content}` + 
+						"Then output those in json string format with variables name, whatYouHave (list of string), whatYouNeed (list of string), and steps (list of string). Make sure the variables are in camel case."
 				}
 			]
 		})
@@ -43,28 +48,9 @@ async function processFood(FoodItems, numRecipes) {
 
 	const res3 = await GPTcall.invoke(ELORanker);
 
-	const regex =
-		/name:\s*([^]+?)\s*what you have:\s*([^]+?)\s*what you need:\s*([^]+?)\s*steps:\s*([^]+)/gi;
-
-	const matches = res3.content.matchAll(regex);
-
-	const recipes = [];
-
-	for (const match of matches) {
-		const [, name, whatYouHave, whatYouNeed, steps] = match;
-		const have = whatYouHave.trim().split(", ");
-		const need = whatYouNeed.trim().split(", ");
-		const stepsArray = steps
-			.trim()
-			.split(/\d+\./)
-			.map((step) => step.trim())
-			.filter((step) => step !== "");
-
-		recipes.push({ name: name.trim(), have, need, steps: stepsArray });
-	}
-
-	return recipes.length > 0 ? recipes : "No Recipes Found.";
+	const recipes = JSON.parse(res3.content);
+	console.log(recipes);
+	return recipes;
 }
 
-const fooditems = ["Bread", "Avocado", "Butter", "Eggs"];
-console.log(await processFood(fooditems, 1));
+// processFood(["broccoli", "garlic", "oil"], 3);
