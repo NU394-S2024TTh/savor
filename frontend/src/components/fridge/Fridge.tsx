@@ -3,17 +3,16 @@ import "./Fridge.css";
 import "../../themes/styles.css";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { get, onValue, set, ref } from "firebase/database";
+import { get, onValue, ref, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
 
-
+import { useAuth } from "../../contexts/authcontexts";
+import { database } from "../../firebase/firebase";
+import { useUserItemsRef } from "../../firebase/firebasefunctions";
 import { Modal } from "../table/Modal";
 import { Table } from "../table/Table";
 import { ItemRow } from "../table/Table";
 import { TEST_DATA } from "./TestData";
-import { useAuth } from "../../contexts/authcontexts";
-import { database } from "../../firebase/firebase";
-import { useUserItemsRef } from "../../firebase/firebasefunctions";
 
 function Fridge() {
 	const dbRef = useUserItemsRef();
@@ -24,23 +23,25 @@ function Fridge() {
 	const [rowToEdit, setRowToEdit] = useState(null);
 	useEffect(() => {
 		// Fetch existing data from the database and set it to rows
-		get(dbRef).then((snapshot) => {
-		  if (snapshot.exists()) {
-			setRows(snapshot.val());
-		  } else {
-			console.log("No data available");
-		  }
-		}).catch((error) => {
-		  console.error(error);
-		});
-	  }, []); // Empty dependency array to only run once on mount
-	  
-	  useEffect(() => {
+		get(dbRef)
+			.then((snapshot) => {
+				if (snapshot.exists()) {
+					setRows(snapshot.val());
+				} else {
+					console.log("No data available");
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}, []); // Empty dependency array to only run once on mount
+
+	useEffect(() => {
 		// Update the database whenever rows changes, except for the initial fetch
 		if (rows && rows.length != 0) {
-		  set(dbRef, rows);
+			set(dbRef, rows);
 		}
-	  }, [rows]);
+	}, [rows]);
 	useEffect(() => {
 		// Define the event listener function
 

@@ -4,7 +4,7 @@ import "../../themes/styles.css";
 
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { update } from "firebase/database";
-import { onValue, ref, get,  set } from "firebase/database";
+import { get, onValue, ref, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
 
@@ -126,9 +126,7 @@ function Upload(props: any) {
 		console.log(newRows);
 
 		setRows([...rows, ...newRows]);
-		
 
-		
 		const currentRows = JSON.parse(localStorage.getItem("rows") || "[]");
 		const updatedRows = [...currentRows, ...newRows];
 		set(userRef, [...rows, ...newRows]);
