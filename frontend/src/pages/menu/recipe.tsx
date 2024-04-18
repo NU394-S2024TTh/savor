@@ -108,7 +108,12 @@ function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: Re
 								</Typography>
 
 								{recipe.steps.map((step: any, index: number) => (
-									<Typography key={index} variant="body2" color="text.secondary" justifyContent="center">
+									<Typography
+										key={index}
+										variant="body2"
+										color="text.secondary"
+										justifyContent="center"
+									>
 										<div className="AccordionContent">
 											<p>
 												{index + 1}. {step}

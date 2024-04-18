@@ -1,5 +1,4 @@
-
-.menu{
+.menu {
 	display: flex;
 	padding-top: 10rem;
 	padding-bottom: 5rem;
@@ -25,9 +24,9 @@
 }
 
 .parent-container {
-    display: flex;
-    flex-direction: column; /* Aligns children (like your div) vertically */
-    align-items: flex-end; /* Aligns children to the right */
-    justify-content: flex-start; /* Aligns children to the top */
-    height: 100%; /* Ensure it takes full container height, adjust as necessary */
+	display: flex;
+	flex-direction: column; /* Aligns children (like your div) vertically */
+	align-items: flex-end; /* Aligns children to the right */
+	justify-content: flex-start; /* Aligns children to the top */
+	height: 100%; /* Ensure it takes full container height, adjust as necessary */
 }
