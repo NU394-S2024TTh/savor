@@ -3,16 +3,16 @@ import "./Fridge.css";
 import "../../themes/styles.css";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { get, onValue, ref, set } from "firebase/database";
+import { get, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
 
 import { useAuth } from "../../contexts/authcontexts";
 import { database } from "../../firebase/firebase";
 import { useUserItemsRef } from "../../firebase/firebasefunctions";
+import { getItems, saveItems } from "../../items/items";
 import { Modal } from "../table/Modal";
 import { Table } from "../table/Table";
 import { ItemRow } from "../table/Table";
-import { TEST_DATA } from "./TestData";
 
 function Fridge() {
 	const dbRef = useUserItemsRef();
@@ -20,6 +20,7 @@ function Fridge() {
 	// if localStorage.getItem("rows"
 	//const [rows, setRows] = useState(TEST_DATA);
 	const [rows, setRows] = useState([]);
+
 	const [rowToEdit, setRowToEdit] = useState(null);
 	useEffect(() => {
 		// Fetch existing data from the database and set it to rows
@@ -37,7 +38,7 @@ function Fridge() {
 	}, []); // Empty dependency array to only run once on mount
 
 	useEffect(() => {
-		// Update the database whenever rows changes, except for the initial fetch
+		// Update the database whenever rows changes, except for the initial fetch (and when state is 0)
 		if (rows && rows.length != 0) {
 			set(dbRef, rows);
 		}
@@ -62,8 +63,24 @@ function Fridge() {
 		window.addEventListener("SessionStorageChange", handleSessionStorageChange);
 	}, []);
 
+	useEffect(() => {
+		const loadItems = async () => {
+			const items = await getItems();
+			if (items != null) {
+				setRows(() => {
+					const stringifiedRows = JSON.stringify(items);
+					localStorage.setItem("rows", stringifiedRows);
+					return items;
+				});
+			}
+		};
+		loadItems();
+	}, []);
+
 	const handleDeleteRow = (targetIndex: number) => {
-		setRows(rows.filter((_: any, idx: number) => idx !== targetIndex));
+		const updatedRows = rows.filter((_: any, idx: number) => idx !== targetIndex);
+		setRows(updatedRows);
+		saveItems(updatedRows);
 		localStorage.setItem(
 			"rows",
 			JSON.stringify(rows.filter((_: any, idx: number) => idx !== targetIndex))
@@ -78,51 +95,57 @@ function Fridge() {
 
 	const handleSubmit = (newRow: any) => {
 		if (rowToEdit === null) {
-			setRows([...rows, newRow]);
-			localStorage.setItem("rows", JSON.stringify([...rows, newRow]));
+			const allRows = [...rows, newRow];
+			setRows(allRows);
+			saveItems(allRows);
+			localStorage.setItem("rows", JSON.stringify(allRows));
 		} else {
-			setRows(
-				rows.map((currRow: ItemRow, idx: number) => {
-					if (idx !== rowToEdit) {
-						return currRow;
-					} else {
-						return newRow;
-					}
-				})
-			);
-			localStorage.setItem("rows", JSON.stringify(rows));
+			const afterEditRows = rows.map((currRow: ItemRow, idx: number) => {
+				if (idx !== rowToEdit) {
+					return currRow;
+				} else {
+					return newRow;
+				}
+			});
+			setRows(afterEditRows);
+			saveItems(afterEditRows);
+			localStorage.setItem("rows", JSON.stringify(afterEditRows));
 		}
 	};
 
 	return (
-		<div className="Fridge flex min-h-screen flex-col items-center bg-black">
-			<div className="flex flex-col items-center justify-center">
-				<div className="fridgeTitle font-bold">My Fridge</div>
-				<div className="fridgeTooltip font-bold">
-					Check the days since purchase against the recommendation!
+		<div className="Fridge flex min-h-screen flex-col items-center justify-center">
+			<div
+				className="flex items-start justify-between"
+				style={{ width: "70vmax", maxWidth: "80vmax" }}
+			>
+				<div className="w-1/12"></div>
+				<div className="flex-1 text-center text-xl">
+					<div className="fridgeTitle font-bold">My Fridge</div>
+					<div className="swipeTooltip flex flex-row items-center justify-center">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							strokeWidth="1.5"
+							stroke="currentColor"
+							className="h-6 w-6"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
+							/>
+						</svg>
+						<span className="fridgeRegular font-normal">Swipe on an item to edit or delete</span>
+					</div>
 				</div>
-				<div className="swipeTooltip flex flex-row items-center justify-center">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						strokeWidth="1.5"
-						stroke="currentColor"
-						className="h-6 w-6"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
-						/>
-					</svg>
-					<span className="fridgeRegular font-normal">Swipe on an item to edit or delete</span>
-				</div>
-			</div>
-			<div className="addBtn self-end">
-				<button onClick={() => setModalOpen(true)} className="">
+				<button
+					onClick={() => setModalOpen(true)}
+					className="-mt-2 flex w-1/12 justify-end self-start"
+				>
 					<PlusCircleIcon
-						className="mb-4 mr-6 mt-4 h-12 w-12 cursor-pointer fill-green-500"
+						className="top-0 mb-4 h-12 w-12 cursor-pointer fill-green-500"
 						aria-hidden="true"
 					/>
 				</button>

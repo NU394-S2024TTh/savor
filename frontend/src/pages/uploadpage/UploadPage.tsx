@@ -14,7 +14,7 @@ import { database } from "../../firebase/firebase";
 import { useUserItemsRef } from "../../firebase/firebasefunctions";
 import processImage from "../../process/extract.mjs";
 import LoadingPage from "./LoadingPage";
-import MissingPurchaseDate from "./MissingPurchaseDate";
+import PurchaseDateSelectionPage from "./PurchaseDateSelectionPage";
 
 function diff_days(purchaseDate: string) {
 	const today = new Date();
@@ -33,7 +33,7 @@ function UploadPage() {
 	);
 }
 
-interface Response {
+export interface Response {
 	items: string[];
 	unicodes: string[];
 	expirationInfo: string[];
@@ -238,7 +238,7 @@ function Upload(props: any) {
 							))}
 						{loading && !noPurchaseDate && <LoadingPage></LoadingPage>}
 						{noPurchaseDate && (
-							<MissingPurchaseDate
+							<PurchaseDateSelectionPage
 								setResponse={setResponse}
 								setNoPurchaseDate={setNoPurchaseDate}
 							/>
