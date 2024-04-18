@@ -29,7 +29,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 							actionButtons={[
 								{
 									content: (
-										<TrashIcon
+										<PencilSquareIcon
 											className="h-6 w-6 cursor-pointer fill-green-500"
 											aria-hidden="true"
 											onClick={() => editRow(idx)}
@@ -39,7 +39,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 								},
 								{
 									content: (
-										<PencilSquareIcon
+										<TrashIcon
 											className="h-6 w-6 cursor-pointer fill-green-500"
 											aria-hidden="true"
 											onClick={() => deleteRow(idx)}

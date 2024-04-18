@@ -79,12 +79,12 @@ function Upload(props: any) {
 	};
 	const processResponse = () => {
 		if (response == null) {
-			console.error("response is null");
+			console.error("response is null", "color: black;");
 			setLoading(false);
 			return;
 		}
 		if (response.purchaseDate == "") {
-			console.warn("No purchase date found in the receipt");
+			console.warn("No purchase date found in the receipt", "color: black;");
 			setNoPurchaseDate(true);
 			setLoading(false);
 			return;
