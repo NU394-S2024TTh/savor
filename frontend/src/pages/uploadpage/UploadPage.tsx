@@ -4,7 +4,7 @@ import "../../themes/styles.css";
 
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { update } from "firebase/database";
-import { onValue, ref, set } from "firebase/database";
+import { onValue, ref, get,  set } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
 
@@ -43,7 +43,7 @@ interface Response {
 
 function Upload(props: any) {
 	const [images, setImages] = useState([]);
-	const [rows, setRows] = useState(TEST_DATA);
+	const [rows, setRows] = useState([]);
 	const maxNumber = 69;
 	const [loading, setLoading] = useState(false);
 	const [isUploaded, setIsUploaded] = useState(false);
@@ -51,6 +51,19 @@ function Upload(props: any) {
 
 	const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
 	const userRef = useUserItemsRef();
+
+	useEffect(() => {
+		// setting state from DB at first
+		get(userRef)
+			.then((snapshot) => {
+				if (snapshot.exists()) {
+					setRows(snapshot.val());
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}, []);
 	// let response = {} as Response;
 	const [response, setResponse] = useState<Response | null>(null);
 
@@ -113,14 +126,12 @@ function Upload(props: any) {
 		console.log(newRows);
 
 		setRows([...rows, ...newRows]);
-
 		
-		if(userRef){
-			set(userRef, rows);
-		}
+
 		
 		const currentRows = JSON.parse(localStorage.getItem("rows") || "[]");
 		const updatedRows = [...currentRows, ...newRows];
+		set(userRef, [...rows, ...newRows]);
 		const stringifiedUpdatedRows = JSON.stringify(updatedRows);
 		console.log("ABc1233");
 		console.log(stringifiedUpdatedRows);
@@ -133,6 +144,13 @@ function Upload(props: any) {
 		);
 	};
 	useEffect(processResponse, [response]);
+
+	useEffect(() => {
+		// setting db every time rows changes BUT not at the start. lol
+		if (rows.length != 0 && userRef) {
+			set(userRef, rows);
+		}
+	}, [rows]);
 
 	console.log("loading: ", loading);
 	// console.log("noPurchaseDate: ", noPurchaseDate);

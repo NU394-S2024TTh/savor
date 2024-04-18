@@ -16,40 +16,31 @@ import { database } from "../../firebase/firebase";
 import { useUserItemsRef } from "../../firebase/firebasefunctions";
 
 function Fridge() {
-	
 	const dbRef = useUserItemsRef();
 	const [modalOpen, setModalOpen] = useState(false);
 	// if localStorage.getItem("rows"
 	//const [rows, setRows] = useState(TEST_DATA);
-	const [rows, setRows] = useState(() => {
-		// Try to get the data from localStorage
-		const savedRows = localStorage.getItem("rows");
-
-		// If there is data in localStorage, parse it; otherwise, use TEST_DATA
-		// If there is data in localStorage AND the user is signed in, want to combine
-		return savedRows ? JSON.parse(savedRows) : TEST_DATA;
-	});
+	const [rows, setRows] = useState([]);
 	const [rowToEdit, setRowToEdit] = useState(null);
 	useEffect(() => {
-		// setting db every time rows changes
-		if (rows) {
-			set(dbRef, rows);
+		// Fetch existing data from the database and set it to rows
+		get(dbRef).then((snapshot) => {
+		  if (snapshot.exists()) {
+			setRows(snapshot.val());
+		  } else {
+			console.log("No data available");
+		  }
+		}).catch((error) => {
+		  console.error(error);
+		});
+	  }, []); // Empty dependency array to only run once on mount
+	  
+	  useEffect(() => {
+		// Update the database whenever rows changes, except for the initial fetch
+		if (rows && rows.length != 0) {
+		  set(dbRef, rows);
 		}
-	}, [rows]);
-	useEffect(() => {
-		// setting state from DB at first
-		get(dbRef)
-			.then((snapshot) => {
-				if (snapshot.exists()) {
-					setRows(snapshot.val());
-				}else{
-					setRows(TEST_DATA);
-				}
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-	}, []);
+	  }, [rows]);
 	useEffect(() => {
 		// Define the event listener function
 
@@ -57,12 +48,12 @@ function Fridge() {
 			const customEvent = event as CustomEvent<any>;
 			if (customEvent.detail.key === "rows") {
 				// Perform a functional state update to ensure we have the latest state.
-				setRows(() => {
-					const updatedRows = JSON.parse(customEvent.detail.value);
-					console.log("At the listener", updatedRows);
-					// This update will cause a re-render
-					return updatedRows;
-				});
+				// setRows(() => {
+				// 	const updatedRows = JSON.parse(customEvent.detail.value);
+				// 	console.log("At the listener", updatedRows);
+				// 	// This update will cause a re-render
+				// 	return updatedRows;
+				// });
 			}
 		};
 
