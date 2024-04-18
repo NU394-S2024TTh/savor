@@ -19,7 +19,7 @@ function Fridge() {
 	const [modalOpen, setModalOpen] = useState(false);
 	// if localStorage.getItem("rows"
 	//const [rows, setRows] = useState(TEST_DATA);
-	const [rows, setRows] = useState([]);
+	const [rows, setRows] = useState<ItemRow[]>([]);
 
 	const [rowToEdit, setRowToEdit] = useState(null);
 	useEffect(() => {
@@ -95,7 +95,7 @@ function Fridge() {
 
 	const handleSubmit = (newRow: any) => {
 		if (rowToEdit === null) {
-			const allRows = [...rows, newRow];
+			const allRows: ItemRow[] = [...rows, newRow];
 			setRows(allRows);
 			saveItems(allRows);
 			localStorage.setItem("rows", JSON.stringify(allRows));

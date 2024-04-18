@@ -43,7 +43,7 @@ export interface Response {
 
 function Upload(props: any) {
 	const [images, setImages] = useState([]);
-	const [rows, setRows] = useState([]);
+	const [rows, setRows] = useState<ItemRow[]>([]);
 	const maxNumber = 69;
 	const [loading, setLoading] = useState(false);
 	const [isUploaded, setIsUploaded] = useState(false);
