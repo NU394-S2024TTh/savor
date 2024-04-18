@@ -145,14 +145,14 @@ function Upload(props: any) {
 				isDragging,
 				dragProps
 			}) => (
-				<div className="flex flex-col items-center justify-center">
+				<div className="UploadBtnCol flex flex-col items-center justify-center">
 					{!loading && !noPurchaseDate && (
 						<div className="flex flex-col items-center justify-center">
 							<div className="HomePageTitle mt-6"> Add Items </div>
 							{!isUploaded && (
 								<>
 									<ArrowUpOnSquareIcon className={props.uploadIconStyles} />
-									<p className=" UploadDescription mx-20 max-w-md pt-6 text-center">
+									<p className=" UploadDescription pt-6 text-center">
 										{" "}
 										Hit the green button down below to add items from your receipt! (only jpg, jpeg,
 										png are supported){" "}

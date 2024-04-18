@@ -1,5 +1,6 @@
 import CryptoJS from "crypto-js";
 import { get, ref } from "firebase/database";
+
 import { database } from "../firebase/firebase";
 
 // redefine to whatever key you want, follow AES key encryption rules. these are stock and are not safe

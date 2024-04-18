@@ -24,7 +24,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 		<div className="flex flex-col">
 			{rows.map((row: ItemRow, idx: any) => {
 				return (
-					<tr key={idx} className="flex-row">
+					<div key={idx} className="flex-row">
 						<SwipeToRevealActions
 							actionButtons={[
 								{
@@ -57,7 +57,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 						>
 							<></>
 						</SwipeToRevealActions>
-					</tr>
+					</div>
 				);
 			})}
 		</div>

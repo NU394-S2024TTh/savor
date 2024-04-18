@@ -10,23 +10,6 @@ import React, { ReactNode, useRef, useState } from "react";
 
 import ProgressBar from "../fridge/ProgressBar";
 import { Notifbutton } from "./notifs";
-{
-	/* <th className="w-5/12 flex-none font-normal">{row.image}</th>
-<th className="w-5/12 flex-1 items-center justify-center font-normal">
-  <AccordionInfo
-    name={row.item}
-    expirationInfo={row.expirationInfo}
-  ></AccordionInfo>
-</th>
-<th className="w-5/12 flex-none items-center justify-center font-normal">
-  <Notifbutton
-    daysSincePurchase={row.daysSincePurchase}
-    daysUntilExpiration={row.daysUntilExpiration}
-    name={row.item}
-    className="justify-center"
-  ></Notifbutton>
-</th> */
-}
 interface AccordionProps {
 	children: ReactNode;
 	name: string;

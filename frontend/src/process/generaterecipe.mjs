@@ -39,7 +39,7 @@ export default async function processFood(FoodItems, numRecipes) {
 					type: "text",
 					text:
 						`I need assistance in choosing the best ${numRecipes} recipes out of these 5. Please select the top ${numRecipes} recipe(s) that are the most realistic. Consider parameters such as amounts used, flavor blends, as well as how well they mirror real world recipes. Once you select the top ${numRecipes} recipe(s), please simply reprint them; no rationale is needed. Please keep all keys and values intact. Do not omit anything from the recipe, including the 'Name:' portion. Here are the recipes: \n` +
-						`${res2.content}` + 
+						`${res2.content}` +
 						"Then output those in json string format with variables name, whatYouHave (list of string), whatYouNeed (list of string), and steps (list of string). Make sure the variables are in camel case."
 				}
 			]

@@ -1,3 +1,5 @@
+import "../../themes/styles.css";
+
 import React, { useState } from "react";
 import { TbRefresh } from "react-icons/tb";
 
@@ -70,7 +72,7 @@ function MenuPage() {
 	} else {
 		return (
 			<>
-				<div className="flex min-h-screen flex-col items-center">
+				<div className="flex min-h-screen flex-col items-center bg-[#faf9f6]">
 					<div className="refresh_btn fixed right-5 top-5 z-50 self-end px-4 py-2">
 						<button onClick={handleOnRefresh} className="">
 							<TbRefresh
@@ -80,7 +82,7 @@ function MenuPage() {
 						</button>
 					</div>
 					<div className="flex flex-col items-center justify-center">
-						<h1 className="fridgeTitle text-4xl font-bold" style={{ marginTop: "30%" }}>
+						<h1 className="HomePageTitle mt-6" style={{ marginTop: "30%" }}>
 							Menu
 						</h1>
 						{/* <p className="text-xl">Coming soon.......</p> */}
@@ -99,6 +101,7 @@ function MenuPage() {
 										handleOpen={handleOpen}
 									/>
 								))}
+							<div className="mb-10"></div>
 							{recipes.length === 0 && (
 								<div style={{ display: "flex", marginTop: "50%" }}>
 									<p className="UploadDescription w-full text-center">
