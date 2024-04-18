@@ -80,7 +80,9 @@ function MenuPage() {
 						</button>
 					</div>
 					<div className="flex flex-col items-center justify-center">
-						<h1 className="text-4xl font-bold">Menu</h1>
+						<h1 className="fridgeTitle text-4xl font-bold" style={{ marginTop: "30%" }}>
+							Menu
+						</h1>
 						{/* <p className="text-xl">Coming soon.......</p> */}
 					</div>
 
@@ -97,11 +99,12 @@ function MenuPage() {
 										handleOpen={handleOpen}
 									/>
 								))}
-							{recipes.length == 0 && (
-								<p className=" UploadDescription mx-20 max-w-md pt-6 text-center">
-									{" "}
-									Hit the refresh button on the upper right corner to generate recipes!{" "}
-								</p>
+							{recipes.length === 0 && (
+								<div style={{ display: "flex", marginTop: "50%" }}>
+									<p className="UploadDescription w-full text-center">
+										Hit the refresh button on the upper right corner to generate recipes!
+									</p>
+								</div>
 							)}
 						</div>
 					</div>
