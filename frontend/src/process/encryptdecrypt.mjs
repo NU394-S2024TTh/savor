@@ -1,5 +1,6 @@
 import CryptoJS from "crypto-js";
-import { get, getDatabase, ref } from "firebase/database";
+import { get, ref } from "firebase/database";
+import { database } from "../firebase/firebase";
 
 // redefine to whatever key you want, follow AES key encryption rules. these are stock and are not safe
 var key = "6268890F-9B58-484C-8CDC-34F9C6A9";
@@ -22,7 +23,6 @@ function decryptAES(ciphertext, key, iv) {
 // }
 
 async function getEncryptedAPIKey() {
-	const database = getDatabase();
 	try {
 		const snapshot = await get(ref(database, "/openai_api_key"));
 		if (snapshot.exists()) {
