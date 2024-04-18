@@ -20,12 +20,9 @@ const MIN_EMPTY_PERCENTAGE = 6;
 const EXTRA_IMAGE_OFFSET_PERCENTAGE_EMPTY = -4;
 
 const ProgressBar = ({ daysSincePurchase, daysUntilExpiration, image }: ProgressBarProps) => {
-	const totalDays = daysSincePurchase + Number(daysUntilExpiration);
+	const totalDays = Number(daysSincePurchase) + Number(daysUntilExpiration);
 	const filledPercentage = (daysSincePurchase / totalDays) * 100;
 	const emptyPercentage = (daysUntilExpiration / totalDays) * 100;
-
-	console.log(daysUntilExpiration);
-	console.log(filledPercentage, emptyPercentage, typeof image);
 
 	// Variable styling for when the filled percentage is too low and needs to offset image a bit to the right
 	const imageoffsetStyling = useMemo(() => {
