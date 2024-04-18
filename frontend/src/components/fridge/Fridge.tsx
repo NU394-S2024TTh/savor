@@ -63,19 +63,6 @@ function Fridge() {
 		window.addEventListener("SessionStorageChange", handleSessionStorageChange);
 	}, []);
 
-	useEffect(() => {
-		const loadItems = async () => {
-			const items = await getItems();
-			if (items != null) {
-				setRows(() => {
-					const stringifiedRows = JSON.stringify(items);
-					localStorage.setItem("rows", stringifiedRows);
-					return items;
-				});
-			}
-		};
-		loadItems();
-	}, []);
 
 	const handleDeleteRow = (targetIndex: number) => {
 		const updatedRows = rows.filter((_: any, idx: number) => idx !== targetIndex);
