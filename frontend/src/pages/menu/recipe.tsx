@@ -66,13 +66,13 @@ function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: Re
 						<CardContent>
 							<Typography variant="body2" color="text.secondary" justifyContent="center">
 								<div className="AccordionContent">
-									<p>Available Ingredients: {recipe.availableIngredients.join(" ")}</p>
-									{recipe.missingIngredients.length > 0 && (
-										<p>Missing Ingredients: {recipe.missingIngredients.join(" ")}</p>
+									<p>Available Ingredients: {recipe.whatYouHave.join(", ")}</p>
+									{recipe.whatYouNeed.length > 0 && (
+										<p>Missing Ingredients: {recipe.whatYouNeed.join(", ")}</p>
 									)}
-									{recipe.inStock && (
+									{/* {recipe.inStock && (
 										<p>{`${recipe.inStock}/${recipe.totalIngredients} Ingredients In Stock`}</p>
-									)}
+									)} */}
 								</div>
 							</Typography>
 						</CardContent>
@@ -100,17 +100,22 @@ function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: Re
 							<CardContent>
 								<Typography variant="body2" color="text.secondary" justifyContent="center">
 									<div className="AccordionContent">
-										<p>Available Ingredients: {recipe.availableIngredients.join(", ")}</p>
-										{recipe.missingIngredients.length > 0 && (
-											<p>Missing Ingredients: {recipe.missingIngredients.join(", ")}</p>
-										)}
-										{recipe.inStock && (
-											<p>{`${recipe.inStock}/${recipe.totalIngredients} Ingredients In Stock`}</p>
+										<p>Available Ingredients: {recipe.whatYouHave.join(", ")}</p>
+										{recipe.whatYouNeed.length > 0 && (
+											<p>Missing Ingredients: {recipe.whatYouNeed.join(", ")}</p>
 										)}
 									</div>
 								</Typography>
 
-								{recipe.recipe}
+								{recipe.steps.map((step: any, index: number) => (
+									<Typography key={index} variant="body2" color="text.secondary" justifyContent="center">
+										<div className="AccordionContent">
+											<p>
+												{index + 1}. {step}
+											</p>
+										</div>
+									</Typography>
+								))}
 							</CardContent>
 						</CardActionArea>
 					</Card>

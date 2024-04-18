@@ -47,7 +47,7 @@ function MenuPage() {
         //     }
         //     setRecipes([...recipes, newRecipe]);
         // })
-        setRecipes(prevRecipes => [...prevRecipes, ...res]);
+        setRecipes(res);
         console.log(recipes);
 
         setLoading(false);
