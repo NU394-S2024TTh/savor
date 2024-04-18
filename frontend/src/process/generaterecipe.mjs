@@ -30,7 +30,7 @@ export default async function processFood(FoodItems, numRecipes) {
 	];
 
 	const res2 = await GPTcall.invoke(input);
-	console.log(res2.content);
+	// console.log(res2.content);
 
 	const ELORanker = [
 		new HumanMessage({
@@ -39,31 +39,18 @@ export default async function processFood(FoodItems, numRecipes) {
 					type: "text",
 					text:
 						`I need assistance in choosing the best ${numRecipes} recipes out of these 5. Please select the top ${numRecipes} recipe(s) that are the most realistic. Consider parameters such as amounts used, flavor blends, as well as how well they mirror real world recipes. Once you select the top ${numRecipes} recipe(s), please simply reprint them; no rationale is needed. Please keep all keys and values intact. Do not omit anything from the recipe, including the 'Name:' portion. Here are the recipes: \n` +
-						`${res2.content}`
+						`${res2.content}` + 
+						"Then output those in json string format with variables name, whatYouHave (list of string), whatYouNeed (list of string), and steps (list of string). Make sure the variables are in camel case."
 				}
 			]
 		})
 	];
 
 	const res3 = await GPTcall.invoke(ELORanker);
-	console.log(res3.content);
 
-	const regex =
-		/name:\s*([^]+?)\s*what you have:\s*([^]+?)\s*what you need:\s*([^]+?)\s*steps:\s*([^]+)/i;
-	const item = [];
-	const have = [];
-	const need = [];
-	const steps = [];
-
-	const match = res3.content.match(regex);
-	if (match) {
-		const [, name, whatYouHave, whatYouNeed, Rsteps] = match;
-		item.push(name.trim());
-		have.push(whatYouHave.trim());
-		need.push(whatYouNeed.trim());
-		steps.push(Rsteps.trim());
-		return { item, have, need, steps };
-	} else {
-		return "No Match Found.";
-	}
+	const recipes = JSON.parse(res3.content);
+	console.log(recipes);
+	return recipes;
 }
+
+// processFood(["broccoli", "garlic", "oil"], 3);

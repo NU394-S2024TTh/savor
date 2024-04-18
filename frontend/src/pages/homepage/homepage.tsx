@@ -2,23 +2,25 @@
 import "../../themes/styles.css";
 
 //import { HomeIcon, PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons';
-import { ArrowUpTrayIcon, HomeIcon, UserIcon } from "@heroicons/react/24/outline";
+import { ArrowUpTrayIcon, BookOpenIcon, HomeIcon, UserIcon } from "@heroicons/react/24/outline";
 import React, { ReactElement, useEffect, useState } from "react";
 
 import Fridge from "../../components/fridge/Fridge";
+import MenuPage from "../menu/menu";
 // Import other components for the 'profile' and 'upload' pages
 //import Profile from '../profile/Profile';
 import UploadPage from "../uploadpage/UploadPage";
 import { TabItem } from "./TabItem";
 
-type TabName = "fridge" | "profile" | "upload" | "additem";
+type TabName = "fridge" | "profile" | "upload" | "additem" | "menu";
 
 const tabComponents: Record<TabName, ReactElement> = {
 	// obviously change this once we have upload and profile components
 	fridge: <Fridge />,
 	profile: <Fridge />,
 	upload: <UploadPage />, // TODO: add another item for adding manual items
-	additem: <UploadPage />
+	additem: <UploadPage />,
+	menu: <MenuPage />
 };
 
 function Homepage() {
@@ -50,6 +52,13 @@ function Homepage() {
 			<div className="z-10 w-full flex-1">
 				{React.cloneElement(tabComponents[activeTab], { key: updateTime.toISOString() })}
 			</div>
+			<div className="fixed left-5 top-5 z-50 px-4 py-2">
+				<TabItem
+					IconName={UserIcon}
+					active={activeTab === "profile"}
+					onClick={() => handleTabChange("profile")}
+				/>
+			</div>
 			<div className="md:px-30 md-justify-center fixed bottom-0 z-30 flex w-full flex-1 grow flex-row items-center justify-between bg-[#faf9f6] px-12 py-4">
 				<TabItem
 					IconName={HomeIcon}
@@ -62,9 +71,9 @@ function Homepage() {
 					onClick={() => handleTabChange("upload")}
 				/>{" "}
 				<TabItem
-					IconName={UserIcon}
-					active={activeTab === "profile"}
-					onClick={() => handleTabChange("profile")}
+					IconName={BookOpenIcon}
+					active={activeTab === "menu"}
+					onClick={() => handleTabChange("menu")}
 				/>
 			</div>
 		</div>
