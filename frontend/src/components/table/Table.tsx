@@ -20,9 +20,11 @@ export interface ItemRow {
 }
 
 export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
+	console.log(rows);
 	return (
 		<div className="flex flex-col">
-			{rows.map((row: ItemRow, idx: any) => {
+			{/* {rows.map((row: ItemRow, idx: any) => { */}
+			{[].concat(rows).sort((a: ItemRow, b: ItemRow) => Number(a.daysUntilExpiration) > Number(b.daysUntilExpiration) ? 1 : -1).map((row: ItemRow, idx: any) => {
 				return (
 					<div key={idx} className="flex-row">
 						<SwipeToRevealActions
