@@ -60,7 +60,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 
 		return `${month}/${day}/${year}`;
 	};
-
+	console.log("ProgressBar");
 	return (
 		<div
 			className={classNames("flex w-1/2 items-center justify-center bg-black", props.className)}
