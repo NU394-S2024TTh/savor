@@ -7,17 +7,12 @@ import { ItemRow } from "../../components/table/Table";
 import processFood from "../../process/generaterecipe.mjs";
 import Recipe from "./recipe";
 import Reload from "./reload";
+import Alert from '@mui/material/Alert';
 
-interface Recipe {
-	name: string;
-	image: string;
-	whatYouHave: string[];
-	whatYouNeed: string[];
-	recipe: string[];
-}
 
 function MenuPage() {
 	const [loading, setLoading] = useState(false);
+	const [imgres, setImgres] = useState([]);
 
 	const [rows] = useState(() => {
 		// Try to get the data from localStorage
@@ -29,18 +24,44 @@ function MenuPage() {
 
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
+	const fetchImage = async (query: string) => {
+		const unsplash_key = "vD_HhjT5Txsal7RqgOA3pDsH41Vaxg68racp1ZRjdZ8"; // substitute with your own access key
+		const data = await fetch(
+			`https://api.unsplash.com/search/photos?page=1&query=${query}&client_id=${unsplash_key}&per_page=1`
+		);
+		const dataJ = await data.json();
+		const result = dataJ.results;
+		return result[0].urls.regular
+		// setImgres(result);
+	};
+
 	const handleOnRefresh = async () => {
 		const foods = rows.map((row: ItemRow) => row.item);
 		setLoading(true);
-		const res = await processFood(foods, 3);
+		let res = [];
+		try {
+			res = await processFood(foods, 3);
+		} catch (e) {
+			alert("Unexpected value in JSON, Try again!");
+			<Alert severity="warning">Unexpected value in JSON, Try again!</Alert>
+			setLoading(false);
+		}
 
+		for (let i = 0; i < res.length; i++) {
+			console.log(res[i].name);
+			let img_url = ""
+			try {
+				img_url = await fetchImage(res[i].name);
+			} catch (e) {
+				alert("Unexpected return from unsplash, try another API!");
+				<Alert severity="warning">Unexpected return from unsplash, try another API</Alert>
+				setLoading(false);
+			}
+			res[i].image = img_url;
+		}
 		setRecipes(res);
-		console.log(recipes);
-
 		setLoading(false);
 	};
-
-	console.log(rows.map((row: ItemRow) => row.item));
 
 	const [activeRecipe, setactiveRecipes] = useState(-1);
 	const handleClose = () => {
@@ -92,7 +113,7 @@ function MenuPage() {
 						{/* <p className="text-xl">Coming soon.......</p> */}
 					</div>
 
-					<div className=" flex w-2/3 flex-col items-center justify-center">
+					<div className=" flex w-2/3 flex-col items-center justify-center" style={{ paddingBottom: "10%", paddingTop: "3%" }}>
 						<div className="w-full items-center justify-center space-y-4">
 							{recipes.length > 0 &&
 								recipes.map((recipe, index) => (
@@ -115,7 +136,7 @@ function MenuPage() {
 							)}
 						</div>
 					</div>
-				</div>
+				</div >
 			</>
 		);
 	}

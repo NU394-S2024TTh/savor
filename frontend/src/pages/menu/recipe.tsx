@@ -1,29 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// import React, { useEffect, useState } from "react";
-
-// // Recipe component
-// function Recipe({ recipe }: { recipe: any }) {
-//     return (
-//         <div className="modal recipe_card">
-//             {/* <img src={recipe.image} alt={recipe.name} className="image" /> */}
-//             <div className="form-group">
-//                 <input name="image" value={recipe.image} />
-//             </div>
-//             <h3>{recipe.name}</h3>
-//             <div className="ingredientlist">
-//                 <p>Available Ingredients: {recipe.availableIngredients.join(' ')}</p>
-//                 {recipe.missingIngredients.length > 0 && (
-//                     <p>Missing Ingredients: {recipe.missingIngredients.join(' ')}</p>
-//                 )}
-//                 {recipe.inStock && (
-//                     <p>{`${recipe.inStock}/${recipe.totalIngredients} Ingredients In Stock`}</p>
-//                 )}
-//             </div>
-//         </div>
-//     );
-// }
 import "../../themes/styles.css";
 
 import { CardActionArea } from "@mui/material";
@@ -39,8 +13,18 @@ import Typography from "@mui/material/Typography";
 // import { useState } from "react";
 import Fridge from "../../components/fridge/Fridge";
 
+
+
+interface Recipe {
+	name: string;
+	image: string;
+	whatYouHave: string[];
+	whatYouNeed: string[];
+	steps: string[];
+}
+
 interface RecipeProps {
-	recipe: any;
+	recipe: Recipe;
 	recipeIndex: number;
 	recipeOpen: number;
 	handleOpen: (index: number) => void;
@@ -48,37 +32,42 @@ interface RecipeProps {
 }
 
 function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: RecipeProps) {
-	console.log(recipe);
+	// console.log(recipe);
 	if (recipeOpen == -1) {
 		return (
 			<div onClick={() => handleOpen(recipeIndex)}>
-				<Card sx={{ backgroundColor: "white" }} style={{ padding: 1 }}>
+				<Card>
 					<CardActionArea LinkComponent={Fridge}>
-						<CardMedia>
+						<div style={{ maxHeight: "120px" }}>
+							<img src={recipe.image} alt={recipe.name} />
+						</div>
+						<div style={{
+							position: 'relative',
+							bottom: 0,
+							left: 0,
+							width: '100%',
+							backgroundColor: 'white',
+							opacity: 0.8,
+							padding: '0.5em',
+						}}>
 							<div className=" w-11/12 items-center justify-center pl-6 pt-6">
-								<div className="  w-3/12 items-center justify-center text-5xl">{recipe.image}</div>
-
-								<Typography gutterBottom variant="h6" component="div">
+								<Typography gutterBottom variant="h6" component="div" style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
 									{recipe.name}
 								</Typography>
 							</div>
-						</CardMedia>
-						<CardContent>
-							<Typography variant="body2" color="text.secondary" justifyContent="center">
-								<div className="AccordionContent">
+							<CardContent style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
+								{/* <Typography variant="body2" color="text.secondary" justifyContent="center"> */}
+								<div className="AccordionContent opacity_text" >
 									<p>Available Ingredients: {recipe.whatYouHave.join(", ")}</p>
 									{recipe.whatYouNeed.length > 0 && (
 										<p>Missing Ingredients: {recipe.whatYouNeed.join(", ")}</p>
 									)}
-									{/* {recipe.inStock && (
-										<p>{`${recipe.inStock}/${recipe.totalIngredients} Ingredients In Stock`}</p>
-									)} */}
 								</div>
-							</Typography>
-						</CardContent>
+							</CardContent>
+						</div>
 					</CardActionArea>
 				</Card>
-			</div>
+			</div >
 		);
 	} else if (recipeOpen == recipeIndex) {
 		return (
@@ -86,27 +75,30 @@ function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: Re
 				<div onClick={handleClose}>
 					<Card sx={{ backgroundColor: "white" }} style={{ padding: 1 }}>
 						<CardActionArea LinkComponent={Fridge}>
-							<CardMedia>
-								<div className=" w-11/12 items-center justify-center pl-6 pt-6">
-									<div className="  w-3/12 items-center justify-center text-5xl">
-										{recipe.image}
-									</div>
-
-									<Typography gutterBottom variant="h6" component="div">
-										{recipe.name}
-									</Typography>
-								</div>
-							</CardMedia>
-							<CardContent>
-								<Typography variant="body2" color="text.secondary" justifyContent="center">
-									<div className="AccordionContent">
-										<p>Available Ingredients: {recipe.whatYouHave.join(", ")}</p>
-										{recipe.whatYouNeed.length > 0 && (
-											<p>Missing Ingredients: {recipe.whatYouNeed.join(", ")}</p>
-										)}
-									</div>
+							<CardMedia
+								className="recipe_img"
+								component="img"
+								height="80"
+								sx={{ objectFit: "contain" }}
+								image={recipe.image}
+							/>
+							<div className=" w-11/12 items-center justify-center pl-6 pt-6">
+								<Typography gutterBottom variant="h6" component="div">
+									{recipe.name}
 								</Typography>
-
+							</div>
+							<CardContent>
+								{/* <Typography variant="body2" color="text.secondary" justifyContent="center"> */}
+								<div className="AccordionContent">
+									<p>Available Ingredients: {recipe.whatYouHave.join(", ")}</p>
+									{recipe.whatYouNeed.length > 0 && (
+										<p>Missing Ingredients: {recipe.whatYouNeed.join(", ")}</p>
+									)}
+								</div>
+								<br></br>
+								<p>
+									<h2>Cooking Steps:</h2>
+								</p>
 								{recipe.steps.map((step: any, index: number) => (
 									<Typography
 										key={index}

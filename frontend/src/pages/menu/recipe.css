@@ -1,9 +1,8 @@
 .recipe_card {
-	background-color: "#fff";
-	border-radius: 8px;
-	padding: "16px";
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	margin-bottom: 16px;
+	height: auto;
+	max-height: 100px;
+	width: auto;
+	max-width: 100px;
 }
 
 .modal {
@@ -13,7 +12,7 @@
 	width: 25em;
 }
 
-.image {
+.recipe_img {
 	width: "20%";
 	height: "auto";
 	border-radius: 8px;
@@ -22,3 +21,8 @@
 .ingredientlist {
 	margin-top: "8px";
 }
+
+
+.opacity_text {
+	background: rgba(237, 233, 234, 0.507);
+  }

@@ -11,8 +11,12 @@ function Reload() {
 			{/* Center the loader */}
 			<img src={cooking} width="40%" alt="loading..." />
 			<p className="text-lg text-gray-600">
-				Cooking up your recipes, please wait... This may take a few moments.
-			</p>{" "}
+				Cooking up your recipes, please wait...
+			</p>
+			<p className="text-lg text-gray-600">
+				This may take a few moments.
+			</p>
+			{" "}
 			{/* Loading message */}
 		</div>
 	);
