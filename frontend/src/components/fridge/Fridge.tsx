@@ -112,12 +112,10 @@ function Fridge() {
 	}
 	const [searchQuery, setSearchQuery] = useState("");
 
-	// Function to handle changes in the search input
 	const handleSearchChange = (event: any) => {
 		setSearchQuery(event.target.value);
 	};
 
-	// Filter the rows based on the search query
 	const filteredRows = sortedRows.filter((row) =>
 		row.item.toLowerCase().includes(searchQuery.toLowerCase())
 	);

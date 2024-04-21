@@ -10,14 +10,14 @@ import { getDatabase } from "firebase/database";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDoLINOqE_H0oZYytPH7XK6bZh573qY_lY",
-  authDomain: "savor-test1.firebaseapp.com",
-  databaseURL: "https://savor-test1-default-rtdb.firebaseio.com",
-  projectId: "savor-test1",
-  storageBucket: "savor-test1.appspot.com",
-  messagingSenderId: "148834844681",
-  appId: "1:148834844681:web:3b81b976b4a8c68817b8d8",
-  measurementId: "G-3H0ENVEQCZ"
+	apiKey: "AIzaSyDoLINOqE_H0oZYytPH7XK6bZh573qY_lY",
+	authDomain: "savor-test1.firebaseapp.com",
+	databaseURL: "https://savor-test1-default-rtdb.firebaseio.com",
+	projectId: "savor-test1",
+	storageBucket: "savor-test1.appspot.com",
+	messagingSenderId: "148834844681",
+	appId: "1:148834844681:web:3b81b976b4a8c68817b8d8",
+	measurementId: "G-3H0ENVEQCZ"
 };
 
 // Initialize Firebase

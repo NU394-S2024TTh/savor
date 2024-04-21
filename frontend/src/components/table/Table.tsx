@@ -26,7 +26,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 	return (
 		<div className="flex flex-col">
 			{rows.map((row: ItemRow, idx: number) => {
-				const originalIndex = rows.indexOf(row); // Get the original index of the row
+				const originalIndex = rows.indexOf(row);
 				return (
 					<div key={idx} className="flex-row">
 						<SwipeToRevealActions
@@ -36,7 +36,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 										<PencilSquareIcon
 											className="h-6 w-6 cursor-pointer fill-green-500"
 											aria-hidden="true"
-											onClick={() => editRow(originalIndex)} // Pass the original index to editRow
+											onClick={() => editRow(originalIndex)}
 										/>
 									),
 									onClick: () => alert("Pressed the EDIT button")
@@ -46,7 +46,7 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 										<TrashIcon
 											className="h-6 w-6 cursor-pointer fill-green-500"
 											aria-hidden="true"
-											onClick={() => deleteRow(originalIndex)} // Pass the original index to deleteRow
+											onClick={() => deleteRow(originalIndex)}
 										/>
 									),
 									onClick: () => alert("Pressed the DELETE button")
