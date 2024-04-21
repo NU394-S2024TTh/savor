@@ -6,7 +6,7 @@ import cooking from "./bubududu.gif";
 
 function Reload() {
 	return (
-		<div className="flex h-screen flex-col items-center justify-center space-y-10">
+		<div className="flex h-screen flex-col bg-[#faf9f6] items-center justify-center space-y-10">
 			{" "}
 			{/* Center the loader */}
 			<img src={cooking} width="40%" alt="loading..." />

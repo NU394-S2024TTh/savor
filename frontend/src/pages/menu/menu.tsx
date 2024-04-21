@@ -52,7 +52,7 @@ function MenuPage() {
 	if (loading) {
 		return (
 			<>
-				<div className="flex min-h-screen flex-col items-center">
+				<div className="flex min-h-screen flex-col items-center bg-[#faf9f6]">
 					<div className="refresh_btn fixed right-5 top-5 z-50 self-end px-4 py-2">
 						<button onClick={handleOnRefresh} className="">
 							<TbRefresh
@@ -62,10 +62,14 @@ function MenuPage() {
 						</button>
 					</div>
 					<div className="flex flex-col items-center justify-center">
-						<h1 className="text-4xl font-bold">Menu</h1>
+						<h1 className="HomePageTitle mt-6" style={{ marginTop: "30%" }}>
+							Menu
+						</h1>
 						{/* <p className="text-xl">Coming soon.......</p> */}
 					</div>
-					<Reload />
+					<div className="items-center justify-center">
+						<Reload />
+					</div>
 				</div>
 			</>
 		);

@@ -22,6 +22,7 @@ export interface ItemRow {
 }
 
 export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
+	console.log(rows);
 	return (
 		<div className="flex flex-col">
 			{rows.map((row: ItemRow, idx: number) => {

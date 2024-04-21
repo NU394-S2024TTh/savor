@@ -53,6 +53,7 @@
 		"react-images-uploading": "^3.1.7",
 		"react-spinners": "^0.13.8",
 		"react-swipeable": "^7.0.1",
+		"react-tiny-popover": "^8.0.4",
 		"react-toastify": "^10.0.5",
 		"tailwindcss-radix": "^3.0.3"
 	},

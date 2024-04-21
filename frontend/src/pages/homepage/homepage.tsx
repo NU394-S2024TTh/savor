@@ -11,7 +11,7 @@ import LoginPage from "../profilepage/loginpage";
 // Import other components for the 'profile' and 'upload' pages
 //import Profile from '../profile/Profile';
 import UploadPage from "../uploadpage/UploadPage";
-import { TabItem } from "./TabItem";
+import { TabItem, TabItemWithPopover } from "./TabItem";
 
 type TabName = "fridge" | "profile" | "upload" | "additem" | "menu";
 
@@ -53,7 +53,7 @@ function Homepage() {
 				{React.cloneElement(tabComponents[activeTab], { key: updateTime.toISOString() })}
 			</div>
 			<div className="fixed left-5 top-5 z-50 px-4 py-2">
-				<TabItem
+				<TabItemWithPopover
 					IconName={UserIcon}
 					active={activeTab === "profile"}
 					onClick={() => handleTabChange("profile")}
