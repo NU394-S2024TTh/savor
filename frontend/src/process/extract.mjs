@@ -1,11 +1,13 @@
 import { HumanMessage } from "@langchain/core/messages";
 import { ChatOpenAI } from "@langchain/openai";
+import heic2any from "heic2any";
 
 // import { Buffer } from "buffer";
 // import fs from "fs";
 import { getOpenAIAPIKey } from "./encryptdecrypt.mjs";
 
 function dataURItoBlob(dataURI) {
+	// handles the file
 	// convert base64 to raw binary data held in a string
 	// doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
 	var byteString = atob(dataURI.split(",")[1]);
@@ -30,15 +32,34 @@ function dataURItoBlob(dataURI) {
 }
 
 function readFileAsDataURL(file) {
-	// file is a dataURL
-	console.log("----");
-	console.log(dataURItoBlob(file));
-	return new Promise((resolve, reject) => {
-		const reader = new FileReader();
-		reader.onloadend = () => resolve(reader.result);
-		reader.onerror = reject;
-		reader.readAsDataURL(dataURItoBlob(file));
-	});
+    // Assuming `file` is a Data URL, we first need to check the MIME type.
+    // The MIME type for HEIC images is 'image/heic'.
+    const mimeType = file.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1];
+
+    return new Promise((resolve, reject) => {
+        // If the file is HEIC, we convert it to JPG.
+        if (mimeType === 'image/heic') {
+            heic2any({
+                blob: dataURItoBlob(file),
+                toType: "image/jpeg",
+                quality: 0.8 // Adjust quality as needed
+            })
+            .then((conversionResult) => {
+                // `conversionResult` is a Blob. Convert this blob to a DataURL.
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(conversionResult);
+            })
+            .catch(reject);
+        } else {
+            // If the file is not HEIC, proceed as before.
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(dataURItoBlob(file));
+        }
+    });
 }
 
 export default async function processImage(imagePath) {
