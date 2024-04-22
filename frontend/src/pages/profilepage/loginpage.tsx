@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 
@@ -33,7 +35,7 @@ const SignInButton: React.FC = () => {
 			onClick={handleLogin}
 		>
 			<FcGoogle size="24" />
-			<h1 className="pl-5">Sign in with Google</h1>
+			<button className="pl-5">Sign in with Google</button>
 		</div>
 	);
 };

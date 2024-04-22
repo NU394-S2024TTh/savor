@@ -3,17 +3,16 @@ import "./Fridge.css";
 import "../../themes/styles.css";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import TextField from "@mui/material/TextField";
 import { get, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
 
-import { useAuth } from "../../contexts/authcontexts";
-import { database } from "../../firebase/firebase";
 import { useUserItemsRef } from "../../firebase/firebasefunctions";
-import { getItems, saveItems } from "../../items/items";
+import { saveItems } from "../../items/items";
 import { Modal } from "../table/Modal";
 import { Table } from "../table/Table";
 import { ItemRow } from "../table/Table";
-
+import DropdownMenuFlt from "./Filtering/Dropdown";
 function Fridge() {
 	const dbRef = useUserItemsRef();
 	const [modalOpen, setModalOpen] = useState(false);
@@ -63,7 +62,6 @@ function Fridge() {
 		window.addEventListener("SessionStorageChange", handleSessionStorageChange);
 	}, []);
 
-
 	const handleDeleteRow = (targetIndex: number) => {
 		const updatedRows = rows.filter((_: any, idx: number) => idx !== targetIndex);
 		setRows(updatedRows);
@@ -99,6 +97,28 @@ function Fridge() {
 			localStorage.setItem("rows", JSON.stringify(afterEditRows));
 		}
 	};
+
+	const [sortByDaysUntilExpiration, setSortByDaysUntilExpiration] = useState<boolean>(false);
+	const [sortByDaysSincePurchase, setSortByDaysSincePurchase] = useState<boolean>(false);
+
+	const sortedRows = [...rows];
+
+	if (sortByDaysUntilExpiration) {
+		sortedRows.sort((a, b) => a.daysUntilExpiration - b.daysUntilExpiration);
+	}
+
+	if (sortByDaysSincePurchase) {
+		sortedRows.sort((a, b) => a.daysSincePurchase - b.daysSincePurchase);
+	}
+	const [searchQuery, setSearchQuery] = useState("");
+
+	const handleSearchChange = (event: any) => {
+		setSearchQuery(event.target.value);
+	};
+
+	const filteredRows = sortedRows.filter((row) =>
+		row.item.toLowerCase().includes(searchQuery.toLowerCase())
+	);
 
 	return (
 		<div className="Fridge flex min-h-screen flex-col items-center justify-center">
@@ -137,7 +157,33 @@ function Fridge() {
 					/>
 				</button>
 			</div>
-			<Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
+			{rows.length > 0 && (
+				<>
+					<div className="flex flex-1 flex-row items-center justify-center">
+						<span className="search px-20">
+							<TextField
+								id="filled-basic"
+								label="Search"
+								variant="filled"
+								color="success"
+								fullWidth={true}
+								value={searchQuery}
+								onChange={handleSearchChange}
+							/>
+						</span>
+						<span className="dropdown">
+							<DropdownMenuFlt
+								expiry={sortByDaysUntilExpiration}
+								purchase={sortByDaysSincePurchase}
+								expirysort={setSortByDaysUntilExpiration}
+								purchasesort={setSortByDaysSincePurchase}
+							></DropdownMenuFlt>
+						</span>
+					</div>
+
+					<Table rows={filteredRows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
+				</>
+			)}
 			{modalOpen && (
 				<Modal
 					closeModal={() => {

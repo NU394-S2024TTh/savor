@@ -13,9 +13,12 @@ button {
 	all: unset;
 }
 html {
-	overflow-y: scroll;
+	overflow: scroll;
+	overflow-x: hidden;
 }
-
+body {
+	width: 100vw;
+}
 body::-webkit-scrollbar {
 	background-color: #faf9f6;
 	width: 16px;
@@ -31,12 +34,12 @@ body::-webkit-scrollbar-thumb {
 	border: 4px solid #faf9f6;
 }
 
-.upPage {
-	background-color: #faf9f6;
-}
-
 body::-webkit-scrollbar-button {
 	display: none;
+}
+
+.upPage {
+	background-color: #faf9f6;
 }
 
 .DayNumber {

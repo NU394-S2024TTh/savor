@@ -2,7 +2,7 @@ import { ref } from "firebase/database";
 
 import { useAuth } from "../contexts/authcontexts.js";
 import { database } from "./firebase.js";
-import {auth} from "./firebase.js"
+import { auth } from "./firebase.js";
 /** NOTE: Can write/modularize for different paths. CURRENTLY! only for items. Can use similar setup for everything basically
  *
  *
@@ -18,7 +18,6 @@ export function useUserItemsRef() {
 
 	return userRef;
 }
-export function logOut(){
-    auth.signOut();
-    
+export function logOut() {
+	auth.signOut();
 }
