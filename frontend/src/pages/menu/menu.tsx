@@ -25,7 +25,7 @@ function MenuPage() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
 	const fetchImage = async (query: string) => {
-		const unsplash_key = "vD_HhjT5Txsal7RqgOA3pDsH41Vaxg68racp1ZRjdZ8"; // substitute with your own access key
+		const unsplash_key = ""; // TODO: substitute with your own access key
 		const data = await fetch(
 			`https://api.unsplash.com/search/photos?page=1&query=${query}&client_id=${unsplash_key}&per_page=1`
 		);
