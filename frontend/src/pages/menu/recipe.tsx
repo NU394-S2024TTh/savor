@@ -33,8 +33,8 @@ function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: Re
 	// console.log(recipe);
 	if (recipeOpen == -1) {
 		return (
-			<div onClick={() => handleOpen(recipeIndex)}>
-				<Card>
+			<div>
+				<Card onClick={() => handleOpen(recipeIndex)} onKeyDown={() => handleOpen(recipeIndex)}>
 					<CardActionArea LinkComponent={Fridge}>
 						<div style={{ maxHeight: "120px" }}>
 							<img src={recipe.image} alt={recipe.name} />
@@ -77,8 +77,13 @@ function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: Re
 	} else if (recipeOpen == recipeIndex) {
 		return (
 			<>
-				<div onClick={handleClose}>
-					<Card sx={{ backgroundColor: "white" }} style={{ padding: 1 }}>
+				<div>
+					<Card
+						sx={{ backgroundColor: "white" }}
+						style={{ padding: 1 }}
+						onClick={handleClose}
+						onKeyDown={handleClose}
+					>
 						<CardActionArea LinkComponent={Fridge}>
 							<CardMedia
 								className="recipe_img"
