@@ -46,7 +46,6 @@ function Fridge() {
 		// Define the event listener function
 
 		const handleSessionStorageChange = (event: Event) => {
-			console.log(rows);
 			const customEvent = event as CustomEvent<any>;
 			if (customEvent.detail.key === "rows") {
 				// Perform a functional state update to ensure we have the latest state.

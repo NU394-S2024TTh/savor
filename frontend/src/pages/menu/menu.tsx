@@ -1,26 +1,46 @@
 import "../../themes/styles.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbRefresh } from "react-icons/tb";
 
 import { ItemRow } from "../../components/table/Table";
 import processFood from "../../process/generaterecipe.mjs";
 import Recipe from "./recipe";
+import { get } from "firebase/database";
 import Reload from "./reload";
 import Alert from '@mui/material/Alert';
+import { useUserItemsRef } from "../../firebase/firebasefunctions";
 
 
 function MenuPage() {
 	const [loading, setLoading] = useState(false);
 	const [imgres, setImgres] = useState([]);
 
-	const [rows] = useState(() => {
-		// Try to get the data from localStorage
-		const savedRows = localStorage.getItem("rows");
+	// const [rows] = useState(() => {
+	// 	// Try to get the data from localStorage
+	// 	const savedRows = localStorage.getItem("rows");
 
-		// If there is data in localStorage, parse it; otherwise, use TEST_DATA
-		return savedRows ? JSON.parse(savedRows) : [];
-	});
+	// 	// If there is data in localStorage, parse it; otherwise, use TEST_DATA
+	// 	return savedRows ? JSON.parse(savedRows) : [];
+	// });
+
+	const [rows, setRows] = useState<ItemRow[]>([]);
+	const dbRef = useUserItemsRef();
+
+	useEffect(() => {
+		// Fetch existing data from the database and set it to rows
+		get(dbRef)
+			.then((snapshot) => {
+				if (snapshot.exists()) {
+					setRows(snapshot.val());
+				} else {
+					console.log("No data available");
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}, []); // Empty dependency array to only run once on mount
 
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
@@ -36,6 +56,7 @@ function MenuPage() {
 	};
 
 	const handleOnRefresh = async () => {
+		console.log(rows);
 		if (rows.length === 0) {
 			alert("Please add items to generate recipes!");
 			<Alert severity="warning">Please add some items before generating recipes!</Alert>
