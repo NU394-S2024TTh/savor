@@ -36,6 +36,11 @@ function MenuPage() {
 	};
 
 	const handleOnRefresh = async () => {
+		if (rows.length === 0) {
+			alert("Please add items to generate recipes!");
+			<Alert severity="warning">Please add some items before generating recipes!</Alert>
+			return;
+		}
 		const foods = rows.map((row: ItemRow) => row.item);
 		setLoading(true);
 		let res = [];

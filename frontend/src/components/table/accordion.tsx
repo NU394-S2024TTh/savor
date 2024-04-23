@@ -46,7 +46,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 
 	return (
 		<div
-			className={classNames("flex w-1/2 items-center justify-center bg-black", props.className)}
+			className={classNames("flex w-2/3 items-center justify-center bg-black", props.className)}
 			style={props.style}
 		>
 			<Accordion.Root
@@ -83,7 +83,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 					</AccordionTrigger>
 					<AccordionContent className="truncate break-all">
 						<div className="expirationwrapper">
-							<span className="flex items-center justify-center text-center align-middle">
+							<span className="flex items-center justify-center text-center align-middle text-base">
 								{props.expirationInfo}
 							</span>
 						</div>

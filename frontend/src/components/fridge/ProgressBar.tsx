@@ -39,13 +39,13 @@ const ProgressBar = ({ daysSincePurchase, daysUntilExpiration, image }: Progress
 	const isExpired = useMemo(() => daysUntilExpiration <= 0, [daysUntilExpiration]);
 
 	return (
-		<div className="relative mt-8 flex items-center px-16 py-4">
+		<div className="relative mt-8 flex items-center px-1 py-4">
 			{/* Shopping cart icon */}
 			<div className="mr-6 flex items-center justify-start">
 				{/* Change icon color to red if expired */}
 				<FontAwesomeIcon
 					icon={faShoppingCart}
-					className={`text-3xl ${isExpired ? "text-red-500" : "text-green-500"}`}
+					className={`text-1xl ${isExpired ? "text-red-500" : "text-green-500"}`}
 				/>
 			</div>
 			{!isExpired && (
@@ -54,7 +54,7 @@ const ProgressBar = ({ daysSincePurchase, daysUntilExpiration, image }: Progress
 					<div className="relative" style={{ width: `${filledPercentage}%` }}>
 						<div className="h-4 bg-green-500"></div>
 						<div className="absolute inset-0 -mt-14 flex flex-col items-center font-bold text-green-500">
-							<span className="-mb-1 text-4xl">{daysSincePurchase}</span>
+							<span className="-mb-1 text-2xl">{daysSincePurchase}</span>
 							<span className="text-xs">Days</span>
 						</div>
 					</div>
@@ -66,7 +66,7 @@ const ProgressBar = ({ daysSincePurchase, daysUntilExpiration, image }: Progress
 							left: `${imageoffsetStyling}`,
 							transform: "translate(-50%, -45%)"
 						}}
-						className="absolute top-0 z-10 text-5xl"
+						className="absolute top-1 z-10 text-3xl"
 					>
 						{image}
 					</div>
@@ -75,7 +75,7 @@ const ProgressBar = ({ daysSincePurchase, daysUntilExpiration, image }: Progress
 					<div className="relative" style={{ width: `${emptyPercentage}%` }}>
 						<div className="h-4 border border-green-500" />
 						<div className="absolute inset-0 -mt-14 flex flex-col items-center font-bold text-green-500">
-							<span className="-mb-1 text-4xl">{daysUntilExpiration}</span>
+							<span className="-mb-1 text-2xl">{daysUntilExpiration}</span>
 							<span className="text-xs">Days</span>
 						</div>
 					</div>
@@ -114,7 +114,7 @@ const ProgressBar = ({ daysSincePurchase, daysUntilExpiration, image }: Progress
 				{/* Change icon color to red if expired */}
 				<FontAwesomeIcon
 					icon={faTrash}
-					className={`text-3xl ${isExpired ? "text-red-500" : "text-green-500"}`}
+					className={`text-1xl ${isExpired ? "text-red-500" : "text-green-500"}`}
 				/>
 			</div>
 		</div>
