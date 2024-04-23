@@ -23,6 +23,7 @@ function MenuPage() {
 	// });
 
 	const [rows, setRows] = useState<ItemRow[]>([]);
+	const [unsplash_key_idx, setUnsplash_key_idx] = useState(0);
 	const dbRef = useUserItemsRef();
 
 	useEffect(() => {
@@ -43,7 +44,8 @@ function MenuPage() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
 	const fetchImage = async (query: string) => {
-		const unsplash_key = ""; // please substitute with your own access key
+		const unsplash_keys = [""]; // substitute with a list of API keys
+		const unsplash_key = unsplash_keys[unsplash_key_idx % unsplash_keys.length];
 		const data = await fetch(
 			`https://api.unsplash.com/search/photos?page=1&query=${query}&client_id=${unsplash_key}&per_page=1`
 		);
@@ -70,18 +72,18 @@ function MenuPage() {
 			<Alert severity="warning">Unexpected value in JSON, Try again!</Alert>;
 			setLoading(false);
 		}
-
-		for (let i = 0; i < res.length; i++) {
-			console.log(res[i].name);
-			let img_url = "";
-			try {
+		try {
+			for (let i = 0; i < res.length; i++) {
+				console.log(res[i].name);
+				let img_url = "";
 				img_url = await fetchImage(res[i].name);
-			} catch (e) {
-				alert("Unexpected return from unsplash, try another API!");
-				<Alert severity="warning">Unexpected return from unsplash, try another API</Alert>;
-				setLoading(false);
+				res[i].image = img_url;
 			}
-			res[i].image = img_url;
+		} catch (e) {
+			alert("Unexpected return from unsplash, try another API!");
+			<Alert severity="warning">Unexpected return from unsplash, switching to another API</Alert>;
+			setUnsplash_key_idx(unsplash_key_idx + 1);
+			setLoading(false);
 		}
 		setRecipes(res);
 		setLoading(false);
