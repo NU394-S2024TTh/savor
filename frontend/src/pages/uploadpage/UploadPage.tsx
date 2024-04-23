@@ -196,7 +196,6 @@ function Upload(props: any) {
 									setIsUploaded(true);
 								}} // after image is uploaded
 								{...dragProps}
-						
 							>
 								Upload
 							</button>

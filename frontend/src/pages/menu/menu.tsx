@@ -1,20 +1,18 @@
 import "../../themes/styles.css";
 
+import Alert from "@mui/material/Alert";
+import { get } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { TbRefresh } from "react-icons/tb";
 
 import { ItemRow } from "../../components/table/Table";
+import { useUserItemsRef } from "../../firebase/firebasefunctions";
 import processFood from "../../process/generaterecipe.mjs";
 import Recipe from "./recipe";
-import { get } from "firebase/database";
 import Reload from "./reload";
-import Alert from '@mui/material/Alert';
-import { useUserItemsRef } from "../../firebase/firebasefunctions";
-
 
 function MenuPage() {
 	const [loading, setLoading] = useState(false);
-	const [imgres, setImgres] = useState([]);
 
 	// const [rows] = useState(() => {
 	// 	// Try to get the data from localStorage
@@ -51,7 +49,7 @@ function MenuPage() {
 		);
 		const dataJ = await data.json();
 		const result = dataJ.results;
-		return result[0].urls.regular
+		return result[0].urls.regular;
 		// setImgres(result);
 	};
 
@@ -59,7 +57,7 @@ function MenuPage() {
 		console.log(rows);
 		if (rows.length === 0) {
 			alert("Please add items to generate recipes!");
-			<Alert severity="warning">Please add some items before generating recipes!</Alert>
+			<Alert severity="warning">Please add some items before generating recipes!</Alert>;
 			return;
 		}
 		const foods = rows.map((row: ItemRow) => row.item);
@@ -69,18 +67,18 @@ function MenuPage() {
 			res = await processFood(foods, 3);
 		} catch (e) {
 			alert("Unexpected value in JSON, Try again!");
-			<Alert severity="warning">Unexpected value in JSON, Try again!</Alert>
+			<Alert severity="warning">Unexpected value in JSON, Try again!</Alert>;
 			setLoading(false);
 		}
 
 		for (let i = 0; i < res.length; i++) {
 			console.log(res[i].name);
-			let img_url = ""
+			let img_url = "";
 			try {
 				img_url = await fetchImage(res[i].name);
 			} catch (e) {
 				alert("Unexpected return from unsplash, try another API!");
-				<Alert severity="warning">Unexpected return from unsplash, try another API</Alert>
+				<Alert severity="warning">Unexpected return from unsplash, try another API</Alert>;
 				setLoading(false);
 			}
 			res[i].image = img_url;
@@ -139,7 +137,10 @@ function MenuPage() {
 						{/* <p className="text-xl">Coming soon.......</p> */}
 					</div>
 
-					<div className=" flex w-2/3 flex-col items-center justify-center" style={{ paddingBottom: "10%", paddingTop: "3%" }}>
+					<div
+						className=" flex w-2/3 flex-col items-center justify-center"
+						style={{ paddingBottom: "10%", paddingTop: "3%" }}
+					>
 						<div className="w-full items-center justify-center space-y-4">
 							{recipes.length > 0 &&
 								recipes.map((recipe, index) => (
@@ -162,7 +163,7 @@ function MenuPage() {
 							)}
 						</div>
 					</div>
-				</div >
+				</div>
 			</>
 		);
 	}

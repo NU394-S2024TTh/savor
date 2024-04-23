@@ -150,10 +150,7 @@ function Fridge() {
 					</div>
 				</div>
 				<div className="w-1/12">
-					<button
-						onClick={() => setModalOpen(true)}
-						className="-mt-2 flex justify-end self-start"
-					>
+					<button onClick={() => setModalOpen(true)} className="-mt-2 flex justify-end self-start">
 						<PlusCircleIcon
 							className="top-0 mb-4 h-12 w-12 cursor-pointer fill-green-500"
 							aria-hidden="true"

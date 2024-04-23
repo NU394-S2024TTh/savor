@@ -125,9 +125,9 @@ const SwipeToRevealActions: React.FC<Props> = ({
 					>
 						<></>
 					</AccordionInfo>
-					{isExpanded &&
+					{isExpanded && (
 						<div
-							className="rstra-actions-container align-middle pr-8"
+							className="rstra-actions-container pr-8 align-middle"
 							style={{
 								display: "flex",
 								height: "100%",
@@ -144,7 +144,8 @@ const SwipeToRevealActions: React.FC<Props> = ({
 									</button>
 								</div>
 							))}
-						</div>}
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

@@ -13,8 +13,6 @@ import Typography from "@mui/material/Typography";
 // import { useState } from "react";
 import Fridge from "../../components/fridge/Fridge";
 
-
-
 interface Recipe {
 	name: string;
 	image: string;
@@ -41,23 +39,30 @@ function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: Re
 						<div style={{ maxHeight: "120px" }}>
 							<img src={recipe.image} alt={recipe.name} />
 						</div>
-						<div style={{
-							position: 'relative',
-							bottom: 0,
-							left: 0,
-							width: '100%',
-							backgroundColor: 'white',
-							opacity: 0.8,
-							padding: '0.5em',
-						}}>
+						<div
+							style={{
+								position: "relative",
+								bottom: 0,
+								left: 0,
+								width: "100%",
+								backgroundColor: "white",
+								opacity: 0.8,
+								padding: "0.5em"
+							}}
+						>
 							<div className=" w-11/12 items-center justify-center pl-6 pt-6">
-								<Typography gutterBottom variant="h6" component="div" style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
+								<Typography
+									gutterBottom
+									variant="h6"
+									component="div"
+									style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
+								>
 									{recipe.name}
 								</Typography>
 							</div>
 							<CardContent style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
 								{/* <Typography variant="body2" color="text.secondary" justifyContent="center"> */}
-								<div className="AccordionContent opacity_text" >
+								<div className="AccordionContent opacity_text">
 									<p>Available Ingredients: {recipe.whatYouHave.join(", ")}</p>
 									{recipe.whatYouNeed.length > 0 && (
 										<p>Missing Ingredients: {recipe.whatYouNeed.join(", ")}</p>
@@ -67,7 +72,7 @@ function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: Re
 						</div>
 					</CardActionArea>
 				</Card>
-			</div >
+			</div>
 		);
 	} else if (recipeOpen == recipeIndex) {
 		return (
@@ -99,7 +104,7 @@ function Recipe({ recipe, recipeIndex, recipeOpen, handleOpen, handleClose }: Re
 								<p>
 									<h2>Cooking Steps:</h2>
 								</p>
-								{recipe.steps.map((step: any, index: number) => (
+								{recipe.steps.map((step: string, index: number) => (
 									<Typography
 										key={index}
 										variant="body2"
