@@ -46,7 +46,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 
 	return (
 		<div
-			className={classNames("flex w-1/2 items-center justify-center bg-black", props.className)}
+			className={classNames("flex w-2/3 items-center justify-center bg-black", props.className)}
 			style={props.style}
 		>
 			<Accordion.Root
@@ -75,7 +75,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 							<div className="mt-2">
 								<ProgressBar
 									daysSincePurchase={props.purchase}
-									daysUntilExpiration={props.expiration}
+									daysUntilExpiration={CurrentDaysUntilExpiration(props.purchase, props.expiration)}
 									image={props.image}
 								/>
 							</div>
@@ -83,7 +83,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 					</AccordionTrigger>
 					<AccordionContent className="truncate break-all">
 						<div className="expirationwrapper">
-							<span className="flex items-center justify-center text-center align-middle">
+							<span className="flex items-center justify-center text-center align-middle text-base">
 								{props.expirationInfo}
 							</span>
 						</div>
@@ -136,4 +136,12 @@ function TimeDelay(time: number) {
 	// THIS DATE IS SET TO DELAY IN ONE WEEK. WHEN DOING ACTUAL PRODUCTS, PASS IN THE CORRECT EXPIRY TIMELINE
 	const inOneWeek = now.setDate(now.getDate() + time);
 	return new Date(inOneWeek);
+}
+
+function CurrentDaysUntilExpiration(daysSincePurchase: number, expiration: number) {
+	if (daysSincePurchase >= expiration) {
+		return 0;
+	} else {
+		return expiration - daysSincePurchase;
+	}
 }

@@ -64,6 +64,7 @@ function Fridge() {
 
 	const handleDeleteRow = (targetIndex: number) => {
 		const updatedRows = rows.filter((_: any, idx: number) => idx !== targetIndex);
+		console.log(updatedRows);
 		setRows(updatedRows);
 		saveItems(updatedRows);
 		localStorage.setItem(
@@ -124,43 +125,43 @@ function Fridge() {
 		<div className="Fridge flex min-h-screen flex-col items-center justify-center">
 			<div
 				className="flex items-start justify-between"
-				style={{ width: "70vmax", maxWidth: "80vmax" }}
+				style={{ width: "35vmax", maxWidth: "60vmax" }}
 			>
-				<div className="w-1/12"></div>
-				<div className="flex-1 text-center text-xl">
-					<div className="fridgeTitle font-bold">My Fridge</div>
-					<div className="swipeTooltip flex flex-row items-center justify-center">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							strokeWidth="1.5"
-							stroke="currentColor"
-							className="h-6 w-6"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
-							/>
-						</svg>
-						<span className="fridgeRegular font-normal">Swipe on an item to edit or delete</span>
+				<div className="w-11/12">
+					<div className="flex-1 text-center text-xl">
+						<div className="fridgeTitle font-bold">My Fridge</div>
+						<div className="swipeTooltip flex flex-row items-center justify-center">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								strokeWidth="1.5"
+								stroke="currentColor"
+								className="h-6 w-6"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
+								/>
+							</svg>
+							<span className="fridgeRegular font-normal">Swipe on an item to edit or delete</span>
+						</div>
 					</div>
 				</div>
-				<button
-					onClick={() => setModalOpen(true)}
-					className="-mt-2 flex w-1/12 justify-end self-start"
-				>
-					<PlusCircleIcon
-						className="top-0 mb-4 h-12 w-12 cursor-pointer fill-green-500"
-						aria-hidden="true"
-					/>
-				</button>
+				<div className="w-1/12">
+					<button onClick={() => setModalOpen(true)} className="-mt-2 flex justify-end self-start">
+						<PlusCircleIcon
+							className="top-0 mb-4 h-12 w-12 cursor-pointer fill-green-500"
+							aria-hidden="true"
+						/>
+					</button>
+				</div>
 			</div>
 			{rows.length > 0 && (
 				<>
 					<div className="flex flex-1 flex-row items-center justify-center">
-						<span className="search px-20">
+						<span className="px-20">
 							<TextField
 								id="filled-basic"
 								label="Search"
@@ -171,7 +172,7 @@ function Fridge() {
 								onChange={handleSearchChange}
 							/>
 						</span>
-						<span className="dropdown">
+						<span className="pr-8">
 							<DropdownMenuFlt
 								expiry={sortByDaysUntilExpiration}
 								purchase={sortByDaysSincePurchase}

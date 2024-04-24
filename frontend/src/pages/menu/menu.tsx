@@ -1,46 +1,93 @@
 import "../../themes/styles.css";
 
-import React, { useState } from "react";
+import Alert from "@mui/material/Alert";
+import { get } from "firebase/database";
+import React, { useEffect, useState } from "react";
 import { TbRefresh } from "react-icons/tb";
 
 import { ItemRow } from "../../components/table/Table";
+import { useUserItemsRef } from "../../firebase/firebasefunctions";
 import processFood from "../../process/generaterecipe.mjs";
 import Recipe from "./recipe";
 import Reload from "./reload";
 
-interface Recipe {
-	name: string;
-	image: string;
-	whatYouHave: string[];
-	whatYouNeed: string[];
-	recipe: string[];
-}
-
 function MenuPage() {
 	const [loading, setLoading] = useState(false);
 
-	const [rows] = useState(() => {
-		// Try to get the data from localStorage
-		const savedRows = localStorage.getItem("rows");
+	// const [rows] = useState(() => {
+	// 	// Try to get the data from localStorage
+	// 	const savedRows = localStorage.getItem("rows");
 
-		// If there is data in localStorage, parse it; otherwise, use TEST_DATA
-		return savedRows ? JSON.parse(savedRows) : [];
-	});
+	// 	// If there is data in localStorage, parse it; otherwise, use TEST_DATA
+	// 	return savedRows ? JSON.parse(savedRows) : [];
+	// });
+
+	const [rows, setRows] = useState<ItemRow[]>([]);
+	const [unsplash_key_idx, setUnsplash_key_idx] = useState(0);
+	const dbRef = useUserItemsRef();
+
+	useEffect(() => {
+		// Fetch existing data from the database and set it to rows
+		get(dbRef)
+			.then((snapshot) => {
+				if (snapshot.exists()) {
+					setRows(snapshot.val());
+				} else {
+					console.log("No data available");
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}, []); // Empty dependency array to only run once on mount
 
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
-	const handleOnRefresh = async () => {
-		const foods = rows.map((row: ItemRow) => row.item);
-		setLoading(true);
-		const res = await processFood(foods, 3);
-
-		setRecipes(res);
-		console.log(recipes);
-
-		setLoading(false);
+	const fetchImage = async (query: string) => {
+		const unsplash_keys = [""]; // substitute with a list of API keys
+		const unsplash_key = unsplash_keys[unsplash_key_idx % unsplash_keys.length];
+		const data = await fetch(
+			`https://api.unsplash.com/search/photos?page=1&query=${query}&client_id=${unsplash_key}&per_page=1`
+		);
+		const dataJ = await data.json();
+		const result = dataJ.results;
+		return result[0].urls.regular;
+		// setImgres(result);
 	};
 
-	console.log(rows.map((row: ItemRow) => row.item));
+	const handleOnRefresh = async () => {
+		console.log(rows);
+		if (rows.length === 0) {
+			alert("Please add items to generate recipes!");
+			<Alert severity="warning">Please add some items before generating recipes!</Alert>;
+			return;
+		}
+		const foods = rows.map((row: ItemRow) => row.item);
+		setLoading(true);
+		let res = [];
+		try {
+			res = await processFood(foods, 3);
+		} catch (e) {
+			alert("Unexpected value in JSON, Try again!");
+			<Alert severity="warning">Unexpected value in JSON, Try again!</Alert>;
+			setLoading(false);
+		}
+		try {
+			for (let i = 0; i < res.length; i++) {
+				console.log(res[i].name);
+				let img_url = "";
+				img_url = await fetchImage(res[i].name);
+				res[i].image = img_url;
+			}
+		} catch (e) {
+			alert("Unexpected return from unsplash, try another API!");
+			<Alert severity="warning">Unexpected return from unsplash, switching to another API</Alert>;
+			setUnsplash_key_idx(unsplash_key_idx + 1);
+			setLoading(false);
+		}
+		setRecipes(res);
+		setLoading(false);
+	};
 
 	const [activeRecipe, setactiveRecipes] = useState(-1);
 	const handleClose = () => {
@@ -92,7 +139,10 @@ function MenuPage() {
 						{/* <p className="text-xl">Coming soon.......</p> */}
 					</div>
 
-					<div className=" flex w-2/3 flex-col items-center justify-center">
+					<div
+						className=" flex w-2/3 flex-col items-center justify-center"
+						style={{ paddingBottom: "10%", paddingTop: "3%" }}
+					>
 						<div className="w-full items-center justify-center space-y-4">
 							{recipes.length > 0 &&
 								recipes.map((recipe, index) => (
