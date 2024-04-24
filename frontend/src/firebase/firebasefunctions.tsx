@@ -18,6 +18,17 @@ export function useUserItemsRef() {
 
 	return userRef;
 }
+
+export function useUserReceiptsRef() {
+	const { currentUser } = useAuth();
+
+	const receiptsRef = currentUser
+		? ref(database, `Users/${currentUser.uid}/receipts`)
+		: ref(database, "Users/test/posts");
+
+	return receiptsRef;
+}
+
 export function logOut() {
 	auth.signOut();
 }

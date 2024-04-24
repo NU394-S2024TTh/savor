@@ -5,6 +5,7 @@ import heic2any from "heic2any";
 // import { Buffer } from "buffer";
 // import fs from "fs";
 import { getOpenAIAPIKey } from "./encryptdecrypt.mjs";
+import { OCR } from "./ocr.mjs";
 
 function dataURItoBlob(dataURI) {
 	// handles the file
@@ -65,16 +66,16 @@ function readFileAsDataURL(file) {
 export default async function processImage(imagePath) {
 	const apiKey = await getOpenAIAPIKey();
 
-	// Multi-modal
-	const vision = new ChatOpenAI({
-		modelName: "gpt-4-vision-preview",
+	const file = dataURItoBlob(imagePath);
+
+	const extractedText = await OCR(file);
+
+  // Text-only GPT 3.5 model
+	const textAI = new ChatOpenAI({
+		modelName: "gpt-3.5-turbo",
 		maxOutputTokens: 2048,
 		openAIApiKey: apiKey
 	});
-	// const image = fs.readFileSync(imagePath).toString("base64");
-	let image = await readFileAsDataURL(imagePath);
-	// console.log('image to be put into OPENAI!!!!');
-	// console.log(image);
 
 	const input2 = [
 		new HumanMessage({
@@ -82,23 +83,56 @@ export default async function processImage(imagePath) {
 				{
 					type: "text",
 					text:
-						"Please list all items bought in the attached image of the receipt. First, extract the purchase date from the receipt. Then, for each item, provide the usual expiration days. Second, select a unicode symbol that suits the item the most. If it is hard to find one, consider the parent category of such item, e.g., fruit for sugar apple. Third, try to make a give the full name of the item, like Good&Gather Hummus instead of GG Hummus. Fourth, please give the number of days each item could expire in, prefixed with [Least number of days] a positive number. Here are the examples of the output:\n" +
+						extractedText + "\n\n" +
+						"Please list all items bought in the extracted text of the receipt from OCR shown above. First, extract the purchase date from the receipt. Then, for each item, provide the usual expiration days. Second, select a unicode symbol that suits the item the most. If it is hard to find one, consider the parent category of such item, e.g., fruit for sugar apple. Third, try to make a give the full name of the item, like Good&Gather Hummus instead of GG Hummus. Fourth, please give the number of days each item could expire in, prefixed with [Least number of days] a positive number. Here are the examples of the output:\n" +
 						"[Purchase Date] 2022-01-01\n" +
 						"1. Good&Gather Yogurt (unicode: 🐮): Usually Expire in 2-3 weeks; [Least number of days] 14\n" +
 						"2. Lettuce (unicode: 🥬): Usually Expire in 7-10 days; [Least number of days] 7\n" +
 						"3. Canned beans (unicode: 🫘): This is a type of food that can be stored as long as 1-2 years. However, it is still suggested to have it ASAP. [Least number of days] 365\n" +
 						"Ambiguous Items: GOOD&GATHER, Smartly\n" +
 						"Not food: Blogilates, Basketball, T-shirt\n"
-				},
-				{
-					type: "image_url",
-					image_url: `${image}`
 				}
 			]
 		})
 	];
 
-	const res2 = await vision.invoke(input2);
+	// // Multi-modal
+	// const vision = new ChatOpenAI({
+	// 	modelName: "gpt-4-vision-preview",
+	// 	maxOutputTokens: 2048,
+	// 	openAIApiKey: apiKey
+	// });
+	// // const image = fs.readFileSync(imagePath).toString("base64");
+	
+	// // ----------------------------------------------------------------
+
+	// let image = await readFileAsDataURL(imagePath);
+	// // console.log('image to be put into OPENAI!!!!');
+	// // console.log(image);
+
+	// const input2 = [
+	// 	new HumanMessage({
+	// 		content: [
+	// 			{
+	// 				type: "text",
+	// 				text:
+	// 					"Please list all items bought in the attached image of the receipt. First, extract the purchase date from the receipt. Then, for each item, provide the usual expiration days. Second, select a unicode symbol that suits the item the most. If it is hard to find one, consider the parent category of such item, e.g., fruit for sugar apple. Third, try to make a give the full name of the item, like Good&Gather Hummus instead of GG Hummus. Fourth, please give the number of days each item could expire in, prefixed with [Least number of days] a positive number. Here are the examples of the output:\n" +
+	// 					"[Purchase Date] 2022-01-01\n" +
+	// 					"1. Good&Gather Yogurt (unicode: 🐮): Usually Expire in 2-3 weeks; [Least number of days] 14\n" +
+	// 					"2. Lettuce (unicode: 🥬): Usually Expire in 7-10 days; [Least number of days] 7\n" +
+	// 					"3. Canned beans (unicode: 🫘): This is a type of food that can be stored as long as 1-2 years. However, it is still suggested to have it ASAP. [Least number of days] 365\n" +
+	// 					"Ambiguous Items: GOOD&GATHER, Smartly\n" +
+	// 					"Not food: Blogilates, Basketball, T-shirt\n"
+	// 			},
+	// 			{
+	// 				type: "image_url",
+	// 				image_url: `${image}`
+	// 			}
+	// 		]
+	// 	})
+	// ];
+
+	const res2 = await textAI.invoke(input2);
 	console.log(res2.content);
 
 	// parse the response
