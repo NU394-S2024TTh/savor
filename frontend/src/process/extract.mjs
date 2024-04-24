@@ -1,12 +1,8 @@
 import { HumanMessage } from "@langchain/core/messages";
 import { ChatOpenAI } from "@langchain/openai";
 import heic2any from "heic2any";
-
-// import { Buffer } from "buffer";
-// import fs from "fs";
 import { getOpenAIAPIKey } from "./encryptdecrypt.mjs";
 import { OCR } from "./ocr.mjs";
-
 function dataURItoBlob(dataURI) {
 	// handles the file
 	// convert base64 to raw binary data held in a string
@@ -80,12 +76,34 @@ async function query(data) {
 	return result;
 }
 
-export default async function processImage(imagePath) {
+export default async function processImage(imagePath){
+    try {
+      //  setLoading(true); // Assuming this is a function that handles the UI loading state.
+        const mimeTypeMatch = imagePath.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);
+        if (!mimeTypeMatch) throw new Error('Invalid data URL');
+        const mimeType = mimeTypeMatch[1];
+
+        let fileBlob;
+
+        if (mimeType === "image/heic") {
+            const conversionResult = await heic2any({
+                blob: dataURItoBlob(imagePath),
+                toType: "image/jpeg",
+                quality: 0.8
+            });
+            fileBlob = conversionResult;
+        } else {
+            fileBlob = dataURItoBlob(imagePath);
+        }
+	// Now, `fileBlob` contains the Blob of the image file, whether originally HEIC or not.
 	const apiKey = await getOpenAIAPIKey();
+	const extractedText = await OCR(fileBlob);
 
-	const file = dataURItoBlob(imagePath);
+	// const apiKey = await getOpenAIAPIKey();
 
-	const extractedText = await OCR(file);
+	// const file = dataURItoBlob(imagePath);
+
+	// const extractedText = await OCR(file);
 
   // Text-only GPT 3.5 model
 	const textAI = new ChatOpenAI({
@@ -167,5 +185,17 @@ export default async function processImage(imagePath) {
 
 	// return a dictionary with items and expiration days
 
+	
 	return { items, expirationInfo, expirationDays, unicodes, purchaseDate };
+	
+	} catch(error) {
+		console.error(error);
+		
+
+
+	} finally {
+		console.log("abc");
+	}
+
+	
 }
