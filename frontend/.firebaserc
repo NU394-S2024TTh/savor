@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "savor-test1"
+  },
+  "targets": {},
+  "etags": {
+    "savor-test1": {
+      "extensionInstances": {
+        "storage-extract-image-text": "12104f0a654826bc3517dd58e37da09604bfb15a6269a0ea64a90a1419dcd2c6"
+      }
+    }
   }
 }
