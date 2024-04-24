@@ -19,7 +19,7 @@ function Fridge() {
 	// if localStorage.getItem("rows"
 	//const [rows, setRows] = useState(TEST_DATA);
 	const [rows, setRows] = useState<ItemRow[]>([]);
-
+	const [deleting, setDeleting] = useState(false);
 	const [rowToEdit, setRowToEdit] = useState(null);
 	useEffect(() => {
 		// Fetch existing data from the database and set it to rows
@@ -38,8 +38,9 @@ function Fridge() {
 
 	useEffect(() => {
 		// Update the database whenever rows changes, except for the initial fetch (and when state is 0)
-		if (rows && rows.length != 0) {
+		if (rows && (rows.length != 0 || deleting)) {
 			set(dbRef, rows);
+			setDeleting(false);
 		}
 	}, [rows]);
 	useEffect(() => {
@@ -64,6 +65,7 @@ function Fridge() {
 
 	const handleDeleteRow = (targetIndex: number) => {
 		const updatedRows = rows.filter((_: any, idx: number) => idx !== targetIndex);
+		setDeleting(true);
 		console.log(updatedRows);
 		setRows(updatedRows);
 		saveItems(updatedRows);
