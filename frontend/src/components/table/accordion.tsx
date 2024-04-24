@@ -75,7 +75,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 							<div className="mt-2">
 								<ProgressBar
 									daysSincePurchase={props.purchase}
-									daysUntilExpiration={props.expiration}
+									daysUntilExpiration={CurrentDaysUntilExpiration(props.purchase, props.expiration)}
 									image={props.image}
 								/>
 							</div>
@@ -136,4 +136,12 @@ function TimeDelay(time: number) {
 	// THIS DATE IS SET TO DELAY IN ONE WEEK. WHEN DOING ACTUAL PRODUCTS, PASS IN THE CORRECT EXPIRY TIMELINE
 	const inOneWeek = now.setDate(now.getDate() + time);
 	return new Date(inOneWeek);
+}
+
+function CurrentDaysUntilExpiration(daysSincePurchase: number, expiration: number) {
+	if (daysSincePurchase >= expiration) {
+		return 0;
+	} else {
+		return expiration - daysSincePurchase;
+	}
 }
