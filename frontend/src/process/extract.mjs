@@ -116,13 +116,15 @@ export default async function processImage(imagePath){
 	const promptText = extractedText + "\n\n" +
 		"Please list food-only items bought in the extracted text of the receipt from OCR shown above. First, extract the purchase date from the receipt. Then, for each item, provide the usual expiration days. Second, select a unicode symbol that suits the item the most. If it is hard to find one, consider the parent category of such item, e.g., fruit for sugar apple. Third, try to make a give the full name of the item, like Good&Gather Hummus instead of GG Hummus. Fourth, please give the number of days each item could expire in, prefixed with [Least number of days] a positive number. Here are the examples of the output:\n" +
 		"[Purchase Date] 2022-01-01\n" +
-		"1. Good&Gather Yogurt (unicode: 🐮): Usually Expire in 2-3 weeks; [Least number of days] 14\n" +
-		"2. Lettuce (unicode: 🥬): Usually Expire in 7-10 days; [Least number of days] 7\n" +
-		"3. Canned beans (unicode: 🫘): This is a type of food that can be stored as long as 1-2 years. However, it is still suggested to have it ASAP. [Least number of days] 365\n" +
-		"...\n" +
-		"---\n" +
-		"[Ambiguous Items] GOOD&GATHER, Smartly\n" +
-		"[Not food] Blogilates, Basketball, T-shirt\n";
+		"1. Good&Gather Yogurt: [Unicode] 🐮; [Info] Usually Expire in 2-3 weeks; [Least number of days] 14\n" +
+		"2. Lettuce: [Unicode] 🥬; [Info] Usually Expire in 7-10 days; [Least number of days] 7\n" +
+		"3. Canned beans: [Unicode] 🫘; [Info] This is a type of food that can be stored as long as 1-2 years. However, it is still suggested to have it ASAP. [Least number of days] 365\n" +
+		"4. GOOD&GATHER: AMBIGOUS ITEM\n" +
+		"5. Smartly: AMBIGOUS ITEM\n" +
+		"6. T-shirt: NOT FOOD ITEM\n" +
+		"7. Pins: NOT FOOD ITEM\n" +
+		"8. Blogilates: NOT FOOD ITEM\n" +
+		"9. Basketball: NOT FOOD ITEM\n"
 
 	const input2 = [
 		new HumanMessage({
@@ -163,18 +165,18 @@ export default async function processImage(imagePath){
 			// console.log('line: %s', line);
 			// regex to extract the item and information string
 			const regex =
-				/^(\d+)\.\s(.+)\s+\((unicode:)?\s+(.*)\):\s(.+)\[Least number of days\]\s+(\d+).*$/;
+				/^(\d+)\.\s(.+):\s*\[Unicode\]\s*(.+);\s*\[Info\]\s*(.+);\s*\[Least number of days\]\s*(\d+).*$/;
 			const match = line.match(regex);
 			if (match) {
 				console.log("matched!");
 				items.push(match[2]);
-				unicodes.push(match[4]);
-				expirationInfo.push(match[5]);
-				expirationDays.push(match[6]);
-				// console.log(match[2]);
-				// console.log(match[3]);
-				// console.log(match[4]);
-				// console.log(match[5]);
+				unicodes.push(match[3]);
+				expirationInfo.push(match[4]);
+				expirationDays.push(match[5]);
+				console.log(match[2]);
+				console.log(match[3]);
+				console.log(match[4]);
+				console.log(match[5]);
 			}
 		}
 	}
