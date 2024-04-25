@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "../../themes/styles.css";
 
@@ -23,11 +24,11 @@ function diff_days(purchaseDate: string) {
 	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 	return diffDays;
 }
-// [#faf9f6]
+
 function UploadPage() {
 	const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
 	return (
-		<div className="flex h-full flex-col items-center bg-black">
+		<div className="flex h-full flex-col items-center bg-[#faf9f6]">
 			<Upload uploadIconStyles={uploadIconStyles} />
 		</div>
 	);
@@ -49,9 +50,11 @@ function Upload(props: any) {
 	const [isUploaded, setIsUploaded] = useState(false);
 	const [noPurchaseDate, setNoPurchaseDate] = useState(false);
 
+	const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
 	const userRef = useUserItemsRef();
 
 	useEffect(() => {
+		// setting state from DB at first
 		get(userRef)
 			.then((snapshot) => {
 				if (snapshot.exists()) {
@@ -62,9 +65,10 @@ function Upload(props: any) {
 				console.error(error);
 			});
 	}, []);
+	// let response = {} as Response;
 	const [response, setResponse] = useState<Response | null>(null);
 
-	const onChange = async (imageList: any) => {
+	const onChange = async (imageList: any, addUpdateIndex: any) => {
 		// data for submit
 		console.log("ImageList");
 		console.log(imageList);
@@ -76,8 +80,19 @@ function Upload(props: any) {
 	const onSubmit = async () => {
 		setLoading(true);
 		const res = await processImage(images[0]["data_url"]);
-		await new Promise((resolve) => setTimeout(resolve, 2000));
+		// alert(Object.prototype.toString.call(res));
+		// delay for 2 seconds
+		await new Promise((resolve) => setTimeout(resolve, 2000)); // TODO: this is a workaround for now
 		setResponse(res);
+		// testing with fake data without using API
+		// await new Promise((resolve) => setTimeout(resolve, 2000));
+		// setResponse({
+		// 	items: ["apple", "banana", "carrot"],
+		// 	unicodes: ["🍎", "🍌", "🥕"],
+		// 	expirationInfo: ["2 days", "3 days", "4 days"],
+		// 	expirationDays: [2, 3, 4],
+		// 	purchaseDate: ""
+		// });
 	};
 	const processResponse = () => {
 		if (response == null) {
@@ -85,7 +100,7 @@ function Upload(props: any) {
 			setLoading(false);
 			return;
 		}
-		if (response.purchaseDate == "") {
+		if (response.purchaseDate == "" || response.purchaseDate == "Not Available") {
 			console.warn("No purchase date found in the receipt", "color: black;");
 			setNoPurchaseDate(true);
 			setLoading(false);
@@ -109,6 +124,8 @@ function Upload(props: any) {
 				id: uuidv4()
 			});
 		}
+		console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		console.log(response.purchaseDate);
 		console.log("newRows");
 		console.log(newRows);
 
@@ -131,11 +148,15 @@ function Upload(props: any) {
 	useEffect(processResponse, [response]);
 
 	useEffect(() => {
+		// setting db every time rows changes BUT not at the start. lol
 		if (rows.length != 0 && userRef) {
 			set(userRef, rows);
 		}
 	}, [rows]);
+
 	console.log("loading: ", loading);
+	// console.log("noPurchaseDate: ", noPurchaseDate);
+
 	return (
 		<ImageUploading
 			multiple
@@ -143,17 +164,24 @@ function Upload(props: any) {
 			onChange={onChange}
 			maxNumber={maxNumber}
 			dataURLKey="data_url"
-			allowNonImageType={true}
 		>
-			{({ imageList, onImageUpload, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
-				<div className="UploadBtnCol flex flex-col items-center justify-center">
+			{({
+				imageList,
+				onImageUpload,
+				onImageRemoveAll,
+				onImageUpdate,
+				onImageRemove,
+				isDragging,
+				dragProps
+			}) => (
+				<div className="flex flex-col items-center justify-center">
 					{!loading && !noPurchaseDate && (
 						<div className="flex flex-col items-center justify-center">
-							<div className="HomePageTitle mt-6 flex items-center justify-center"> Add Items </div>
+							<div className="HomePageTitle mt-6"> Add Items </div>
 							{!isUploaded && (
 								<>
 									<ArrowUpOnSquareIcon className={props.uploadIconStyles} />
-									<p className=" UploadDescription pt-6 text-center">
+									<p className=" UploadDescription mx-20 max-w-md pt-6 text-center">
 										{" "}
 										Hit the green button down below to add items from your receipt! (only jpg, jpeg,
 										png are supported){" "}
@@ -170,7 +198,7 @@ function Upload(props: any) {
 								onClick={() => {
 									onImageUpload();
 									setIsUploaded(true);
-								}}
+								}} // after image is uploaded
 								{...dragProps}
 							>
 								Upload
@@ -205,7 +233,7 @@ function Upload(props: any) {
 										</button>
 										<button
 											className="rounded-2xl bg-green-500 px-20 py-4"
-											onClick={() => onSubmit()}
+											onClick={() => onSubmit()} // i think?
 										>
 											Submit Image
 										</button>

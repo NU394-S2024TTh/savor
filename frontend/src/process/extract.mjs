@@ -2,6 +2,7 @@
 import { HumanMessage } from "@langchain/core/messages";
 import { ChatOpenAI } from "@langchain/openai";
 import heic2any from "heic2any";
+import { v4 as uuidv4 } from "uuid";
 
 import { getOpenAIAPIKey } from "./encryptdecrypt.mjs";
 import { OCR } from "./ocr.mjs";
@@ -118,7 +119,7 @@ export default async function processImage(imagePath) {
 		const promptText =
 			extractedText +
 			"\n\n" +
-			"Please list food-only items bought in the extracted text of the receipt from OCR shown above. First, extract the purchase date from the receipt. Then, for each item, provide the usual expiration days. Second, select a unicode symbol that suits the item the most. If it is hard to find one, consider the parent category of such item, e.g., fruit for sugar apple. Third, try to make a give the full name of the item, like Good&Gather Hummus instead of GG Hummus. Fourth, please give the number of days each item could expire in, prefixed with [Least number of days] a positive number. Here are the examples of the output:\n" +
+			"Please list food-only items bought in the extracted text of the receipt from OCR shown above. First, extract the purchase date from the receipt. If there is no purchase date, write 'Not Available'. Then, for each item, provide the usual expiration days. Second, select a unicode symbol that suits the item the most. If it is hard to find one, consider the parent category of such item, e.g., fruit for sugar apple. Third, try to make a give the full name of the item, like Good&Gather Hummus instead of GG Hummus. Fourth, please give the number of days each item could expire in, prefixed with [Least number of days] a positive number. Here are the examples of the output:\n" +
 			"[Purchase Date] 2022-01-01\n" +
 			"1. Good&Gather Yogurt: [Unicode] 🐮; [Info] Usually Expire in 2-3 weeks; [Least number of days] 14\n" +
 			"2. Lettuce: [Unicode] 🥬; [Info] Usually Expire in 7-10 days; [Least number of days] 7\n" +

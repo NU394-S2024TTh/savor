@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import { Response } from "./UploadPage";
-
 interface PurchaseDateSelectionPageProps {
 	setResponse: React.Dispatch<React.SetStateAction<Response | null>>;
 	setNoPurchaseDate: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,7 +25,6 @@ export default function PurchaseDateSelectionPage({
 					unicodes: [],
 					expirationInfo: [],
 					expirationDays: []
-					// ... other fields with default values
 				};
 			}
 			// Update the purchaseDate within the existing response object
