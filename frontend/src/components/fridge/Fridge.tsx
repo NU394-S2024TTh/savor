@@ -125,6 +125,14 @@ function Fridge() {
 
 	return (
 		<div className="Fridge flex min-h-screen flex-col items-center justify-center">
+			<div className="fixed right-5 top-5 z-50 px-4 py-2">
+				<button onClick={() => setModalOpen(true)} className="-mt-2 flex justify-end self-start">
+					<PlusCircleIcon
+						className="top-0 mb-4 h-12 w-12 cursor-pointer fill-green-500"
+						aria-hidden="true"
+					/>
+				</button>
+			</div>
 			<div
 				className="flex items-start justify-between"
 				style={{ width: "35vmax", maxWidth: "60vmax" }}
@@ -150,14 +158,6 @@ function Fridge() {
 							<span className="fridgeRegular font-normal">Swipe on an item to edit or delete</span>
 						</div>
 					</div>
-				</div>
-				<div className="w-1/12">
-					<button onClick={() => setModalOpen(true)} className="-mt-2 flex justify-end self-start">
-						<PlusCircleIcon
-							className="top-0 mb-4 h-12 w-12 cursor-pointer fill-green-500"
-							aria-hidden="true"
-						/>
-					</button>
 				</div>
 			</div>
 			{rows.length > 0 && (
