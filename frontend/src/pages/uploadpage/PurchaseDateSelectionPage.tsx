@@ -16,6 +16,7 @@ export default function PurchaseDateSelectionPage({
 		// use the value of the input field to set the purchase date
 		// set the purchase date in the response object
 		setResponse((response: Response | null) => {
+			// when a function is passed to setResponse, the previous state is passed as an argument
 			// Instead of returning null, create a new Response object with default fields if needed
 			if (response === null) {
 				console.error("Response object is null");
@@ -28,6 +29,7 @@ export default function PurchaseDateSelectionPage({
 				};
 			}
 			// Update the purchaseDate within the existing response object
+			console.log("Setting purchase date to", purchaseDate.toString());
 			return { ...response, purchaseDate: purchaseDate.toString() };
 		});
 		// set the noPurchaseDate to false

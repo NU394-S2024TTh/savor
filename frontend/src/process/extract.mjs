@@ -169,7 +169,7 @@ export default async function processImage(imagePath) {
 				// console.log('line: %s', line);
 				// regex to extract the item and information string
 				const regex =
-					/^(\d+)\.\s(.+):\s*\[Unicode\]\s*(.+);\s*\[Info\]\s*(.+);\s*\[Least number of days\]\s*(\d+).*$/;
+					/^(\d+)\.\s(.+):\s*(?:\[Unicode\]\s*)?(.+);\s*(?:\[Info\]\s*)?(.+);\s*\[Least number of days\]\s*(\d+).*$/;
 				const match = line.match(regex);
 				if (match) {
 					console.log("matched!");
