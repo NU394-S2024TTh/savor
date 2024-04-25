@@ -86,7 +86,7 @@ function Upload(props: any) {
 		// alert(Object.prototype.toString.call(res));
 		// delay for 2 seconds
 		await new Promise((resolve) => setTimeout(resolve, 2000)); // TODO: this is a workaround for now
-		setResponse(res);
+		setResponse(res!);
 		// testing with fake data without using API
 		// await new Promise((resolve) => setTimeout(resolve, 2000));
 		// setResponse({
@@ -178,7 +178,7 @@ function Upload(props: any) {
 				<div className="UploadBtnCol flex flex-col items-center justify-center">
 					{!loading && !noPurchaseDate && (
 						<div className="flex flex-col items-center justify-center">
-							<div className="HomePageTitle mt-6"> Add Items </div>
+							<div className="HomePageTitle mt-6 flex items-center justify-center"> Add Items </div>
 							{!isUploaded && (
 								<>
 									<ArrowUpOnSquareIcon className={props.uploadIconStyles} />

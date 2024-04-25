@@ -78,16 +78,13 @@ const SwipeToRevealActions: React.FC<Props> = ({
 			}
 		}
 	}
+	const swipeDistancePercentage = 20;
 
-	function handleActionClicked(callback: () => void) {
-		callback();
-		setIsExpanded(false);
-	}
-	const swipeDistancePercentage = 20; // Change this to your desired percentage
-
-	// Calculate swipe distance based on viewport width
 	const viewportWidth = window.innerWidth;
-	const swipeDistance = (viewportWidth * swipeDistancePercentage) / 100;
+	const viewportHeight = window.innerHeight;
+	const smallerDimension = Math.min(viewportWidth, viewportHeight);
+
+	const swipeDistance = (smallerDimension * swipeDistancePercentage) / 100;
 
 	const [parentHeight, setParentHeight] = useState<number>(0);
 	const parentRef = useRef<HTMLDivElement>(null);
@@ -99,12 +96,12 @@ const SwipeToRevealActions: React.FC<Props> = ({
 			}
 		};
 
-		updateParentHeight(); // Update height initially
+		updateParentHeight();
 
-		window.addEventListener("resize", updateParentHeight); // Update height when window is resized
+		window.addEventListener("resize", updateParentHeight);
 
 		return () => {
-			window.removeEventListener("resize", updateParentHeight); // Cleanup event listener
+			window.removeEventListener("resize", updateParentHeight);
 		};
 	}, [parentRef]);
 
@@ -125,27 +122,25 @@ const SwipeToRevealActions: React.FC<Props> = ({
 					>
 						<></>
 					</AccordionInfo>
-					{isExpanded && (
-						<div
-							className="rstra-actions-container pr-8 align-middle"
-							style={{
-								display: "flex",
-								height: "100%",
-								opacity: isExpanded ? 1 : 0,
-								transform: `translateX(${isExpanded ? 0 : "100%"})`,
-								transition: "opacity 0.25s ease, transform 0.25s ease"
-							}}
-							id={id}
-						>
-							{actionButtons.map((action, index) => (
-								<div key={`actionKey_${index}`} className="pl-">
-									<button className="rstra-action-button" role={action.role || "button"}>
-										{action.content}
-									</button>
-								</div>
-							))}
-						</div>
-					)}
+					<div
+						className="rstra-actions-container pr-8 align-middle"
+						style={{
+							display: "flex",
+							height: "100%",
+							opacity: isExpanded ? 1 : 0,
+							transform: `translateX(${isExpanded ? 0 : "100%"})`,
+							transition: "opacity 0.25s ease, transform 0.25s ease"
+						}}
+						id={id}
+					>
+						{actionButtons.map((action, index) => (
+							<div key={`actionKey_${index}`} className="pl-">
+								<button className="rstra-action-button" role={action.role || "button"}>
+									{action.content}
+								</button>
+							</div>
+						))}
+					</div>
 				</div>
 			</div>
 		</div>
