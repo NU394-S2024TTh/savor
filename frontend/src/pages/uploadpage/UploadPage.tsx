@@ -5,6 +5,7 @@ import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { get, set } from "firebase/database";
 import { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
+import { v4 as uuidv4 } from "uuid";
 
 import { ItemRow } from "../../components/table/Table";
 import { useUserItemsRef } from "../../firebase/firebasefunctions";
@@ -22,11 +23,11 @@ function diff_days(purchaseDate: string) {
 	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 	return diffDays;
 }
-
+// [#faf9f6]
 function UploadPage() {
 	const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
 	return (
-		<div className="flex h-full flex-col items-center bg-[#faf9f6]">
+		<div className="flex h-full flex-col items-center bg-black">
 			<Upload uploadIconStyles={uploadIconStyles} />
 		</div>
 	);
@@ -76,7 +77,7 @@ function Upload(props: any) {
 		setLoading(true);
 		const res = await processImage(images[0]["data_url"]);
 		await new Promise((resolve) => setTimeout(resolve, 2000));
-		setResponse(res!);
+		setResponse(res);
 	};
 	const processResponse = () => {
 		if (response == null) {
@@ -105,7 +106,7 @@ function Upload(props: any) {
 				expirationInfo: response.expirationInfo[i],
 				daysUntilExpiration: response.expirationDays[i],
 				daysSincePurchase: diff_days(response.purchaseDate),
-				id: i
+				id: uuidv4()
 			});
 		}
 		console.log("newRows");

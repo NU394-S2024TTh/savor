@@ -9,8 +9,8 @@ import React from "react";
 import SwipeToRevealActions from "./swipe/swipetorevealactions";
 interface TableProps {
 	rows: any;
-	deleteRow: (index: number) => void;
-	editRow: (index: number | null) => void;
+	deleteRow: (index: string) => void;
+	editRow: (index: string | null) => void;
 }
 
 export interface ItemRow {
@@ -19,7 +19,7 @@ export interface ItemRow {
 	expirationInfo: string;
 	daysUntilExpiration: number;
 	daysSincePurchase: number;
-	id: number;
+	id: string;
 }
 
 export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {

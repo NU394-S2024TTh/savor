@@ -18,7 +18,7 @@ function Fridge() {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [rows, setRows] = useState<ItemRow[]>([]);
 	const [deleting, setDeleting] = useState(false);
-	const [rowToEdit, setRowToEdit] = useState<number | null>(null); // Specify the type as number or null
+	const [rowToEdit, setRowToEdit] = useState<string | null>(null); // Specify the type as number or null
 	useEffect(() => {
 		// Fetch existing data from the database and set it to rows
 		get(dbRef)
@@ -41,7 +41,7 @@ function Fridge() {
 		}
 	}, [rows]);
 
-	const handleDeleteRow = (targetId: number) => {
+	const handleDeleteRow = (targetId: string) => {
 		const updatedRows = rows.filter((row) => row.id !== targetId);
 		setDeleting(true);
 		console.log(updatedRows);
@@ -50,7 +50,7 @@ function Fridge() {
 		localStorage.setItem("rows", JSON.stringify(rows.filter((row) => row.id !== targetId)));
 	};
 
-	const handleEditRow = (id: number | null) => {
+	const handleEditRow = (id: string | null) => {
 		setRowToEdit(id);
 		setModalOpen(true);
 	};
