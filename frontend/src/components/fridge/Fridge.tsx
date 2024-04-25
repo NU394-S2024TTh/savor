@@ -98,7 +98,7 @@ function Fridge() {
 
 	return (
 		<div className="Fridge flex min-h-screen flex-col items-center justify-center">
-			<div className="fixed right-5 top-5 z-50 px-4 py-2">
+			<div className="fixed right-3 top-5 z-50 px-4 py-2">
 				<button onClick={() => setModalOpen(true)} className="-mt-2 flex justify-end self-start">
 					<PlusCircleIcon
 						className="top-0 mb-4 h-12 w-12 cursor-pointer fill-green-500"
@@ -111,7 +111,7 @@ function Fridge() {
 				style={{ width: "35vmax", maxWidth: "60vmax" }}
 			>
 				<div className="w-11/12">
-					<div className="flex-1 text-center text-xl">
+					<div className="flex-1 text-center text-base">
 						<div className="fridgeTitle font-bold">My Fridge</div>
 						<div className="swipeTooltip flex flex-row items-center justify-center">
 							<svg
@@ -135,7 +135,7 @@ function Fridge() {
 			</div>
 			{rows.length > 0 && (
 				<>
-					<div className="flex flex-1 flex-row items-center justify-center">
+					<div className="flex flex-row items-center justify-center">
 						<span className="px-20">
 							<TextField
 								id="filled-basic"
