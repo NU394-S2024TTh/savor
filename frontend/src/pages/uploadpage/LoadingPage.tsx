@@ -28,7 +28,7 @@ function LoadingPage() {
 			{" "}
 			{/* Center the loader */}
 			<img src={watermelon} alt="loading..." />
-			<p className="text-lg text-gray-600">
+			<p className="text-lg text-gray-600 text-center px-4 ">
 				Loading, please wait... This may take a few moments.
 			</p>{" "}
 			{/* Loading message */}
