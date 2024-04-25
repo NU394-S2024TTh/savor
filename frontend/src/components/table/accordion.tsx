@@ -7,9 +7,9 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
 import React, { ReactNode, useRef, useState } from "react";
-import NotificationModal from "./NotificationModal";
 
 import ProgressBar from "../fridge/ProgressBar";
+import NotificationModal from "./NotificationModal";
 
 interface AccordionProps {
 	children: ReactNode;
