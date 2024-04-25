@@ -58,7 +58,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 				<Accordion.Item className="AccordionItem w-full" value="item-1">
 					<AccordionTrigger onClick={handleButtonClick} className="truncate break-all">
 						<div className="flex w-full flex-1 flex-col py-4">
-							<div className="flex items-center justify-between">
+							<div className="flex text-wrap items-center justify-between">
 								<div className="w-1/12"></div>
 								<div className="itemtitle flex w-10/12 flex-1 items-center justify-center pl-0.5 font-bold outline-none">
 									{props.name}

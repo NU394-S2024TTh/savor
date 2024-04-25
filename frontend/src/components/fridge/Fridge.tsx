@@ -43,25 +43,25 @@ function Fridge() {
 			setDeleting(false);
 		}
 	}, [rows]);
-	useEffect(() => {
-		// Define the event listener function
+	// useEffect(() => {
+	// 	// Define the event listener function
 
-		const handleSessionStorageChange = (event: Event) => {
-			const customEvent = event as CustomEvent<any>;
-			if (customEvent.detail.key === "rows") {
-				// Perform a functional state update to ensure we have the latest state.
-				// setRows(() => {
-				// 	const updatedRows = JSON.parse(customEvent.detail.value);
-				// 	console.log("At the listener", updatedRows);
-				// 	// This update will cause a re-render
-				// 	return updatedRows;
-				// });
-			}
-		};
+	// 	const handleSessionStorageChange = (event: Event) => {
+	// 		const customEvent = event as CustomEvent<any>;
+	// 		if (customEvent.detail.key === "rows") {
+	// 			// Perform a functional state update to ensure we have the latest state.
+	// 			// setRows(() => {
+	// 			// 	const updatedRows = JSON.parse(customEvent.detail.value);
+	// 			// 	console.log("At the listener", updatedRows);
+	// 			// 	// This update will cause a re-render
+	// 			// 	return updatedRows;
+	// 			// });
+	// 		}
+	// 	};
 
-		// Attach the event listener when the component mounts
-		window.addEventListener("SessionStorageChange", handleSessionStorageChange);
-	}, []);
+	// 	// Attach the event listener when the component mounts
+	// 	window.addEventListener("SessionStorageChange", handleSessionStorageChange);
+	// }, []);
 
 	const handleDeleteRow = (targetIndex: number) => {
 		const updatedRows = rows.filter((_: any, idx: number) => idx !== targetIndex);
