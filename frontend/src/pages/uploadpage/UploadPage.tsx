@@ -18,7 +18,10 @@ import PurchaseDateSelectionPage from "./PurchaseDateSelectionPage";
 
 function diff_days(purchaseDate: string) {
 	const today = new Date();
-	const _purchaseDate = new Date(purchaseDate);
+	let _purchaseDate = new Date(purchaseDate);
+	if (isNaN(_purchaseDate.getDate())) {
+		_purchaseDate = new Date();
+	}
 	const diffTime = Math.abs(today.getTime() - _purchaseDate.getTime());
 	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 	return diffDays;
@@ -78,6 +81,7 @@ function Upload(props: any) {
 
 	const onSubmit = async () => {
 		setLoading(true);
+		// need to process the data_url here
 		const res = await processImage(images[0]["data_url"]);
 		// alert(Object.prototype.toString.call(res));
 		// delay for 2 seconds
@@ -160,6 +164,7 @@ function Upload(props: any) {
 			onChange={onChange}
 			maxNumber={maxNumber}
 			dataURLKey="data_url"
+			allowNonImageType={true}
 		>
 			{({
 				imageList,
