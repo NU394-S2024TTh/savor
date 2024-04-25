@@ -1,4 +1,3 @@
-// src/contexts/AuthContext.tsx
 import {
 	Auth,
 	getAuth,
@@ -11,12 +10,11 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 
 interface AuthContextType {
 	currentUser: User | null;
-	loginWithGoogle: () => Promise<void>; // Add login function type
+	loginWithGoogle: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Add this function within your AuthProvider component
 const loginWithGoogle = async () => {
 	const auth: Auth = getAuth();
 	const provider = new GoogleAuthProvider();
@@ -44,7 +42,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 	const value = {
 		currentUser,
-		loginWithGoogle // Provide the function through context
+		loginWithGoogle
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

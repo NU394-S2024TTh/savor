@@ -52,5 +52,3 @@ export default async function processFood(FoodItems, numRecipes) {
 	console.log(recipes);
 	return recipes;
 }
-
-// processFood(["broccoli", "garlic", "oil"], 3);

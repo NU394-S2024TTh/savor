@@ -58,7 +58,7 @@ export const AccordionInfo = (props: AccordionProps) => {
 				<Accordion.Item className="AccordionItem w-full" value="item-1">
 					<AccordionTrigger onClick={handleButtonClick} className="truncate break-all">
 						<div className="flex w-full flex-1 flex-col py-4">
-							<div className="flex text-wrap items-center justify-between">
+							<div className="flex items-center justify-between text-wrap">
 								<div className="w-1/12"></div>
 								<div className="itemtitle flex w-10/12 flex-1 items-center justify-center pl-0.5 font-bold outline-none">
 									{props.name}
@@ -130,13 +130,6 @@ const AccordionContent = React.forwardRef<HTMLDivElement, AccordionContentProps>
 		</Accordion.Content>
 	)
 );
-
-function TimeDelay(time: number) {
-	const now = new Date();
-	// THIS DATE IS SET TO DELAY IN ONE WEEK. WHEN DOING ACTUAL PRODUCTS, PASS IN THE CORRECT EXPIRY TIMELINE
-	const inOneWeek = now.setDate(now.getDate() + time);
-	return new Date(inOneWeek);
-}
 
 function CurrentDaysUntilExpiration(daysSincePurchase: number, expiration: number) {
 	if (daysSincePurchase >= expiration) {

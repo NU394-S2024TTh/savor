@@ -22,7 +22,6 @@ const SignInButton: React.FC = () => {
 	const handleLogin = async () => {
 		try {
 			await loginWithGoogle();
-			// Optionally, redirect the user or perform some action after successful login
 			console.log("User signed in successfully");
 		} catch (error) {
 			console.error("Failed to sign in with Google", error);

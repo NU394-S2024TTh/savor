@@ -40,9 +40,7 @@ const ProgressBar = ({ daysSincePurchase, daysUntilExpiration, image }: Progress
 
 	return (
 		<div className="relative mt-8 flex items-center px-1 py-4">
-			{/* Shopping cart icon */}
 			<div className="mr-6 flex items-center justify-start">
-				{/* Change icon color to red if expired */}
 				<FontAwesomeIcon
 					icon={faShoppingCart}
 					className={`text-1xl ${isExpired ? "text-red-500" : "text-green-500"}`}

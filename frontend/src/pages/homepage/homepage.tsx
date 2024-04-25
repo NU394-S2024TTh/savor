@@ -1,25 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "../../themes/styles.css";
 
-//import { HomeIcon, PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import { ArrowUpTrayIcon, BookOpenIcon, HomeIcon, UserIcon } from "@heroicons/react/24/outline";
 import React, { ReactElement, useEffect, useState } from "react";
 
 import Fridge from "../../components/fridge/Fridge";
 import MenuPage from "../menu/menu";
 import LoginPage from "../profilepage/loginpage";
-// Import other components for the 'profile' and 'upload' pages
-//import Profile from '../profile/Profile';
 import UploadPage from "../uploadpage/UploadPage";
 import { TabItem, TabItemWithPopover } from "./TabItem";
 
 type TabName = "fridge" | "profile" | "upload" | "additem" | "menu";
 
 const tabComponents: Record<TabName, ReactElement> = {
-	// obviously change this once we have upload and profile components
 	fridge: <Fridge />,
 	profile: <LoginPage />,
-	upload: <UploadPage />, // TODO: add another item for adding manual items
+	upload: <UploadPage />,
 	additem: <UploadPage />,
 	menu: <MenuPage />
 };

@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "./styles.css";
 
-import PencilIcon from "@heroicons/react/24/outline/PencilSquareIcon";
 import React, { CSSProperties, ReactNode, useEffect, useId, useRef, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 
@@ -146,31 +145,4 @@ const SwipeToRevealActions: React.FC<Props> = ({
 		</div>
 	);
 };
-
-{
-	/* <div
-className="rstra-actions-container align-middle"
-style={{
-	display: "flex",
-	opacity: isExpanded ? 1 : 0,
-	transform: `translateX(${isExpanded ? 0 : "100%"})`,
-	transition: "opacity 0.25s ease, transform 0.25s ease"
-}}
-id={id}
->
-{actionButtons.map((action, index) => (
-	<div key={`actionKey_${index}`} className="pl-">
-		<button
-			className="rstra-action-button"
-			style={{
-				minWidth: actionButtonMinWidth
-			}}
-			role={action.role || "button"}
-		>
-			{action.content}
-		</button>
-	</div>
-))}
-</div> */
-}
 export default SwipeToRevealActions;

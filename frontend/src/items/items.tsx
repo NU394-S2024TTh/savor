@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { get, getDatabase, ref, set } from "firebase/database";
 
 export async function getItems() {
@@ -16,7 +17,6 @@ export async function getItems() {
 	}
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function saveItems(rows: any) {
 	const database = getDatabase();
 	try {

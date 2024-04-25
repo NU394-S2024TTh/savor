@@ -29,7 +29,6 @@ export const Notifbutton = (props: NotifsProps & { className?: string }) => {
 						setOpen(false);
 						window.clearTimeout(timerRef.current);
 						timerRef.current = window.setTimeout(() => {
-							// THIS USES A NUMBER AS AN ARGUMENT!!
 							eventDateRef.current = TimeDelay(props.daysSincePurchase);
 							setOpen(true);
 						}, 100);
@@ -73,11 +72,6 @@ export const Notifbutton = (props: NotifsProps & { className?: string }) => {
 
 function TimeDelay(time: number) {
 	const now = new Date();
-	// THIS DATE IS SET TO DELAY IN ONE WEEK. WHEN DOING ACTUAL PRODUCTS, PASS IN THE CORRECT EXPIRY TIMELINE
 	const inOneWeek = now.setDate(now.getDate() - time);
 	return new Date(inOneWeek);
-}
-
-function prettyDate(date: any) {
-	return new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeStyle: "short" }).format(date);
 }

@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from "react";
-import RingLoader from "react-spinners/RingLoader";
-
 import cooking from "./bubududu.gif";
 
 function Reload() {

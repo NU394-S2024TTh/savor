@@ -16,11 +16,9 @@ import DropdownMenuFlt from "./Filtering/Dropdown";
 function Fridge() {
 	const dbRef = useUserItemsRef();
 	const [modalOpen, setModalOpen] = useState(false);
-	// if localStorage.getItem("rows"
-	//const [rows, setRows] = useState(TEST_DATA);
 	const [rows, setRows] = useState<ItemRow[]>([]);
 	const [deleting, setDeleting] = useState(false);
-	const [rowToEdit, setRowToEdit] = useState(null);
+	const [rowToEdit, setRowToEdit] = useState<number | null>(null); // Specify the type as number or null
 	useEffect(() => {
 		// Fetch existing data from the database and set it to rows
 		get(dbRef)
@@ -34,63 +32,39 @@ function Fridge() {
 			.catch((error) => {
 				console.error(error);
 			});
-	}, []); // Empty dependency array to only run once on mount
+	}, []);
 
 	useEffect(() => {
-		// Update the database whenever rows changes, except for the initial fetch (and when state is 0)
 		if (rows && (rows.length != 0 || deleting)) {
 			set(dbRef, rows);
 			setDeleting(false);
 		}
 	}, [rows]);
-	// useEffect(() => {
-	// 	// Define the event listener function
 
-	// 	const handleSessionStorageChange = (event: Event) => {
-	// 		const customEvent = event as CustomEvent<any>;
-	// 		if (customEvent.detail.key === "rows") {
-	// 			// Perform a functional state update to ensure we have the latest state.
-	// 			// setRows(() => {
-	// 			// 	const updatedRows = JSON.parse(customEvent.detail.value);
-	// 			// 	console.log("At the listener", updatedRows);
-	// 			// 	// This update will cause a re-render
-	// 			// 	return updatedRows;
-	// 			// });
-	// 		}
-	// 	};
-
-	// 	// Attach the event listener when the component mounts
-	// 	window.addEventListener("SessionStorageChange", handleSessionStorageChange);
-	// }, []);
-
-	const handleDeleteRow = (targetIndex: number) => {
-		const updatedRows = rows.filter((_: any, idx: number) => idx !== targetIndex);
+	const handleDeleteRow = (targetId: number) => {
+		const updatedRows = rows.filter((row) => row.id !== targetId);
 		setDeleting(true);
 		console.log(updatedRows);
 		setRows(updatedRows);
 		saveItems(updatedRows);
-		localStorage.setItem(
-			"rows",
-			JSON.stringify(rows.filter((_: any, idx: number) => idx !== targetIndex))
-		);
+		localStorage.setItem("rows", JSON.stringify(rows.filter((row) => row.id !== targetId)));
 	};
 
-	const handleEditRow = (idx: null) => {
-		setRowToEdit(idx);
-
+	const handleEditRow = (id: number | null) => {
+		setRowToEdit(id);
 		setModalOpen(true);
 	};
 
-	const handleSubmit = (newRow: any) => {
+	const handleSubmit = (newRow: ItemRow) => {
 		if (rowToEdit === null) {
 			const allRows: ItemRow[] = [...rows, newRow];
 			setRows(allRows);
 			saveItems(allRows);
 			localStorage.setItem("rows", JSON.stringify(allRows));
 		} else {
-			const afterEditRows = rows.map((currRow: ItemRow, idx: number) => {
-				if (idx !== rowToEdit) {
-					return currRow;
+			const afterEditRows = rows.map((row: ItemRow) => {
+				if (row.id !== rowToEdit) {
+					return row;
 				} else {
 					return newRow;
 				}
@@ -100,7 +74,6 @@ function Fridge() {
 			localStorage.setItem("rows", JSON.stringify(afterEditRows));
 		}
 	};
-
 	const [sortByDaysUntilExpiration, setSortByDaysUntilExpiration] = useState<boolean>(false);
 	const [sortByDaysSincePurchase, setSortByDaysSincePurchase] = useState<boolean>(false);
 
@@ -194,7 +167,7 @@ function Fridge() {
 						setRowToEdit(null);
 					}}
 					onSubmit={handleSubmit}
-					defaultValue={rowToEdit !== null && rows[rowToEdit]}
+					defaultValue={rowToEdit !== null ? rows.find((row) => row.id === rowToEdit) : null}
 				/>
 			)}
 		</div>

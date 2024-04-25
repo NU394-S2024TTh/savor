@@ -1,16 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import "../../themes/styles.css";
 
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
-import { update } from "firebase/database";
-import { get, onValue, ref, set } from "firebase/database";
-import React, { useEffect, useState } from "react";
+import { get, set } from "firebase/database";
+import { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
 
-import { TEST_DATA } from "../../components/fridge/TestData";
 import { ItemRow } from "../../components/table/Table";
-import { database } from "../../firebase/firebase";
 import { useUserItemsRef } from "../../firebase/firebasefunctions";
 import processImage from "../../process/extract.mjs";
 import LoadingPage from "./LoadingPage";
@@ -52,11 +48,9 @@ function Upload(props: any) {
 	const [isUploaded, setIsUploaded] = useState(false);
 	const [noPurchaseDate, setNoPurchaseDate] = useState(false);
 
-	const uploadIconStyles = "max-w-[30vw] max-h-[30vw] stroke-gray-200 pt-10";
 	const userRef = useUserItemsRef();
 
 	useEffect(() => {
-		// setting state from DB at first
 		get(userRef)
 			.then((snapshot) => {
 				if (snapshot.exists()) {
@@ -67,10 +61,9 @@ function Upload(props: any) {
 				console.error(error);
 			});
 	}, []);
-	// let response = {} as Response;
 	const [response, setResponse] = useState<Response | null>(null);
 
-	const onChange = async (imageList: any, addUpdateIndex: any) => {
+	const onChange = async (imageList: any) => {
 		// data for submit
 		console.log("ImageList");
 		console.log(imageList);
@@ -81,21 +74,9 @@ function Upload(props: any) {
 
 	const onSubmit = async () => {
 		setLoading(true);
-		// need to process the data_url here
 		const res = await processImage(images[0]["data_url"]);
-		// alert(Object.prototype.toString.call(res));
-		// delay for 2 seconds
-		await new Promise((resolve) => setTimeout(resolve, 2000)); // TODO: this is a workaround for now
+		await new Promise((resolve) => setTimeout(resolve, 2000));
 		setResponse(res!);
-		// testing with fake data without using API
-		// await new Promise((resolve) => setTimeout(resolve, 2000));
-		// setResponse({
-		// 	items: ["apple", "banana", "carrot"],
-		// 	unicodes: ["🍎", "🍌", "🥕"],
-		// 	expirationInfo: ["2 days", "3 days", "4 days"],
-		// 	expirationDays: [2, 3, 4],
-		// 	purchaseDate: ""
-		// });
 	};
 	const processResponse = () => {
 		if (response == null) {
@@ -123,7 +104,8 @@ function Upload(props: any) {
 				item: response.items[i],
 				expirationInfo: response.expirationInfo[i],
 				daysUntilExpiration: response.expirationDays[i],
-				daysSincePurchase: diff_days(response.purchaseDate)
+				daysSincePurchase: diff_days(response.purchaseDate),
+				id: i
 			});
 		}
 		console.log("newRows");
@@ -148,15 +130,11 @@ function Upload(props: any) {
 	useEffect(processResponse, [response]);
 
 	useEffect(() => {
-		// setting db every time rows changes BUT not at the start. lol
 		if (rows.length != 0 && userRef) {
 			set(userRef, rows);
 		}
 	}, [rows]);
-
 	console.log("loading: ", loading);
-	// console.log("noPurchaseDate: ", noPurchaseDate);
-
 	return (
 		<ImageUploading
 			multiple
@@ -166,15 +144,7 @@ function Upload(props: any) {
 			dataURLKey="data_url"
 			allowNonImageType={true}
 		>
-			{({
-				imageList,
-				onImageUpload,
-				onImageRemoveAll,
-				onImageUpdate,
-				onImageRemove,
-				isDragging,
-				dragProps
-			}) => (
+			{({ imageList, onImageUpload, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
 				<div className="UploadBtnCol flex flex-col items-center justify-center">
 					{!loading && !noPurchaseDate && (
 						<div className="flex flex-col items-center justify-center">
@@ -199,7 +169,7 @@ function Upload(props: any) {
 								onClick={() => {
 									onImageUpload();
 									setIsUploaded(true);
-								}} // after image is uploaded
+								}}
 								{...dragProps}
 							>
 								Upload
@@ -234,7 +204,7 @@ function Upload(props: any) {
 										</button>
 										<button
 											className="rounded-2xl bg-green-500 px-20 py-4"
-											onClick={() => onSubmit()} // i think?
+											onClick={() => onSubmit()}
 										>
 											Submit Image
 										</button>
