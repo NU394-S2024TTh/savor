@@ -5,8 +5,10 @@ import "./Table.css";
 
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 import React from "react";
+// import SwipeToShow from "react-swipe-to-show";
 
-import SwipeToRevealActions from "./swipe/swipetorevealactions";
+import { AccordionInfo } from "./accordion";
+import SwipeToShow from "./swipe/modswipe";
 interface TableProps {
 	rows: any;
 	deleteRow: (index: string) => void;
@@ -29,38 +31,33 @@ export const Table: React.FC<TableProps> = ({ rows, deleteRow, editRow }) => {
 			{rows.map((row: ItemRow) => {
 				return (
 					<div key={row.id} className="flex-row">
-						<SwipeToRevealActions
+						<SwipeToShow
 							actionButtons={[
-								{
-									content: (
-										<PencilSquareIcon
-											className="h-6 w-6 cursor-pointer fill-green-500"
-											aria-hidden="true"
-											onClick={() => editRow(row.id)}
-										/>
-									),
-									onClick: () => alert("Pressed the EDIT button")
-								},
-								{
-									content: (
-										<TrashIcon
-											className="h-6 w-6 cursor-pointer fill-green-500"
-											aria-hidden="true"
-											onClick={() => deleteRow(row.id)}
-										/>
-									),
-									onClick: () => alert("Pressed the DELETE button")
-								}
+								<PencilSquareIcon
+									key="pencil"
+									className="h-6 w-6 cursor-pointer fill-green-500"
+									aria-hidden="true"
+									onClick={() => editRow(row.id)}
+								/>,
+								<TrashIcon
+									key="trash"
+									className="h-6 w-6 cursor-pointer fill-green-500"
+									aria-hidden="true"
+									onClick={() => deleteRow(row.id)}
+								/>
 							]}
-							actionButtonMinWidth={70}
-							name={row.item}
-							expirationInfo={row.expirationInfo}
-							image={row.image}
-							purchase={row.daysSincePurchase}
-							expirationtime={row.daysUntilExpiration}
+							swipeLength={20}
 						>
-							<></>
-						</SwipeToRevealActions>
+							<AccordionInfo
+								name={row.item}
+								expirationInfo={row.expirationInfo}
+								image={row.image}
+								purchase={row.daysSincePurchase}
+								expiration={row.daysUntilExpiration}
+							>
+								<></>
+							</AccordionInfo>
+						</SwipeToShow>
 					</div>
 				);
 			})}

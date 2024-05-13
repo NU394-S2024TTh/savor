@@ -121,6 +121,7 @@ const SwipeToRevealActions: React.FC<Props> = ({
 					>
 						<></>
 					</AccordionInfo>
+
 					<div
 						className="rstra-actions-container pr-8 align-middle"
 						style={{
